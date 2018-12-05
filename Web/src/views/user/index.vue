@@ -1,18 +1,14 @@
 <template>
   <div class="app-container">
     <el-table
-      :tableKey="tableKey"
       v-loading="userLoading"
-      border
+      :table-key="tableKey"
       :data="users"
+      border
       fit
       highlight-current-row>
-      <el-table-column :label="$t('user.id')" prop="id" sortable>
-
-      </el-table-column>
-      <el-table-column :label="$t('user.name')" prop="name" sortable>
-
-      </el-table-column>
+      <el-table-column :label="$t('user.id')" prop="id" sortable/>
+      <el-table-column :label="$t('user.name')" prop="name" sortable/>
       <el-table-column :label="$t('user.registerDate')" sortable sort-by="registerDate">
         <template slot-scope="scope">
           <span>{{ scope.row.registerDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
@@ -28,49 +24,47 @@
           <el-tag :type="scope.row.status === 'open' ? 'success' : 'danger'">{{ $t('user.status_enum.' + scope.row.status) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('user.operation')">
-
-      </el-table-column>
+      <el-table-column :label="$t('user.operation')"/>
     </el-table>
   </div>
 </template>
 <script>
-  import { fetchUser } from '@/api/user'
-  import { parseTime } from '@/utils'
-  export default {
-    name: 'User',
-    data() {
-      return {
-        users: [],
-        tableKey: 0,
-        userLoading: false,
-        listQuery: {
-          page: 1,
-          limit: 20,
-          importance: undefined,
-          title: undefined,
-          type: undefined,
-          sort: '+id'
-        },
-      }
-    },
-    mounted() {
-      this.loadUser()
-    },
-    methods: {
-      loadUser: function () {
-        this.userLoading = true;
-        fetchUser(this.listQuery).then(response => {
-          this.users = response.data.items;
-          this.total = response.data.total;
-          console.log(this.users)
-          setTimeout(() => {
-            this.userLoading = false
-          }, 1.5 * 1000)
-        })
+import { fetchUser } from '@/api/user'
+import { parseTime } from '@/utils'
+export default {
+  name: 'User',
+  data() {
+    return {
+      users: [],
+      tableKey: 0,
+      userLoading: false,
+      listQuery: {
+        page: 1,
+        limit: 20,
+        importance: undefined,
+        title: undefined,
+        type: undefined,
+        sort: '+id'
       }
     }
+  },
+  mounted() {
+    this.loadUser()
+  },
+  methods: {
+    loadUser: function() {
+      this.userLoading = true
+      fetchUser(this.listQuery).then(response => {
+        this.users = response.data.items
+        this.total = response.data.total
+        console.log(this.users)
+        setTimeout(() => {
+          this.userLoading = false
+        }, 1.5 * 1000)
+      })
+    }
   }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss">
   .credit {

@@ -72,6 +72,18 @@ export default {
     theme: '换肤',
     size: '布局大小'
   },
+  user: {
+    id: '编号',
+    name: '用户名',
+    registerDate: '注册日期',
+    credit: '信誉积分',
+    status: '状态',
+    operation: '操作',
+    status_enum: {
+      'open': '开放',
+      'locked': '锁定'
+    }
+  },
   login: {
     title: '系统登录',
     logIn: '登录',

@@ -4,14 +4,14 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'Unpaid Order',
-    data() {
-      return {
-        message: '未支付订单'
-      }
+export default {
+  name: 'UnpaidOrder',
+  data() {
+    return {
+      message: '未支付订单'
     }
   }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss">
   .unpaid-order {

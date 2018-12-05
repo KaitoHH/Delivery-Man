@@ -81,6 +81,18 @@ export default {
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
+  user: {
+    id: 'Id',
+    name: 'Name',
+    registerDate: 'Register Date',
+    credit: 'Credit',
+    status: 'Status',
+    operation: 'Operation',
+    status_enum: {
+      'open': 'Open',
+      'locked': 'Locked'
+    }
+  },
   documentation: {
     documentation: 'Documentation',
     github: 'Github Repository'

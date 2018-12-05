@@ -74,8 +74,8 @@ export const constantRouterMap = [
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
       }
     ]
-  },
-  {
+  }
+  /* {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
@@ -100,7 +100,7 @@ export const constantRouterMap = [
         meta: { title: 'guide', icon: 'guide', noCache: true }
       }
     ]
-  }
+  } */
 ]
 
 export default new Router({
@@ -110,6 +110,56 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
+  {
+    path: '/store',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/store/index'),
+        name: 'Store',
+        meta: { title: '商家', icon: 'store', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/goods',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/goods/index'),
+        name: 'goods',
+        meta: { title: '商品', icon: 'goods', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/deliveryMan',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/delivery-man/index'),
+        name: 'deliveryMan',
+        meta: { title: '送货员', icon: 'delivery-man', noCache: true }
+      }
+
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/user/index'),
+        name: 'user',
+        meta: { title: '用户', icon: 'peoples', noCache: true }
+      }
+    ]
+  },
+  /*
   {
     path: '/permission',
     component: Layout,
@@ -140,8 +190,8 @@ export const asyncRouterMap = [
         }
       }
     ]
-  },
-
+  }, */
+  /*
   {
     path: '/icon',
     component: Layout,
@@ -153,14 +203,51 @@ export const asyncRouterMap = [
         meta: { title: 'icons', icon: 'icon', noCache: true }
       }
     ]
+  }, */
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/index',
+    alwaysShow: true,
+    meta: {
+      title: '订单',
+      icon: 'order'
+    },
+    children: [
+      {
+        path: 'unpaidOrder',
+        component: () => import('@/views/order/unpaid-order'),
+        name: 'UnpaidOrder',
+        meta: { title: '等待支付订单', noCache: true }
+      },
+      {
+        path: 'waitDeliveryOrder',
+        component: () => import('@/views/order/wait-delivery-order'),
+        name: 'WaitDeliveryOrder',
+        meta: { title: '等待配送订单', noCache: true }
+      },
+      {
+        path: 'inTransitOrder',
+        component: () => import('@/views/order/in-transit-order'),
+        name: 'InTransitOrder',
+        meta: { title: '正在配送订单', noCache: true }
+      },
+      {
+        path: 'finishedOrder',
+        component: () => import('@/views/order/finished-order'),
+        name: 'FinishedOrder',
+        meta: { title: '已完成订单', noCache: true }
+      }
+    ]
   },
 
   /** When your routing table is too long, you can split it into small modules**/
+  /*
   componentsRouter,
   chartsRouter,
   nestedRouter,
-  tableRouter,
-
+  tableRouter, */
+  /*
   {
     path: '/example',
     component: Layout,
@@ -343,6 +430,6 @@ export const asyncRouterMap = [
       }
     ]
   },
-
+*/
   { path: '*', redirect: '/404', hidden: true }
 ]

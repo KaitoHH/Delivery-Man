@@ -4,18 +4,18 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'Wait-Delivery-Order',
-    data() {
-      return {
-        message: '等待配送的订单'
-      }
-    },
-    methods: {
-      test: function () {
-      }
+export default {
+  name: 'WaitDeliveryOrder',
+  data() {
+    return {
+      message: '等待配送的订单'
+    }
+  },
+  methods: {
+    test: function() {
     }
   }
+}
 </script>
 <style rel="stylesheet" lang="scss">
   .wait-delivery-order {
