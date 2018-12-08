@@ -1,6 +1,32 @@
 /**app.wxss**/
 
+<<<<<<< HEAD
 /* .container {
+=======
+@font-face {
+  font-family: 'iconfont';
+  /* project id 957061 */
+  src: url('//at.alicdn.com/t/font_957061_qtuaj490sbr.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weixin:before {
+  content: "\e607";
+}
+
+.icon-zhifeiji:before {
+  content: "\e7d5";
+}
+
+.container {
+>>>>>>> 2e682ea96a7ed4b482fcb9aeb4030bf1e946e487
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -8,6 +34,10 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
+<<<<<<< HEAD
 }   */
 
 @import 'style/weui.wxss';
+=======
+}
+>>>>>>> 2e682ea96a7ed4b482fcb9aeb4030bf1e946e487
