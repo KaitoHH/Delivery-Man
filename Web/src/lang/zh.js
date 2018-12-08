@@ -72,9 +72,23 @@ export default {
     theme: '换肤',
     size: '布局大小'
   },
+  operation: {
+    edit: '编辑',
+    delete: '删除',
+    detail: '详情',
+    save: '保存',
+    cancel: '取消'
+  },
+  dialog: {
+    cancel: '取消',
+    confirm: '确认'
+  },
   user: {
     id: '编号',
-    name: '用户名',
+    name: '名字',
+    account: '账号',
+    password: '密码',
+    confirmPassword: '确认密码',
     registerDate: '注册日期',
     credit: '信誉积分',
     status: '状态',
@@ -82,8 +96,84 @@ export default {
     status_enum: {
       'open': '开放',
       'locked': '锁定'
-    }
+    },
+    updateUserSuccess: '成功更新用户',
+    updateDeliveryManSuccess: '成功更新送货员',
+    deleteDeliveryManSuccess: '成功删除送货员',
+    deleteUserSuccess: '成功删除用户',
+    unOpen: '锁定',
+    unLock: '解锁'
   },
+  userDialog: {
+    addUser: '添加用户',
+    addDeliveryMan: '添加快递员',
+    nameInvalid: '请输入有效的名字',
+    accountInvalid: '请输入有效的账号',
+    passwordInvalid: '请输入有效的密码',
+    confirmPasswordEmpty: '请再次输入密码',
+    confirmPasswordDiff: '两次密码不一致',
+    addUserSuccess: '成功添加用户',
+    addDeliveryManSuccess: '成功添加送货员'
+  },
+  store: {
+    id: '编号',
+    name: '商家名',
+    address: '商家地址',
+    star: '商家星级',
+    registerDate: '注册时间',
+    contactPhone: '联系号码',
+    serviceTime: '营业时间',
+    longitude: '经度',
+    latitude: '纬度',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    addStoreDialogTitle: '添加商店',
+    addressInvalid: '请输入有效地址',
+    longitudeLatitude: '经纬度',
+    nameInvalid: '请输入商店名',
+    longitudeInvalid: '请输入有效经度',
+    latitudeInvalid: '请输入有效纬度',
+    contactPhoneInvalid: '请输入有效联系号码',
+    serviceTimeInvalid: '请输入有效的营业时间',
+    startTimeInvalid: '请输入有效开始时间',
+    endTimeInvalid: '请输入有效结束时间',
+    addStoreSuccess: '成功添加商店',
+    deleteStoreSuccess: '成功删除商店',
+    updateStoreSuccess: '成功更新商店'
+  },
+  storeGoods: {
+    operation: '操作',
+    goodsCount: '商品数量',
+    goodsPrice: '商品单价',
+    storeId: '商店编号',
+    goodsId: '商品编号',
+    goodsName: '商品名',
+    goodsIdName: '商品编号-名称',
+    goodsIdNameInvalidMessage: '请选择商品',
+  },
+  goods: {
+    id: '编号',
+    name: '商品名',
+    operation: '操作',
+    img: '图片',
+    upload: '上传',
+    nameInvalidMessage: '请输入商品名'
+  },
+  order: {
+    id: '编号',
+    username: '下单人',
+    address: '送货地址',
+    receiver: '收货人',
+    totalPrice: '总金额',
+    orderDate: '下单时间',
+    operation: '操作',
+    paidDate: '支付时间',
+    deliveryUserName: '送货人',
+    deliveryAcceptDate: '接单时间',
+    deliveryDate: '送达时间',
+    deleteSuccess: '成功删除订单'
+  },
+  operationSuccess: '操作成功',
   login: {
     title: '系统登录',
     logIn: '登录',

@@ -25,6 +25,10 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  externals: {
+    "BMap": "BMap",
+    "BMapLib": "BMapLib"
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

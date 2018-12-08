@@ -123,6 +123,19 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/storeDetail',
+    component: Layout,
+    children: [
+      {
+        path: ':id',
+        component: () => import('@/views/store/storeDetail'),
+        name: 'storeDetail',
+        meta: { title: '商店商品详情' }
+      }
+    ],
+    hidden: true
+  },
+  {
     path: '/goods',
     component: Layout,
     children: [
@@ -239,6 +252,16 @@ export const asyncRouterMap = [
         meta: { title: '已完成订单', noCache: true }
       }
     ]
+  },
+  {
+    path: '/orderHotMap',
+    component: Layout,
+    children: [{
+      path: 'index',
+      component: () => import('@/views/order-hot-map'),
+      name: 'Order-Hot-Map',
+      meta: { title: '订单热图', icon: 'map', noCache: true }
+    }]
   },
 
   /** When your routing table is too long, you can split it into small modules**/

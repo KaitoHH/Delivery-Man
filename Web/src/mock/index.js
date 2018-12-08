@@ -4,6 +4,10 @@ import articleAPI from './article'
 import userAPI from './user'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
+import storeAPI from './store'
+import goodsAPI from './goods'
+import orderAPI from './order'
+import deliveryManAPI from './deliveryMan'
 
 // 修复在使用 MockJS 情况下，设置 withCredentials = true，且未被拦截的跨域请求丢失 Cookies 的问题
 // https://github.com/nuysoft/Mock/issues/300
@@ -39,5 +43,30 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 用户相关
 Mock.mock(/\/user/, 'get', userAPI.getUsers)
+Mock.mock(/\/user/, 'post', userAPI.addUser)
+Mock.mock(/\/user/, 'put', userAPI.updateUser)
+
+// 快递员相关
+Mock.mock(/\/deliveryMan/, 'get', deliveryManAPI.getDeliveryMan)
+Mock.mock(/\/deliveryMan/, 'post', deliveryManAPI.addDeliveryMan)
+Mock.mock(/\/deliveryMan/, 'put', deliveryManAPI.updateDeliveryMan)
+
+// 商店相关
+Mock.mock(/\/store/, 'get', storeAPI.getStores)
+Mock.mock(/\/store/, 'post', storeAPI.addStore)
+Mock.mock(/\/store/, 'put', storeAPI.updateStore)
+
+Mock.mock(/\/stock/, 'get', storeAPI.getGoodsInStores)
+Mock.mock(/\/addStoreStockGoods/, 'post', storeAPI.addStoreStock)
+
+// 商品相关
+Mock.mock(/\/goods/, 'get', goodsAPI.getGoods)
+Mock.mock(/\/goods/, 'post', goodsAPI.addGoods)
+
+// 订单相关
+Mock.mock(/\/order\/unpaid/, 'get', orderAPI.getUnpaidOrder)
+Mock.mock(/\/order\/wait/, 'get', orderAPI.getWaitOrder)
+Mock.mock(/\/order\/inTransit/, 'get', orderAPI.getInTransitOrder)
+Mock.mock(/\/order\/finished/, 'get', orderAPI.getFinishedOrder)
 
 export default Mock

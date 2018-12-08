@@ -24,5 +24,19 @@ export default {
       total: mockList.length,
       items: mockList
     }
+  },
+  addUser: config => {
+    let user = JSON.parse(config.body)
+    user = Object.assign(Mock.mock({ id: '@increment' }),
+      { name: user.name, registerDate: new Date(), credit: 5, status: 'open' })
+    return {
+      item: user
+    }
+  },
+  updateUser: config => {
+    const user = JSON.parse(config.body)
+    return {
+      item: user
+    }
   }
 }
