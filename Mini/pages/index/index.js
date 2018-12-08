@@ -38,7 +38,7 @@ Page({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
+  /* onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -73,5 +73,5 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  } */
 })

@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="index-container">
   <view class="header" hidden="{{searchInputShowed}}">
     <view class="location">
       <view class="location-icon">
