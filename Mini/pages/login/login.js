@@ -13,11 +13,14 @@ Page({
 				userInfo: e.detail.userInfo
 			})
 			console.log('switch page');
-			setTimeout(function () {
-				wx.redirectTo({
-					url: '../index/index'
-				})
-			}, 2000)
+			setTimeout(() => {
+				wx.switchTab({
+					url: '/pages/index/index',
+					fail: function (res) {
+						console.log(res)
+					}
+				});
+			}, 2000);
 		} else {
 			wx.showToast({ title: '拒绝怎么给你用？', icon: 'none' })
 		}
