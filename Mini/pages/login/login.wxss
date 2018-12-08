@@ -1,0 +1,28 @@
+.header {
+    margin: 75rpx;
+    text-align: center;
+}
+
+.header image {
+    width: 200rpx;
+    height: 200rpx;
+}
+
+.content {
+    border-top: 1px solid #ccc;
+    margin: 0rpx 100rpx;
+    padding: 50rpx 0;
+    text-align: center;
+    font-size: 40rpx;
+}
+
+.bottom {
+    margin: 0 75rpx;
+    font-size: 36rpx;
+}
+
+.bigicon {
+    font-size: 50rpx;
+    vertical-align: middle;
+    line-height: 0;
+}

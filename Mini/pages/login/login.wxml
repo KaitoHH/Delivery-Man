@@ -1,0 +1,23 @@
+<view wx:if="{{canIUse}}">
+    <view class='header'>
+        <image src='/images/logo.jpg'></image>
+    </view>
+    <view class='content'>
+        <block>
+            <text>欢迎使用随手递</text>
+            <text class="iconfont icon-zhifeiji bigicon"></text>
+            <text>！</text>
+        </block>
+    </view>
+    <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+        <text class="iconfont icon-weixin bigicon"></text>
+        微信快速登录
+    </button>
+    <view wx:if='{{userInfo.nickName}}' class='content'>
+        <text>欢迎您！{{userInfo.nickName}}</text>
+    </view>
+    <view wx:if='{{exit}}' class='content'>
+        <text>再见！</text>
+    </view>
+</view>
+<view wx:else>请升级微信版本</view>
