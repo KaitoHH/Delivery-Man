@@ -19,3 +19,31 @@
 .usermotto {
   margin-top: 200px;
 }
+
+.container {
+  padding: 20rpx;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+}
+
+.location-text {
+  margin-left: 20rpx;
+  width:400rpx;
+  word-break:keep-all;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis; 
+}
+
+.location-text-block {
+  display: flex;
+  flex-direction: row; 
+}

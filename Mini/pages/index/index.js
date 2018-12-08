@@ -7,7 +7,30 @@ Page({
     motto: '欢迎使用随手递！',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    searchInputShowed: false,
+    searchInputVal: "",
+  },
+  showInput: function () {
+    this.setData({
+      searchInputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      searchInputVal: "",
+      searchInputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      searchInputVal: ""
+    });
+  },
+  inputTyping: function (e) {
+    this.setData({
+      inputVal: e.detail.value
+    });
   },
   //事件处理函数
   bindViewTap: function () {

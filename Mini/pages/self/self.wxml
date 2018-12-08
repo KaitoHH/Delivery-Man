@@ -1,0 +1,5 @@
+<view >
+    <text>
+        {{ message }}
+    </text>
+</view>
