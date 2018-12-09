@@ -1,0 +1,3 @@
+/* pages/index/real-time-search/real-time-search.wxss */
+
+@import '../../../style/weui.wxss';

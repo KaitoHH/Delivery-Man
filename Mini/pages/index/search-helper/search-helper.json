@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "wxc-icon": "../../../dist/packages/@minui/wxc-icon/dist/index",
+    "wxc-label": "../../../dist/packages/@minui/wxc-label/dist/index"
+  }
+}

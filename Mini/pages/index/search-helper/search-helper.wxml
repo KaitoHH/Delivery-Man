@@ -1,0 +1,31 @@
+<!--pages/index/search-helper/search-helper.wxml-->
+<view class="search-helper">
+    <view class="item-panel history-search">
+        <view class="search-title">
+            <view class="title">
+                历史搜索
+            </view>
+            <view bindtap="clearHistoryItem" class="clear-icon">
+                <wxc-icon size="40" type="delete"></wxc-icon>
+            </view>
+        </view>
+        <view class="search-item-list">
+            <wxc-label class="label search-item" wx:for="{{historyItems}}"
+             wx:key="{{item.id}}" type="fill" type-color="#747bb1">
+                {{item.name}}
+            </wxc-label>
+        </view>
+    </view>
+    <view class="item-panel hot-search">
+        <view class="search-title">
+            <view class="title">
+                热门搜索
+            </view>
+        </view>
+        <view class="search-item-list">
+            <wxc-label class="label search-item" wx:for="{{hotItems}}" wx:key="{{item.id}}" type="fill">
+                {{item.name}}
+            </wxc-label>
+        </view>
+    </view>
+</view>

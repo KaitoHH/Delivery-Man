@@ -1,0 +1,17 @@
+/* pages/index/search-helper/search-helper.wxss */
+.item-panel {
+    min-height: 400rpx;
+    padding: 20rpx;
+}
+.search-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.search-title .title {
+    font-weight: bold;
+}
+
+.search-item {
+    margin-right: 20rpx;
+}
