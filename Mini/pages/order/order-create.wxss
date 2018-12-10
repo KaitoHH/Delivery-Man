@@ -1,0 +1,14 @@
+/* pages/order/order-create.wxss */
+.order-detail {
+    padding: 25rpx;
+}
+
+.order-form {
+    background: #fff;
+    font-size: 20rpx;
+  }
+
+  .order-form .btn {
+      margin-top: 20rpx;
+        display: block;
+    }

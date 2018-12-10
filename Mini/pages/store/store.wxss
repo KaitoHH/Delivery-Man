@@ -1,0 +1,15 @@
+/* pages/store/store.wxss */
+.store {
+    padding: 25rpx;
+}
+
+.cart {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.good-detail {
+    padding-top: 50rpx;
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,0 +1,23 @@
+<!--pages/order/order-create.wxml-->
+<view class="order-detail">
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__hd">订单详情</view>
+        <view  class="order-form">
+            <wxc-input type="text" disabled="{{true}}" title="订单编号" value="{{orderId}}" ></wxc-input>
+            <wxc-input type="text" disabled="{{hasPaid}}" title="收货人" value="{{reciever}}" placeholder="收货人" bind:input="recieverChange"></wxc-input>
+            <wxc-input type="text" disabled="{{hasPaid}}" title="收货地址" value="{{recieverAddress}}" placeholder="收货地址" bind:input="recieverAddressChange"></wxc-input>
+            <wxc-input type="text" disabled="{{hasPaid}}" title="联系号码" value="{{recieverPhone}}" placeholder="联系号码" bind:input="recieverPhoneChange"></wxc-input>
+            <wxc-input type="text" disabled="{{hasPaid}}" title="配送费" value="{{shipmentFee}}"></wxc-input>
+            <wxc-input type="text" disabled="{{true}}" title="订单总计" value="{{totalPrice}}"></wxc-input>
+            <view hidden="{{hasPaid}}">
+                    <wxc-button class="btn" bindtap="confirmOrder" type="success" size="large">确认订单</wxc-button>
+                    <wxc-button class="btn" bindtap="cancelOrder" type="danger" size="large">取消订单</wxc-button>
+            </view>
+            <view hidden="{{!hasPaid}}">
+                <wxc-button class="btn" open-type="share" bindtap="shareOrder" type="success" size="large">分享订单</wxc-button>
+                <wxc-button class="btn" bindtap="completeOrder" type="warning" size="large">完成订单</wxc-button>
+            </view>
+            
+        </view>
+    </view>
+</view>

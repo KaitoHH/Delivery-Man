@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "wxc-icon": "../../dist/packages/@minui/wxc-icon/dist/index"
+    }
+}

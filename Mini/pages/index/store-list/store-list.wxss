@@ -1,0 +1,6 @@
+/* pages/index/store-list/store-list.wxss */
+.store-list {
+    padding: 25rpx;
+}
+
+@import '../../../style/weui.wxss';

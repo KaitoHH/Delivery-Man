@@ -1,0 +1,7 @@
+{
+    "navigationBarTitleText": "订单详情",
+    "usingComponents": {
+        "wxc-input": "../../dist/packages/@minui/wxc-input/dist/index",
+        "wxc-button": "../../dist/packages/@minui/wxc-button/dist/index"
+    }
+}
