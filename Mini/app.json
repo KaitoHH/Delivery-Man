@@ -8,7 +8,7 @@
     "pages/store/store",
     "pages/order/order-create",
     "pages/order/order-list/order-list",
-    "pages/order/order-detail/order-detail"
+    "pages/order/order-detail/order-detail",
   ],
   "window": {
     "backgroundTextStyle": "light",
