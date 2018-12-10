@@ -1,4 +1,23 @@
 // pages/store/store.js
+const app = getApp()
+const goodsList = [
+  {
+    id: 1,
+    name: 'goods1',
+    price: 12.45,
+    img: ''
+  },
+  {
+    id: 2,
+    name: 'goods2',
+    price: 13.45,
+    img: ''
+  }
+]
+const store = {
+  id: 1,
+  name: 'Store1'
+}
 Page({
 
   /**
@@ -8,6 +27,7 @@ Page({
     id: -1,
     store: {
     },
+    hasLoad: false,
     goodsList: [
     ]
   },
@@ -40,35 +60,50 @@ Page({
 
   fetchStoreInfo() {
     this.setData({
-      store: {
-        id: 1,
-        name: 'Store1'
-      }
+      hasLoad: false
+    })
+    wx.showLoading({
+      title: '加载中'
+    })
+    app.store.fetchStoreInfo(this.data.id)
+    .then(res => {
+      console.log(e)
+      this.setData({
+        hasLoad: true
+      })
+      wx.hideLoading()
+    }).catch(e => {
+      console.log(e)
+      wx.hideLoading()
+      this.setData({
+        store: store,
+        hasLoad: true
+      })
     })
   },
 
   fetchGoods() {
-    this.setData({
-      goodsList: [
-        {
-          id: 1,
-          name: 'goods1',
-          price: 12.45,
-          img: ''
-        },
-        {
-          id: 2,
-          name: 'goods2',
-          price: 13.45,
-          img: ''
-        }
-      ]
+    app.store.fetchStoreGoods(this.data.id)
+    .then(res => {
+      console.log(e)
+    }).catch(e => {
+      console.log(e)
+      this.setData({
+        goodsList: goodsList
+      })
     })
   },
 
   addToCart(e) {
     const goodsId = e.currentTarget.dataset.goodsid
-    console.log(goodsId)
+    const cartId = app.globalData.cartId
+    const storeId = this.data.id
+    app.cart.increaseGoodsCount(cartId, storeId, goodsId)
+    .then(res => {
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
+    })
   },
 
   /**

@@ -1,5 +1,5 @@
 <!--pages/order/order-detail/order-detail.wxml-->
-<view class="order-detail">
+<view wx:if="{{hasLoad}}" class="order-detail">
     <view class="order-id">
         订单编号: {{ order.id }}
     </view>
@@ -63,14 +63,18 @@
         <wxc-button class="btn" bindtap="cancelOrder" size="large" type="danger" value="取消订单">
         </wxc-button>
     </view>
-    <view wx:if="{{order.status === 'waitTransit' }}">
+    <view wx:if="{{order.status === 'waitTransit' && isOwn }}">
         <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
         </wxc-button>
     </view>
-    <view wx:if="{{order.status === 'inTransit'}}">
+    <view wx:if="{{order.status === 'inTransit' && isOwn }}">
         <wxc-button class="btn" bindtap="traceDeliveryMan" size="large" type="warning" value="追踪骑手">
         </wxc-button>
         <wxc-button class="btn" bindtap="finishOrder" size="large" type="success" value="确认收货">
             </wxc-button>
+    </view>
+    <view wx:if="{{ order.status === 'inTransit' && !isOwn }}">
+        <wxc-button class="btn" bindtap="updateLocation" size="large" type="success" value="更新位置">
+        </wxc-button>
     </view>
 </view>

@@ -1,24 +1,4 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
 
 .index-container {
   padding: 20rpx;
@@ -27,11 +7,25 @@
 .header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+}
+.user-info .avatar {
+  margin-left: 20rpx;
+  width: 75rpx;
+  height: 75rpx;
+  vertical-align: middle;
+  margin-bottom: 10rpx;
 }
 
 .location {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .location-text {

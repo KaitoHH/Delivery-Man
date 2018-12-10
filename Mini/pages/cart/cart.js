@@ -1,10 +1,57 @@
+const app = getApp()
+const storeGoods = {
+    1: {
+        id: 1,
+        name: 'store1',
+        goodsList: [
+            {
+                id: 1,
+                name: 'goods1',
+                count: 2,
+                price: 2,
+                totalPrice: 4
+            },
+            {
+                id: 2,
+                name: 'goods3',
+                price: 2,
+                count: 3,
+                totalPrice: 6
+            }
+        ]
+    },
+    2: {
+        id: 2,
+        name: 'store2',
+        goodsList: [
+            {
+                id: 1,
+                name: 'goods1',
+                count: 2,
+                price: 3,
+                totalPrice: 6
+            },
+            {
+                id: 2,
+                name: 'goods3',
+                price: 4,
+                count: 3,
+                totalPrice: 12
+            }
+        ]
+    }
+}
 Page({
     data:{
         storeGoods: {},
+        userId: 1,
+        cartId:1,
         totalPrice: 3,
-        shipmentFee: 3
+        shipmentFee: 3,
+        hasLoad: false
     },
     onLoad: function (options) {
+        this.loadCart()
     },
 
     goToShop: function(e) {
@@ -41,22 +88,28 @@ Page({
     deleteStoreGoods: function(e) {
         const newStoreGoods = {}
         const storeId = e.currentTarget.dataset.storeid 
-        console.log(storeId)
-        Object.keys(this.data.storeGoods).forEach(k => {
-            const i = Number.parseInt(k)
-            if(storeId !== i) {
-                newStoreGoods[i] = this.data.storeGoods[i]
-            }
+        app.cart.deleteStoreGoods(this.data.cartId, this.data.storeId)
+        .then(res => {
+            console.log(res)
+        }).catch(e => {
+            console.log(e)
+            Object.keys(this.data.storeGoods).forEach(k => {
+                const i = Number.parseInt(k)
+                if(storeId !== i) {
+                    newStoreGoods[i] = this.data.storeGoods[i]
+                }
+            })
+            this.setData({
+                storeGoods: newStoreGoods
+            })
+            this.computeTotalPrice()
         })
-        this.setData({
-            storeGoods: newStoreGoods
-        })
-        this.computeTotalPrice()
     },
+
 
     onReady:function(){
         // 生命周期函数--监听页面初次渲染完成
-        this.loadCart()
+       
     },
     onShow:function(){
         // 生命周期函数--监听页面显示
@@ -88,70 +141,57 @@ Page({
     },
     loadCart() {
         this.setData({
-            storeGoods: {
-                1: {
-                    id: 1,
-                    name: 'store1',
-                    goodsList: [
-                        {
-                            id: 1,
-                            name: 'goods1',
-                            count: 2,
-                            price: 2,
-                            totalPrice: 4
-                        },
-                        {
-                            id: 2,
-                            name: 'goods3',
-                            price: 2,
-                            count: 3,
-                            totalPrice: 6
-                        }
-                    ]
-                },
-                2: {
-                    id: 2,
-                    name: 'store2',
-                    goodsList: [
-                        {
-                            id: 1,
-                            name: 'goods1',
-                            count: 2,
-                            price: 3,
-                            totalPrice: 6
-                        },
-                        {
-                            id: 2,
-                            name: 'goods3',
-                            price: 4,
-                            count: 3,
-                            totalPrice: 12
-                        }
-                    ]
-                }
-            }
+            hasLoad: false
         })
-        this.computeTotalPrice();
+        wx.showLoading({
+            'title': '加载中'
+        })
+        app.cart.fetchUserCartByUserId(this.data.userId)
+        .then(res => {
+            console.log(res)
+            this.setData({
+                hasLoad: true
+            })
+            this.computeTotalPrice()
+            wx.hideLoading()
+        }).catch(e => {
+            console.log(e)
+            this.setData({
+                cartId: 1,
+                hasLoad: true,
+                storeGoods: storeGoods
+            })
+            this.computeTotalPrice()
+            wx.hideLoading()
+        })
     },
     onChangeNumber(e) {
         const { storeId, goodsId } = e.detail.extraData
         const currentCount = e.detail.number
-        const goodsList = this.data.storeGoods[storeId].goodsList
-        let spliceIndex = -1;
-        for(let i = 0; i < goodsList.length; i++) {
-            if(goodsList[i].id === goodsId) {
-                if (currentCount === 0) {
-                    spliceIndex = i
-                } else{
-                    Object.assign(goodsList[i], { count: currentCount, totalPrice: currentCount * goodsList[i].price})
+        app.cart.updateGoodsCount(this.data.cartId,
+            storeId, goodsId, currentCount)
+            .then(res => {
+                console.log(res)
+            }).catch(e => {
+                console.log(e)
+                const goodsList = this.data.storeGoods[storeId].goodsList
+                let spliceIndex = -1;
+                for (let i = 0; i < goodsList.length; i++) {
+                    if (goodsList[i].id === goodsId) {
+                        if (currentCount === 0) {
+                            spliceIndex = i
+                        } else {
+                            Object.assign(goodsList[i], { count: currentCount, totalPrice: currentCount * goodsList[i].price })
+                        }
+                        break;
+                    }
                 }
-                break;
-            }
-        }
-        if (spliceIndex >=0) {
-            this.removeGoodsFromCart(storeId, goodsId, spliceIndex)
-        }
-        this.computeTotalPrice()
+                if (spliceIndex >= 0) {
+                    this.removeGoodsFromCart(storeId, goodsId, spliceIndex)
+                }
+                this.computeTotalPrice()
+            })
+
     },
     removeGoodsFromCart(storeId, goodsId, index) {
         const storeGoods = {}

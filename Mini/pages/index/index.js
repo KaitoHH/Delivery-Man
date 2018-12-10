@@ -4,10 +4,9 @@ const app = getApp()
 
 Page({
   data: {
-    motto: '欢迎使用随手递！',
     userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    stores: [],
+    address: '上海交通大学',
     searchInputShowed: false,
     searchInputVal: "",
   },
@@ -38,6 +37,18 @@ Page({
       url: '../logs/logs'
     })
   },
+
+  onLoad: function() {
+    this.loadBasicInfo()
+  },
+
+
+  loadBasicInfo() {
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
+  }
+
   /* onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({

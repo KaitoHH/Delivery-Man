@@ -1,4 +1,51 @@
 // pages/order/order-detail/order-detail.js
+const app = getApp()
+const order =  {
+  createTime: '',
+  payTime: '',
+  acceptTime: '',
+  arriveTime:'',
+  status: 'inTransit',
+  userId: 2,
+  storeGoods: {
+    1: {
+      name: 'store1',
+      address: '商店地址1',
+      goodsList: [
+        {
+          id: 2,
+          name: '商品2',
+          price: 10.4,
+          count: 3 
+        },
+        {
+          id: 3,
+          name: '商品2',
+          price: 10.4,
+          count: 5 
+        }
+      ]
+    },
+    2: {
+      name: 'store2',
+      address: '商店地址2',
+      goodsList: [
+        {
+          id: 1,
+          name: '商品2',
+          price: 12.4,
+          count: 2
+        }
+      ]
+    }
+  },
+  shipmentFee: 0,
+  totalPrice: 12,
+  receiver: '',
+  receiverPhone: '',
+  receiverAddress: '',
+  deliveryMan: '',
+}
 Page({
 
   /**
@@ -6,9 +53,10 @@ Page({
    */
   data: {
     orderId: -1,
+    hasLoad: false,
     order: {
-
-    }
+    },
+    isOwn: true
   },
 
   /**
@@ -31,52 +79,28 @@ Page({
 
   fetchOrder() {
     this.setData({
-      order: {
-        id: this.data.orderId,
-        createTime: '',
-        payTime: '',
-        acceptTime: '',
-        arriveTime:'',
-        status: 'finished',
-        storeGoods: {
-          1: {
-            name: 'store1',
-            address: '商店地址1',
-            goodsList: [
-              {
-                id: 2,
-                name: '商品2',
-                price: 10.4,
-                count: 3 
-              },
-              {
-                id: 3,
-                name: '商品2',
-                price: 10.4,
-                count: 5 
-              }
-            ]
-          },
-          2: {
-            name: 'store2',
-            address: '商店地址2',
-            goodsList: [
-              {
-                id: 1,
-                name: '商品2',
-                price: 12.4,
-                count: 2
-              }
-            ]
-          }
-        },
-        shipmentFee: 0,
-        totalPrice: 12,
-        receiver: '',
-        receiverPhone: '',
-        receiverAddress: '',
-        deliveryMan: '',
-      }
+      hasLoad: false
+    })
+    wx.showLoading({
+      title: '加载中'
+    })
+    app.order.fetchOneOrder(this.data.orderId)
+    .then(res => {
+      console.log(res)
+      wx.hideLoading()
+      this.setData({
+        hasLoad: true
+      })
+    }).catch(e => {
+      console.log(e)
+      this.setData({
+        hasLoad: true
+      })
+      wx.hideLoading()
+      this.setData({
+        order: Object.assign(order, { id: this.data.orderId }),
+        isOwn: order.userId === app.globalData.userId
+      })
     })
   },
 

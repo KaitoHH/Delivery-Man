@@ -1,4 +1,5 @@
 {
+    "navigationBarTitleText": "购物车",
     "usingComponents": {
         "wxc-icon": "../../dist/packages/@minui/wxc-icon/dist/index",
         "wxc-counter": "../../dist/packages/@minui/wxc-counter/dist/index"

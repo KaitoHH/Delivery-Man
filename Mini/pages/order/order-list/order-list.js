@@ -1,4 +1,19 @@
 // pages/order/order-list/order-list.js
+const ConstValue= require('../../../utils/constant')
+const app = getApp()
+const mockOrders = [{
+  id: 1234,
+  createTime: '2018-12-10 12:32:34',
+  shipmentFee: 1,
+  totalPrice: 20,
+  address: '上海交通大学 上海交通大学 上海交通大学'
+}, {
+  id: 12345,
+  createTime: '2018-12-10 12:32:34',
+  shipmentFee: 2,
+  totalPrice: 30,
+  address: '上海交通大学软件大楼'
+}]
 Page({
 
   /**
@@ -7,55 +22,66 @@ Page({
   data: {
     orders: [],
     status: '',
-    statusTitleMap: {
-      'inTransit': '配送中订单',
-      'unPaid': '未支付订单',
-      'waitTransit': '待接单订单',
-      'finished': '已完成订单',
-      'myAcceptOrder': '当前接单',
-      'historyOrder': '历史接单'
-    }
+    isCurrentAcceptOrder: false,
+    isHistoryAcceptOrder: false,
+    hasLoadData: false,
+    fetchOrdersFunc: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.initTitle(options)
+    this.init(options)
     this.loadOrders()
   },
 
-  initTitle(options) {
-    const status = options.status
+  init(options) {
+    const status = options.status ? options.status : ''
+    const isCurrentAcceptOrder = options.currentAccept ? true : false
+    const isHistoryAcceptOrder = options.historyAccept ? true : false
     if(status) {
       wx.setNavigationBarTitle({
-        title: this.data.statusTitleMap[status],
+        title: ConstValue.OrderStatus2TitleMap[status],
         success: function(res) {
           // success
         }
       })
-      this.setData({
-        status: status
-      })
     }
+    this.setData({
+      status: status,
+      isCurrentAcceptOrder: isCurrentAcceptOrder,
+      isHistoryAcceptOrder: isHistoryAcceptOrder
+    })
+    let fetchFunc = null
+    if(this.data.isHistoryAcceptOrder) {
+      fetchFunc = app.order.fetchOwnHistoryAcceptOrders(app.globalData.userId)
+    } else if(this.data.isCurrentAcceptOrder) {
+      fetchFunc = app.order.fetchOwnCurrentAcceptOrders(app.globalData.userId)
+    } else {
+      fetchFunc = app.order.fetchOrdersByUserIdAndStatus(app.globalData.userId, this.data.status)
+    }
+    this.setData({
+      fetchOrdersFunc: fetchFunc
+    })
   },
 
 
   loadOrders() {
-    this.setData({
-      orders: [{
-        id: 1234,
-        createTime: '2018-12-10 12:32:34',
-        shipmentFee: 1,
-        totalPrice: 20,
-        address: '上海交通大学 上海交通大学 上海交通大学'
-      }, {
-        id: 12345,
-        createTime: '2018-12-10 12:32:34',
-        shipmentFee: 2,
-        totalPrice: 30,
-        address: '上海交通大学软件大楼'
-      }]
+    wx.showLoading({
+      title: '加载中'
+    })
+    this.data.fetchOrdersFunc.then(res => {
+      this.hasLoadData = true
+      wx.hideLoading()
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
+      this.hasLoadData = true
+      wx.hideLoading()
+      this.setData({
+        orders: mockOrders
+      })
     })
   },
 

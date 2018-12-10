@@ -65,7 +65,7 @@ Page({
 
     myAcceptOrder: function() {
         wx.navigateTo({
-            url: '/pages/order/order-list/order-list?status=myAcceptOrder',
+            url: '/pages/order/order-list/order-list?status=myAcceptOrder&currentAccept=true',
             success: function(res){
                 // success
             },
@@ -80,7 +80,7 @@ Page({
 
     historyAcceptOrder: function() {
         wx.navigateTo({
-            url: '/pages/order/order-list/order-list?status=historyOrder',
+            url: '/pages/order/order-list/order-list?status=historyOrder&historyAccept=true',
             success: function(res){
                 // success
             },

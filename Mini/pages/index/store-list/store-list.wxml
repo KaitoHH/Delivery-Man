@@ -1,5 +1,5 @@
 <!--pages/index/store-list/store-list.wxml-->
-<view class="store-list">
+<view wx:if="{{hasLoad}}" class="store-list">
     <view class="weui-panel weui-panel_access">
         <view class="weui-panel__hd">附近的商店</view>
         <view class="weui-panel__bd">

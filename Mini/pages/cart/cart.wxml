@@ -1,4 +1,4 @@
-<view>
+<view wx:if="{{hasLoad}}">
     <view class="weui-panel weui-panel_access">
         <view class="weui-panel__bd emptyCart container" wx:if="{{ totalPrice === shipmentFee }}">
             <view bindtap="goToShop" class="goShop">

@@ -8,6 +8,11 @@
     flex-direction: row-reverse;
 }
 
+.cart-button {
+    display: inline-block;
+    margin-bottom: 5rpx;
+}
+
 .good-detail {
     padding-top: 50rpx;
     display: flex;

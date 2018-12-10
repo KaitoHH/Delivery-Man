@@ -6,8 +6,14 @@
         <wxc-icon size="50" type="address"></wxc-icon>
       </view>
       <view class="location-text-block">
-        <view class="location-text">上海交通大学</view>
+        <view class="location-text">{{ address }}</view>
         <wxc-icon size="40" type="arrow-down"></wxc-icon>
+      </view>
+    </view>
+    <view class="user-info">
+      <view class="name">{{userInfo.nickName}}</view>
+      <view class="img">
+        <image class="avatar"  src="{{userInfo.avatarUrl}}"></image>
       </view>
     </view>
   </view>
@@ -45,6 +51,6 @@
     <search-helper></search-helper>
   </view>
   <view class="store-list" hidden="{{searchInputShowed}}">
-    <store-list></store-list>
+    <store-list address="{{address}}"></store-list>
   </view>
 </view>
