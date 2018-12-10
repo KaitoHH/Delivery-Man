@@ -29,7 +29,7 @@ Page({
   },
   inputTyping: function (e) {
     this.setData({
-      inputVal: e.detail.value
+      searchInputVal: e.detail.value
     });
   },
   //事件处理函数

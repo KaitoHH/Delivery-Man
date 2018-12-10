@@ -4,7 +4,11 @@
     "pages/index/index",
     "pages/cart/cart",
     "pages/self/self",
-    "pages/map/map"
+    "pages/map/map",
+    "pages/store/store",
+    "pages/order/order-create",
+    "pages/order/order-list/order-list",
+    "pages/order/order-detail/order-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

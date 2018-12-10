@@ -1,0 +1,76 @@
+<!--pages/order/order-detail/order-detail.wxml-->
+<view class="order-detail">
+    <view class="order-id">
+        订单编号: {{ order.id }}
+    </view>
+    <view wx:if="{{order.createTime}}" class="order-createTime">
+        创建时间: {{ order.createTime }}
+    </view>
+    <view wx:if="{{order.payTime}}" class="order-payTime">
+        支付时间: {{ order.payTime }}
+    </view>
+    <view wx:if="{{order.acceptTime}}" class="order-acceptTime">
+        接单时间: {{ order.acceptTime }}
+    </view>
+    <view wx:if="{{order.arriveTime}}" class="order-arriveTime">
+        送达时间: {{ order.arriveTime }}
+    </view>
+    <view wx:if="{{order.storeGoods}}" class="store-goods-list">
+        购买商品:
+        <view class="store" wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{order.storeGoods}}">
+            <view class="store-detail">
+                <view class="store-name">
+                    商店名：{{ store.name }}
+                </view>
+                <view class="store-address">
+                    商店地址：{{ store.address }}
+                </view>
+            </view>
+            <view wx:for="{{store.goodsList}}" wx:key="{{store.id}}" class="goods">
+                <view class="goods-name">
+                    商品名：{{item.name}}
+                </view>
+                <view class="goods-price">
+                    商品价格：{{ item.price }}
+                </view>
+                <view class="goods-count">
+                    购买数量：{{ item.count }}
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{order.shipmentFee !== '' }}" class="shipmentFee">
+        配送费: {{ order.shipmentFee }}
+    </view>
+    <view wx:if="{{order.totalPrice}}" class="totalPrice">
+        总计: {{order.totalPrice}}
+    </view>
+    <view wx:if="{{order.receiver}}" class="receiver">
+        收货人: {{ order.receiver }}
+    </view>
+    <view wx:if="{{order.receiverPhone}}" class="receiverPhone">
+        联系号码: {{ order.receiverPhone }}
+    </view>
+    <view wx:if="{{order.receiverAddress}}" class="receiverAddress">
+        收货地址: {{ order.receiverPhone }}
+    </view>
+    <view wx:if="{{order.deliveryMan}}" class="delivery">
+        送货员: {{ order.deliveryMan }}
+    </view>
+    <view wx:if="{{order.status === 'unPaid' }}">
+        <wxc-button class="btn" bindtap="payOrder" size="large" type="success" value="支付订单">
+        </wxc-button>
+        <wxc-button class="btn" bindtap="cancelOrder" size="large" type="danger" value="取消订单">
+        </wxc-button>
+    </view>
+    <view wx:if="{{order.status === 'waitTransit' }}">
+        <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
+        </wxc-button>
+    </view>
+    <view wx:if="{{order.status === 'inTransit'}}">
+        <wxc-button class="btn" bindtap="traceDeliveryMan" size="large" type="warning" value="追踪骑手">
+        </wxc-button>
+        <wxc-button class="btn" bindtap="finishOrder" size="large" type="success" value="确认收货">
+            </wxc-button>
+    </view>
+</view>

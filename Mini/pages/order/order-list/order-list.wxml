@@ -1,0 +1,14 @@
+<!--pages/order/order-list/order-list.wxml-->
+<view class="order-list">
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd" wx:for="{{orders}}" wx:key="item.id">
+            <view class="order weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                    <order-thumb order="{{item}}">
+                    </order-thumb>
+                </view>
+            </view>
+        </view>
+    </view>
+
+</view>

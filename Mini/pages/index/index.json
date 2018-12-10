@@ -1,6 +1,9 @@
 {
     "usingComponents": {
         "wxc-toast": "../../dist/packages/@minui/wxc-toast/dist/index",
-        "wxc-icon": "../../dist/packages/@minui/wxc-icon/dist/index"
+        "wxc-icon": "../../dist/packages/@minui/wxc-icon/dist/index",
+        "search-helper": "./search-helper/search-helper",
+        "real-time-search": "./real-time-search/real-time-search",
+        "store-list": "./store-list/store-list"
       }
 }

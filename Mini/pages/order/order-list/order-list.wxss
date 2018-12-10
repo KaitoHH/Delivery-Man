@@ -1,0 +1,6 @@
+/* pages/order/order-list/order-list.wxss */
+.order-list {
+    padding: 25rpx;
+}
+
+@import '../../../style/weui.wxss';

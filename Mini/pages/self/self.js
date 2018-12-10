@@ -1,7 +1,99 @@
 Page({
     data:{
-        message: '个人中心'
     },
+    unPaidOrder: function(){
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=unPaid',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+        console.log('unpaid order');
+    },
+    waitTransitOrder: function(){
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=waitTransit',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+        console.log('wait transit order')
+    },
+    inTransitOrder: function() {
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=inTransit',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+        console.log('in transit Order')
+    },
+
+    finishOrder: function() {
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=finished',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+        console.log('has finished order')
+    },
+
+    myAcceptOrder: function() {
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=myAcceptOrder',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+    },
+
+    historyAcceptOrder: function() {
+        wx.navigateTo({
+            url: '/pages/order/order-list/order-list?status=historyOrder',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+        console.log('my history accept order')
+    },
+
     onLoad:function(options){
         // 生命周期函数--监听页面加载
     },

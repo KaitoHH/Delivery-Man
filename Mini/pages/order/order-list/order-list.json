@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "wxc-panel": "../../../dist/packages/@minui/wxc-panel/dist/index",
+        "order-thumb": "../order-thumb/order-thumb"
+      }
+}

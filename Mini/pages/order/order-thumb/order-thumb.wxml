@@ -1,0 +1,18 @@
+<!--pages/order/order-thumb/order-thumb.wxml-->
+<view bindtap="orderDetail" class="order-thumb">
+    <view class="order-id">
+        订单编号: {{ order.id }}
+    </view>
+    <view class="create-time">
+        创建时间: {{ order.createTime }}
+    </view>
+    <view class="totalPrice">
+        总计: {{ order.totalPrice }}
+    </view>
+    <view class="shipmentPrice">
+        配送费: {{ order.totalPrice }}
+    </view>
+    <view class="address">
+        送货地址: {{ order.address }}
+    </view>
+</view>

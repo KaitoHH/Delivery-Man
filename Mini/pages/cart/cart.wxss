@@ -1,0 +1,41 @@
+.goods-detail {
+    margin-top: 60rpx;
+    display: flex;
+    justify-content: space-between;
+}
+.store {
+    display: flex;
+    justify-content: space-between;
+    padding: 15rpx;
+}
+.price {
+    margin-top: 15rpx;
+    color: green;
+    font-size: 40rpx;
+}
+
+.bottom_pay {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 40rpx;
+}
+
+.pay {
+    display: flex;
+}
+.total-price {
+    vertical-align: middle;
+    margin-right: 20rpx;
+    padding-top: 25rpx;
+}
+
+.shipment-fee {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 50rpx;
+}
+.emptyCart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

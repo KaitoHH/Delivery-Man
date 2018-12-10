@@ -1,5 +1,67 @@
 <view>
-    <text>
-        {{ message }}
-    </text>
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd emptyCart container" wx:if="{{ totalPrice === shipmentFee }}">
+            <view bindtap="goToShop" class="goShop">
+                <view>
+                    去购物
+                </view>
+                <view>
+                    <wxc-icon size="100" type="cart"></wxc-icon>
+                </view>
+            </view>
+
+        </view>
+        <view class="weui-panel__bd" wx:else>
+            <view class="weui-panel__hd">已购买商品</view>
+            <view wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{storeGoods}}">
+                <view class="store">
+                    <view class="store-name">
+                        {{store.name}}
+                        <wxc-icon size="40" type="arrow-right">
+                        </wxc-icon>
+                    </view>
+                    <view id="store-{{store.id}}" data-storeid="{{store.id}}" bindtap="deleteStoreGoods" class="store-delete">
+                        <wxc-icon size="40" type="delete"></wxc-icon>
+                    </view>
+                </view>
+                <view wx:for="{{store.goodsList}}" wx:key="{{item.id}}" class="weui-media-box weui-media-box_appmsg"
+                    hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <image class="weui-media-box__thumb" src="{{item.img}}" />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title">
+                            {{item.name}}
+                        </view>
+                        <view class="weui-media-box__desc">
+                            <view class="goods-detail">
+                                <view class="count">
+                                    <wxc-counter extraData="{{ {storeId: store.id, goodsId: item.id } }}" number="{{item.count}}"
+                                        max="{{10000}}" min="0" bind:changenumber="onChangeNumber">
+                                    </wxc-counter>
+                                </view>
+                                <view class="price">
+                                    总计： {{ item.totalPrice }}
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="shipment-fee weui-panel__hd">
+                配送费：{{ shipmentFee }}
+            </view>
+            <view class="weui-panel__hd bottom_pay">
+                <view class="pay">
+                    <view class="total-price">
+                        总计：{{ totalPrice }}
+                    </view>
+                    <view class="pay_btn">
+                        <button bindtap="submitOrder" type="warn">结算</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </view>
 </view>

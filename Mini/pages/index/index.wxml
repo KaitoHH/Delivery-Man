@@ -17,8 +17,8 @@
         <view class="weui-search-bar__form">
           <view class="weui-search-bar__box">
             <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-            <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{searchinputVal}}" focus="{{searchInputShowed}}" bindinput="inputTyping" />
-            <view class="weui-icon-clear" wx:if="{{searchinputVal.length > 0}}" bindtap="clearInput">
+            <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{searchInputVal}}" focus="{{searchInputShowed}}" bindinput="inputTyping" />
+            <view class="weui-icon-clear" wx:if="{{searchInputVal.length > 0}}" bindtap="clearInput">
               <icon type="clear" size="14"></icon>
             </view>
           </view>
@@ -34,34 +34,17 @@
           取消
         </view>
       </view>
-      <view class="weui-cells searchbar-result" wx:if="{{searchinputVal.length > 0}}">
-        <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">
-            <view>实时搜索文本</view>
-          </view>
-        </navigator>
-        <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">
-            <view>实时搜索文本</view>
-          </view>
-        </navigator>
-        <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">
-            <view>实时搜索文本</view>
-          </view>
-        </navigator>
-        <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">
-            <view>实时搜索文本</view>
-          </view>
-        </navigator>
+      <view class="weui-cells searchbar-result" wx:if="{{searchInputVal.length > 0}}">
+        <real-time-search
+        searchText="{{searchInputVal}}"
+        ></real-time-search>
       </view>
     </view>
   </view>
-  <view class="search-about" hidden="{{!searchInputShowed}}">
-    <text>Search About</text>
+  <view class="search-about" wx:if="{{searchInputShowed && searchInputVal.length === 0}}">
+    <search-helper></search-helper>
   </view>
-  <view class="store" hidden="{{searchInputShowed}}">
-    <text>Store List</text>
+  <view class="store-list" hidden="{{searchInputShowed}}">
+    <store-list></store-list>
   </view>
 </view>

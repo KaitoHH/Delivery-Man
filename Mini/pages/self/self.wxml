@@ -1,5 +1,16 @@
-<view >
-    <text>
-        {{ message }}
-    </text>
+<view class="self-center">
+    <view class="item-list">
+        <wxc-list bind:click="unPaidOrder" title="未支付订单" src="/images/un-paid-order.png">
+        </wxc-list>
+        <wxc-list bind:click="waitTransitOrder" title="等待接单订单" src="/images/order-wait.png">
+        </wxc-list>
+        <wxc-list bind:click="inTransitOrder" title="配送中订单" src="/images/order-in-transit.png">
+        </wxc-list>
+        <wxc-list bind:click="finishOrder" title="已完成订单" src="/images/order-c.png">
+        </wxc-list>
+        <wxc-list src="/images/accept-order.png" bind:click="myAcceptOrder" title="当前接单">
+        </wxc-list>
+        <wxc-list bind:click="historyAcceptOrder" src="/images/orders.png" title="历史接单">
+        </wxc-list>
+    </view>
 </view>

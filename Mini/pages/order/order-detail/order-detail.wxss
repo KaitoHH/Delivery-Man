@@ -1,0 +1,25 @@
+/* pages/order/order-detail/order-detail.wxss */
+
+.order-detail {
+    padding: 25rpx;
+}
+
+.order-detail > view {
+    margin-bottom: 20rpx;
+    border-bottom:  1px #ccc solid;
+}
+
+.order-detail .store {
+    border: #ccc solid 1px;
+    margin-bottom: 10rpx;
+    padding-left: 25rpx;
+}
+
+.order-detail .goods {
+    padding-left: 50rpx;
+    border-top: gray 1px solid;
+}
+.order-detail .btn {
+    margin-top: 20rpx;
+    display: block;
+}

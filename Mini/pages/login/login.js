@@ -20,7 +20,7 @@ Page({
 						console.log(res)
 					}
 				});
-			}, 2000);
+			}, 0);
 		} else {
 			wx.showToast({ title: '拒绝怎么给你用？', icon: 'none' })
 		}
