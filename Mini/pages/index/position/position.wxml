@@ -1,0 +1,53 @@
+<!--pages/index/position/position.wxml-->
+<view class="position-map">
+    <view class="header">
+        <view class="back-block">
+            <wxc-icon bindtap="backToIndex" size="50" type="arrow-left"></wxc-icon>
+        </view>
+        <view class="address-title">
+            {{position.title}}
+        </view>
+        <view class="address-confirm">
+                <wxc-button class="cart-button" bindtap="addressConfirm" type="beauty"
+                 btnStyle="min-width: 66rpx;padding: 0;border-radius: 66rpx">
+                        <wxc-icon color="#fff" size="50" type="yes"></wxc-icon>
+                    </wxc-button>
+        </view>
+    </view>
+
+    <view class="weui-search-bar position-search-bar">
+        <view class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{searchInputVal}}" focus="{{searchInputShow}}"
+                    bindinput="inputTyping" />
+                <view class="weui-icon-clear" wx:if="{{searchInputVal.length > 0}}" bindtap="clearInput">
+                    <icon type="clear" size="14"></icon>
+                </view>
+            </view>
+            <label class="weui-search-bar__label" hidden="{{searchInputShow}}" bindtap="showInput">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索</view>
+            </label>
+        </view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!searchInputShow}}" bindtap="hideInput">取消</view>
+    </view>
+    <view class="weui-cells searchbar-result" wx:if="{{searchInputVal.length > 0}}">
+        <view bindtap="selectAddress" wx:for="{{suggestionLocations}}" wx:key="{{item.id}}" 
+        data-id="{{item.id}}" data-address="{{item.address}}"
+        data-title="{{item.title}}" data-lat="{{item.location.lat}}"
+        data-lng="{{item.location.lng}}"
+         class="weui-cell" hover-class="weui-cell_active">
+            <view class="weio-cell__bd">
+                <view>{{item.title}}</view>
+            </view>
+        </view>
+
+    </view>
+
+    <!-- <button bindtap="nearby_search">搜索周边KFC</button> -->
+    <view class="map">
+        <map bindmarkertap="bindmarkertap" markers="{{markers}}" style="width:100%;height:400px;" longitude="{{position.lng}}"
+            latitude="{{position.lat}}" scale='16'></map>
+    </view>
+</view>

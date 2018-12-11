@@ -1,12 +1,12 @@
 <!-- index.wxml -->
 <view class="index-container">
-  <view class="header" hidden="{{searchInputShowed}}">
-    <view class="location">
+  <view class="header" hidden="{{showPositionMap || searchInputShowed}}">
+    <view bindtap="fixPosition" class="location">
       <view class="location-icon">
         <wxc-icon size="50" type="address"></wxc-icon>
       </view>
       <view class="location-text-block">
-        <view class="location-text">{{ address }}</view>
+        <view class="location-text">{{ position.title }}</view>
         <wxc-icon size="40" type="arrow-down"></wxc-icon>
       </view>
     </view>
@@ -17,7 +17,7 @@
       </view>
     </view>
   </view>
-  <view class="search-bar">
+  <view wx:if="{{!showPositionMap}}" class="search-bar">
     <view class="page__bd">
       <view class="weui-search-bar">
         <view class="weui-search-bar__form">
@@ -47,10 +47,14 @@
       </view>
     </view>
   </view>
-  <view class="search-about" wx:if="{{searchInputShowed && searchInputVal.length === 0}}">
+  <view class="search-about" wx:if="{{ !showPositionMap &&  searchInputShowed && searchInputVal.length === 0}}">
     <search-helper></search-helper>
   </view>
-  <view class="store-list" hidden="{{searchInputShowed}}">
+  <view class="store-list" hidden="{{showPositionMap || searchInputShowed}}">
     <store-list address="{{address}}"></store-list>
   </view>
+  <position
+   bind:updateSelectAddress="updateSelectAddress"
+   position="{{position}}"
+   bind:backToIndex="backToIndex" wx:if="{{showPositionMap}}"></position>
 </view>

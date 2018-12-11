@@ -1,14 +1,14 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
 Page({
   data: {
     userInfo: {},
     stores: [],
-    address: '上海交通大学',
     searchInputShowed: false,
     searchInputVal: "",
+    showPositionMap: false,
+    position: {}
   },
   showInput: function () {
     this.setData({
@@ -38,8 +38,63 @@ Page({
     })
   },
 
+  updateSelectAddress(e) {
+    const position = e.detail
+    this.setData({
+      position: position,
+    })
+  },
+
+  backToIndex() {
+    this.setData({
+      showPositionMap: false
+    })
+  },
+
   onLoad: function() {
     this.loadBasicInfo()
+    const that = this
+    wx.getLocation({
+      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+      success: function(res){
+        console.log(res)
+        const latitude = res.latitude
+        const longitude = res.longitude
+        app.qqMap.reverseGeocoder({
+          location: {
+            latitude: latitude,
+            longitude: longitude
+          },
+          success: function(res) {
+            console.log(res)
+            const address = res.result.address
+            const title = res.result.formatted_addresses.recommend
+            that.setData({
+              position: Object.assign({}, {lat: latitude, lng: longitude, address: address, title: title})
+            })
+            console.log(res)
+          }, fail: function(e) {
+
+          }, complete: function(e) {
+
+          }
+        })
+        console.log(res)
+      },
+      fail: function(e) {
+        console.log(e)
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    })
+  },
+
+  fixPosition() {
+    this.setData({
+      showPositionMap: true
+    })
   },
 
 
@@ -48,41 +103,4 @@ Page({
       userInfo: app.globalData.userInfo
     })
   }
-
-  /* onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  } */
 })

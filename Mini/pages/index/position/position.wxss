@@ -1,0 +1,26 @@
+/* pages/index/position/position.wxss */
+@import '../../../style/weui.wxss'; 
+.position-map {
+    padding: 25rpx;
+}
+.position-map .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rpx 20rpx ;
+}
+
+.position-map .header .address-confirm {
+    margin-top: 5rpx;
+}
+
+.position-map .header .address-title {
+    margin-top: 5rpx;
+}
+
+.position-map > view {
+    margin-bottom: 25rpx;
+}
+.header {
+    background: #efeff4;  
+}
