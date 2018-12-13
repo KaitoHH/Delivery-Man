@@ -12,7 +12,7 @@ module.exports = function (api, path, params, method='GET') {
         url: `${api}` + (path === ''? '' : `/${path}`),
         data: Object.assign({}, params),
         method: method.toUpperCase(),
-        header: { 'Content-Type': 'json' },
+        header: { 'Content-Type': 'application/json' },
         success: resolve,
         fail: reject
       })

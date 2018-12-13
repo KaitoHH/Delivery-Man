@@ -41,7 +41,6 @@ Page({
       id: options.id
     })
     this.fetchStoreInfo()
-    this.fetchGoods()
   },
 
   bindGotoCart: function(e) {
@@ -66,32 +65,25 @@ Page({
     wx.showLoading({
       title: '加载中'
     })
-    app.store.fetchStoreInfo(this.data.id)
+    app.store.fetchStore(this.data.id)
     .then(res => {
-      console.log(e)
+      const data = res.data
+      const store = Object.assign({}, {id: data.id, name: data.name})
+      const goodsList = []
+      data.store_goods.forEach(s => {
+        goodsList.push(Object.assign({}, {
+          id: s.id,
+          name: s.good_name,
+          price: Number.parseFloat(s.price).toFixed(2)
+        }))
+      }) 
       this.setData({
-        hasLoad: true
-      })
-      wx.hideLoading()
-    }).catch(e => {
-      console.log(e)
-      wx.hideLoading()
-      this.setData({
+        hasLoad: true,
         store: store,
-        hasLoad: true
-      })
-    })
-  },
-
-  fetchGoods() {
-    app.store.fetchStoreGoods(this.data.id)
-    .then(res => {
-      console.log(e)
-    }).catch(e => {
-      console.log(e)
-      this.setData({
         goodsList: goodsList
       })
+      wx.hideLoading()
+    }).catch(e => {
     })
   },
 

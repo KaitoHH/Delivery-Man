@@ -30,7 +30,6 @@ Component({
   },
 
   attached: function() {
-    this.loadStores()
   },
 
   /**

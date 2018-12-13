@@ -9,23 +9,13 @@ function fetchNearByStores(longitude, latitude) {
     })
 }
 
-
-function fetchStoreGoods(storeId) {
-    return fetch(URL, 'goods', {
-        storeId: storeId
-    })
-}
-
-function fetchStoreInfo(storeId) {
-    return fetch(URL, '', {
-        storeId: storeId
-    })
+function fetchStore(storeId) {
+    return fetch(URL, `store/${storeId}`)
 }
 
 
 
 module.exports = {
     fetchNearByStores,
-    fetchStoreGoods,
-    fetchStoreInfo
+    fetchStore
 }

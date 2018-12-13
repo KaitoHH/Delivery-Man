@@ -1,3 +1,4 @@
+const app = getApp()
 Page({
 	data: {
 		canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -11,6 +12,13 @@ Page({
 			console.log(e.detail.userInfo)
 			this.setData({
 				userInfo: e.detail.userInfo
+			})
+			app.globalData.userInfo = this.data.userInfo
+			app.user.updateUserNickName(app.globalData.userId, app.globalData.userInfo.nickName)
+			.then(res => {
+				console.log(res)
+			}).catch(e => {
+				console.log(e)
 			})
 			console.log('switch page');
 			setTimeout(() => {
