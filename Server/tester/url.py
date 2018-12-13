@@ -12,7 +12,7 @@ urlpatterns = [
 urlpatterns = format_suffix_patterns(urlpatterns)
 
 router = DefaultRouter()
-router.register('', views.TesterViewSet)
+router.register('tester', views.TesterViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
