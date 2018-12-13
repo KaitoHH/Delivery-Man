@@ -1,6 +1,10 @@
 from rest_framework import viewsets
+<<<<<<< HEAD
 from user.models import User, UserSerializer, Store, StoreSerializer, Goods, GoodsSerializer, StoreGoods, \
     StoreGoodsSerializer
+=======
+from user.models import User, UserSerializer
+>>>>>>> ac622525425eddd5b54b482c511261c5f9c06581
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -14,6 +18,7 @@ class UserView(viewsets.ModelViewSet):
         'openid': ['exact']
     }
     search_fields = ('nickname',)
+<<<<<<< HEAD
 
 
 class StoreView(viewsets.ModelViewSet):
@@ -37,3 +42,5 @@ class StoreGoodsView(viewsets.ModelViewSet):
     queryset = StoreGoods.objects.all()
     serializer_class = StoreGoodsSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+=======
+>>>>>>> ac622525425eddd5b54b482c511261c5f9c06581

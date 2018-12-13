@@ -7,7 +7,6 @@ router.register('user', UserView)
 router.register('store', StoreView)
 router.register('goods', GoodsView)
 router.register('storeGoods', StoreGoodsView)
-
 urlpatterns = [
     path('', include(router.urls))
 ]
