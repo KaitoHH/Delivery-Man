@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'tester.apps.TesterConfig',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'order.apps.OrderConfig',
 ]
 
 REST_FRAMEWORK = {
