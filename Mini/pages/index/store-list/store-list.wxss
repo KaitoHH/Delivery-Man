@@ -3,4 +3,11 @@
     padding: 25rpx;
 }
 
+.address {
+    font-size:  13px;
+    color: burlywood;
+    padding-top: 20rpx;
+    line-height:1.2;
+}
+
 @import '../../../style/weui.wxss';

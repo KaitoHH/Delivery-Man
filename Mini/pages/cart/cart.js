@@ -43,15 +43,22 @@ const storeGoods = {
 }
 Page({
     data:{
-        storeGoods: {},
+        cart: {},
         userId: 1,
         cartId:1,
         totalPrice: 3,
         shipmentFee: 3,
-        hasLoad: false
+        isCartEmpty: false,
+        hasLoad: true
     },
     onLoad: function (options) {
-        this.loadCart()
+
+    },
+
+    updateIsCartEmpty() {
+        this.setData({
+            isCartEmpty: Object.keys(this.data.cart).length === 0
+        })
     },
 
     goToShop: function(e) {
@@ -86,24 +93,12 @@ Page({
     },
 
     deleteStoreGoods: function(e) {
-        const newStoreGoods = {}
-        const storeId = e.currentTarget.dataset.storeid 
-        app.cart.deleteStoreGoods(this.data.cartId, this.data.storeId)
-        .then(res => {
-            console.log(res)
-        }).catch(e => {
-            console.log(e)
-            Object.keys(this.data.storeGoods).forEach(k => {
-                const i = Number.parseInt(k)
-                if(storeId !== i) {
-                    newStoreGoods[i] = this.data.storeGoods[i]
-                }
-            })
-            this.setData({
-                storeGoods: newStoreGoods
-            })
-            this.computeTotalPrice()
+        const storeId = e.currentTarget.dataset.storeid
+        const _cart = app.cart.deleteStoreGoods(app, this.data.cart, storeId)
+        this.setData({
+            cart: _cart
         })
+        this.cartChange()
     },
 
 
@@ -113,6 +108,7 @@ Page({
     },
     onShow:function(){
         // 生命周期函数--监听页面显示
+        this.loadCart()
     },
     onHide:function(){
         // 生命周期函数--监听页面隐藏
@@ -126,99 +122,27 @@ Page({
     onReachBottom: function() {
         // 页面上拉触底事件的处理函数
     },
-    computeTotalPrice() {
-        let total = 0;
-        Object.keys(this.data.storeGoods).forEach((key => {
-            const goodsList = this.data.storeGoods[key].goodsList
-            goodsList.forEach(g => {
-                total += g.totalPrice;
-            })
-        }));
-
-        this.setData({
-            totalPrice: total + this.data.shipmentFee
-        })
-    },
     loadCart() {
         this.setData({
-            hasLoad: false
+            cart: app.globalData.cart
         })
-        wx.showLoading({
-            'title': '加载中'
-        })
-        app.cart.fetchUserCartByUserId(this.data.userId)
-        .then(res => {
-            console.log(res)
-            this.setData({
-                hasLoad: true
-            })
-            this.computeTotalPrice()
-            wx.hideLoading()
-        }).catch(e => {
-            console.log(e)
-            this.setData({
-                cartId: 1,
-                hasLoad: true,
-                storeGoods: storeGoods
-            })
-            this.computeTotalPrice()
-            wx.hideLoading()
-        })
+        this.cartChange()
     },
+
+    cartChange() {
+        this.setData({
+            totalPrice: app.cart.computeTotalPrice(this.data.cart, this.data.shipmentFee)
+        })
+        this.updateIsCartEmpty()
+    },
+
     onChangeNumber(e) {
         const { storeId, goodsId } = e.detail.extraData
         const currentCount = e.detail.number
-        app.cart.updateGoodsCount(this.data.cartId,
-            storeId, goodsId, currentCount)
-            .then(res => {
-                console.log(res)
-            }).catch(e => {
-                console.log(e)
-                const goodsList = this.data.storeGoods[storeId].goodsList
-                let spliceIndex = -1;
-                for (let i = 0; i < goodsList.length; i++) {
-                    if (goodsList[i].id === goodsId) {
-                        if (currentCount === 0) {
-                            spliceIndex = i
-                        } else {
-                            Object.assign(goodsList[i], { count: currentCount, totalPrice: currentCount * goodsList[i].price })
-                        }
-                        break;
-                    }
-                }
-                if (spliceIndex >= 0) {
-                    this.removeGoodsFromCart(storeId, goodsId, spliceIndex)
-                }
-                this.computeTotalPrice()
-            })
-
-    },
-    removeGoodsFromCart(storeId, goodsId, index) {
-        const storeGoods = {}
-        Object.keys(this.data.storeGoods).map(k => {
-            const store = this.data.storeGoods[k];
-            if(storeId !== Number.parseInt(k)) {
-                storeGoods[k] = store
-            } else {
-                const newStoreGoodsList = []
-                const storeGoodsList = store.goodsList
-                for(let i = 0; i < storeGoodsList.length; i++) {
-                    const goods = storeGoodsList[i]
-                    if (goods.id !== goodsId) {
-                        newStoreGoodsList.push(goods)
-                    }
-                }
-                if(newStoreGoodsList.length > 0) {
-                    storeGoods[k] = {
-                        id: store.id,
-                        name: store.name,
-                        goodsList: newStoreGoodsList
-                    }
-                }
-            }
-        });
+        const _cart = app.cart.changeCartGoodsCount(app, this.data.cart, storeId, goodsId, currentCount)
         this.setData({
-            storeGoods: storeGoods
+            cart: _cart
         })
+        this.cartChange()
     }
 })

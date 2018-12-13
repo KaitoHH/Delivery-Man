@@ -27,6 +27,7 @@ Page({
     id: -1,
     store: {
     },
+    showSuccessToast: false,
     hasLoad: false,
     goodsList: [
     ]
@@ -95,15 +96,25 @@ Page({
   },
 
   addToCart(e) {
-    const goodsId = e.currentTarget.dataset.goodsid
-    const cartId = app.globalData.cartId
-    const storeId = this.data.id
-    app.cart.increaseGoodsCount(cartId, storeId, goodsId)
-    .then(res => {
-      console.log(res)
-    }).catch(e => {
-      console.log(e)
+    const goodsId = Number.parseInt(e.currentTarget.dataset.goodsid)
+    const goodsName = e.currentTarget.dataset.goodsname
+    const goodsPrice = Number.parseFloat(e.currentTarget.dataset.goodsprice)
+    app.cart.increaseGoodsCount(app, app.globalData.cart, {
+      id: this.data.store.id,
+      name: this.data.store.name
+    }, {
+      id: goodsId,
+      name: goodsName,
+      price: goodsPrice
     })
+    this.setData({
+      showSuccessToast: true
+    })
+    setTimeout(() => {
+      this.setData({
+        showSuccessToast: false
+      })
+    }, 1.5 * 1000)
   },
 
   /**

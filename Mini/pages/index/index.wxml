@@ -51,7 +51,7 @@
     <search-helper></search-helper>
   </view>
   <view class="store-list" hidden="{{showPositionMap || searchInputShowed}}">
-    <store-list address="{{address}}"></store-list>
+    <store-list address="{{position}}"></store-list>
   </view>
   <position
    bind:updateSelectAddress="updateSelectAddress"

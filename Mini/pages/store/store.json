@@ -1,6 +1,7 @@
 {
     "usingComponents": {
         "wxc-icon": "../../dist/packages/@minui/wxc-icon/dist/index",
-        "wxc-button": "../../dist/packages/@minui/wxc-button/dist/index"
+        "wxc-button": "../../dist/packages/@minui/wxc-button/dist/index",
+        "wxc-toast": "../../dist/packages/@minui/wxc-toast/dist/index"
     }
 }

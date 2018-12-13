@@ -1,6 +1,6 @@
 <view wx:if="{{hasLoad}}">
     <view class="weui-panel weui-panel_access">
-        <view class="weui-panel__bd emptyCart container" wx:if="{{ totalPrice === shipmentFee }}">
+        <view class="weui-panel__bd emptyCart container" wx:if="{{ isCartEmpty }}">
             <view bindtap="goToShop" class="goShop">
                 <view>
                     去购物
@@ -13,7 +13,7 @@
         </view>
         <view class="weui-panel__bd" wx:else>
             <view class="weui-panel__hd">已购买商品</view>
-            <view wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{storeGoods}}">
+            <view wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{cart}}">
                 <view class="store">
                     <view class="store-name">
                         {{store.name}}

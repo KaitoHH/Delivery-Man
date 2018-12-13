@@ -1,10 +1,11 @@
 const fetch = require('./fetch')
 
-const URL = "http://localhost:8080/store"
+const URL = require('../utils/config').serverURL
 
-function fetchNearByStores(location) {
-    return fetch(URL, "getNearByStore", {
-        'location': location
+function fetchNearByStores(longitude, latitude) {
+    return fetch(URL, "store", {
+        'longitude': longitude,
+        'latitude': latitude
     })
 }
 

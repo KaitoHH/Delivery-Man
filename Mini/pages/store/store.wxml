@@ -24,7 +24,9 @@
                             <view class="goods-price">
                                     {{item.price}}
                             </view>
-                            <view bindtap="addToCart" data-goodsId="{{item.id}}" class="goods-add">
+                            <view bindtap="addToCart" data-goodsname="{{item.name}}"
+                            data-goodsprice="{{item.price}}"
+                             data-goodsId="{{item.id}}" class="goods-add">
                                 <wxc-icon size="30" type="add"></wxc-icon>
                             </view>
                         </view>
@@ -33,4 +35,10 @@
             </view>
         </view>
     </view>
+    <wxc-toast
+    is-show="{{showSuccessToast}}"
+    text="成功添加至购物车"
+    icon="yes"
+    icon-color="#ff5777"
+    ></wxc-toast>
 </view>
