@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-from order.models import Store, StoreSerializer, Goods, GoodsSerializer, StoreGoods, StoreGoodsSerializer, Order, \
-    OrderReadSerializer, OrderSerializer, Item, ItemSerializer
+from order.models import Store, StoreSerializer, StoreReadSerializer, Goods, GoodsSerializer, StoreGoods, \
+    StoreGoodsSerializer, Order, OrderReadSerializer, OrderSerializer, Item, ItemSerializer
 
 
 # Create your views here.
@@ -15,12 +15,15 @@ class StoreView(viewsets.ModelViewSet):
     }
     search_fields = ('name',)
 
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return StoreReadSerializer
+        return StoreSerializer
+
 
 class GoodsView(viewsets.ModelViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ('name',)
 
 
 class StoreGoodsView(viewsets.ModelViewSet):
@@ -30,6 +33,8 @@ class StoreGoodsView(viewsets.ModelViewSet):
 
 class OrderView(viewsets.ModelViewSet):
     queryset = Order.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('status',)
 
     def get_serializer_class(self):
         if self.request.method in ['GET']:

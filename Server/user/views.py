@@ -10,6 +10,7 @@ class UserView(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = {
         'credits': ['lt', 'gt'],
-        'openid': ['exact']
+        'openid': ['exact'],
+        'verified': ['exact']
     }
     search_fields = ('nickname',)
