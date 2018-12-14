@@ -3,6 +3,7 @@ const store = require('./api/store.js')
 const cart = require('./api/cart.js')
 const order = require('./api/order.js')
 const user = require('./api/user.js')
+const goods = require('./api/goods.js')
 const QQMapWX = require('./utils/qqmap-wx-jssdk.min.js')
 const mapInstance = new QQMapWX({
       key: 'YLFBZ-WHAWI-ZXUGH-53Q65-TOJ7E-ADBNQ' // 必填
@@ -16,6 +17,7 @@ App({
   order: order,
   qqMap: mapInstance,
   user: user,
+  goods: goods,
   globalData: {
     userInfo: null,
     userId: 1,

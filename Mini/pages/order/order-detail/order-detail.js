@@ -2,52 +2,6 @@
 const util = require('../../../utils/util')
 
 const app = getApp()
-const order =  {
-  createTime: '',
-  payTime: '',
-  acceptTime: '',
-  arriveTime:'',
-  status: 'inTransit',
-  userId: 2,
-  storeGoods: {
-    1: {
-      name: 'store1',
-      address: '商店地址1',
-      goodsList: [
-        {
-          id: 2,
-          name: '商品2',
-          price: 10.4,
-          count: 3 
-        },
-        {
-          id: 3,
-          name: '商品2',
-          price: 10.4,
-          count: 5 
-        }
-      ]
-    },
-    2: {
-      name: 'store2',
-      address: '商店地址2',
-      goodsList: [
-        {
-          id: 1,
-          name: '商品2',
-          price: 12.4,
-          count: 2
-        }
-      ]
-    }
-  },
-  shipmentFee: 0,
-  totalPrice: 12,
-  receiver: '',
-  phone: '',
-  address: '',
-  deliveryMan: '',
-}
 Page({
 
   /**
@@ -58,8 +12,51 @@ Page({
     hasLoad: false,
     order: {
     },
+    storeGoods: {},
     noEnoughDataShow: false,
-    isOwn: true
+    isOwn: true,
+    isPaySuccessShow: false,
+    isAddingShipment: false,
+    additionShipmentFee: 0,
+    shipmentFeeError: false
+  },
+
+  constructStoreGoods() {
+    const storeGoods = {}
+    this.data.order.items.forEach(item => {
+        const storeId = item.store
+        if(!storeGoods[storeId]) {
+            storeGoods[storeId] = {
+                id: storeId,
+                goodsList: []
+            }
+            app.store.fetchStore(storeId).then(res => {
+                Object.assign(storeGoods[storeId], {
+                    name: res.data.name,
+                    address: res.data.address
+                })
+                this.setData({
+                  storeGoods: storeGoods
+                })
+            })
+        }
+        const goodsIndex = storeGoods[storeId].goodsList.length
+        storeGoods[storeId].goodsList.push({
+            count: item.count,
+            price: item.count
+        })
+        app.goods.fetchGoods(item.good).then(res => {
+          Object.assign(storeGoods[storeId].goodsList[goodsIndex], {
+            name: res.data.name
+          })
+          this.setData({
+            storeGoods: storeGoods
+          })
+        })
+    })
+    this.setData({
+      storeGoods: storeGoods
+    })
   },
 
   /**
@@ -92,22 +89,16 @@ Page({
       console.log(res)
       wx.hideLoading()
       Object.assign(res.data, {
-        createTime: util.parseTime(res.data.createTime)
+        createTime: util.parseTime(res.data.createTime),
+        payTime: util.parseTime(res.data.payTime)
       })
       this.setData({
         hasLoad: true,
         order: res.data
       })
+      this.constructStoreGoods()
     }).catch(e => {
       console.log(e)
-      this.setData({
-        hasLoad: true
-      })
-      wx.hideLoading()
-      this.setData({
-        order: Object.assign(order, { id: this.data.orderId }),
-        isOwn: order.userId === app.globalData.userId
-      })
     })
   },
 
@@ -128,8 +119,6 @@ Page({
   },
 
   payOrder() {
-    console.log('pay')
-    console.log(this.data.order)
     if(!this.data.order.receiver || !this.data.order.address || !this.data.order.phone) {
       this.setData({
         noEnoughDataShow: true
@@ -141,12 +130,72 @@ Page({
       }, 1.5 * 1000)
       return
     }
-
+    const updatedOrder = Object.assign({}, this.data.order, {
+      payTime: new Date(),
+      user: app.globalData.userId,
+      status: 1
+    })
+    app.order.updateOrder(this.data.orderId, updatedOrder).then(res => {
+      this.setData({
+        isPaySuccessShow: true
+      })
+      setTimeout(() => {
+        this.setData({
+          isPaySuccessShow: false
+        })
+        wx.switchTab({
+          url: '/pages/self/self',
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
+      }, 1.5 * 1000)
+    }).catch(e => {
+      console.log(e)
+    })
   },
 
   addShipmentFee() {
-    console.log('add shipment fee')
+    let popupComponent = this.selectComponent('.J_Popup');
+    popupComponent && popupComponent.show();
   },
+
+  inputOrderShip(e) {
+    const v = e.detail.value
+    const ship = Number.parseFloat(v)
+    if(isNaN(ship)) {
+      this.setData({
+        shipmentFeeError: true
+      })
+    } else{
+      this.setData({
+        additionShipmentFee: ship,
+        shipmentFeeError: false
+      })
+    }
+  },
+
+  cacelAddShip() {
+    let popupComponent = this.selectComponent('.J_Popup');
+    popupComponent && popupComponent.hide();
+  },
+  confirmAddShip() {
+    if(this.data.shipmentFeeError) {
+      return
+    } else {
+      const totalShip = Number.parseFloat(this.data.order.ship) + Number.parseFloat(this.data.additionShipmentFee)
+      app.order.updateOrder(this.data.order.id, {
+        ship: Number.parseFloat(totalShip).toFixed(2)
+      })
+    }
+  },
+
 
   finishOrder() {
     console.log('finish order')

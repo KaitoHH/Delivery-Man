@@ -32,3 +32,21 @@
     margin-top: 20rpx;
     display: block;
 }
+
+.popup__content {
+    width: 500rpx;
+    background: #FFFFFF;
+    border-radius: 12rpx;
+    text-align: center;
+  }
+
+.popup__content .ship_input {
+    margin-top: 20rpx;
+}
+
+.popup__content .btn-panel {
+    display: flex;
+    justify-content: space-between;
+    padding: 20rpx 40rpx;
+}
+

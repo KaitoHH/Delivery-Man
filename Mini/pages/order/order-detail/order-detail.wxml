@@ -15,9 +15,9 @@
     <view wx:if="{{order.arriveTime}}" class="order-arriveTime">
         送达时间: {{ order.arriveTime }}
     </view>
-    <view wx:if="{{order.storeGoods}}" class="store-goods-list">
+    <view wx:if="{{storeGoods}}" class="store-goods-list">
         购买商品:
-        <view class="store" wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{order.storeGoods}}">
+        <view class="store" wx:for-index="storeId" wx:key="item.id" wx:for-item="store" wx:for="{{storeGoods}}">
             <view class="store-detail">
                 <view class="store-name">
                     商店名：{{ store.name }}
@@ -45,22 +45,22 @@
     <view wx:if="{{order.price}}" class="totalPrice">
         总计: {{order.price}}
     </view>
-    <view class="input"  wx:if="{{order.receiver === '' && order.status === 0}}">
+    <view class="input"  wx:if="{{order.status === 0}}">
             收货人: <input bindinput="changeReceiver" value="{{order.receiver}}" type="text" placeholder="收货人"/>
     </view>
-    <view class="input" wx:if="{{order.phone === '' && order.status === 0}}">
+    <view class="input" wx:if="{{order.status === 0}}">
             联系号码: <input bindinput="changePhone" value="{{order.phone}}" type="text" placeholder="联系号码"/>
     </view>
-    <view class="input" wx:if="{{order.address === '' && order.status === 0}}">
+    <view class="input" wx:if="{{ order.status === 0}}">
             收货地址: <input bindinput="changeAddress" value="{{order.address}}" type="text" placeholder="收货地址"/>
     </view>
-    <view wx:if="{{order.receiver}}" class="receiver">
+    <view wx:if="{{order.status!== 0 && order.receiver}}" class="receiver">
         收货人: {{ order.receiver }}
     </view>
-    <view wx:if="{{order.phone}}" class="receiverPhone">
+    <view wx:if="{{order.status!== 0 && order.phone}}" class="receiverPhone">
         联系号码: {{ order.phone }}
     </view>
-    <view wx:if="{{order.address}}" class="receiverAddress">
+    <view wx:if="{{order.status!== 0 && order.address}}" class="receiverAddress">
         收货地址: {{ order.address }}
     </view>
     <view wx:if="{{order.deliveryMan}}" class="delivery">
@@ -72,7 +72,7 @@
         <wxc-button class="btn" bindtap="cancelOrder" size="large" type="danger" value="取消订单">
         </wxc-button>
     </view>
-    <view class="btn-panel" wx:if="{{order.status === 'waitTransit' && isOwn }}">
+    <view class="btn-panel" wx:if="{{order.status === 1 && isOwn }}">
         <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
         </wxc-button>
     </view>
@@ -93,4 +93,18 @@
     icon="no"
     icon-color="#ff5777"
     ></wxc-toast>
+    <wxc-toast text="支付成功" icon="yes"
+    icon-color="#ff5777" is-show="{{isPaySuccessShow}}">
+    </wxc-toast>
+
+    <wxc-popup locked="true"  class="J_Popup" animation-mode="center" align="center">
+        <view class="popup__content">
+            <wxc-input mode="wrapped" bind:input="inputOrderShip"
+             error="{{shipmentFeeError}}" focus="{{true}}" class="ship_input"  type="text" placeholder="请输入追加的运费"></wxc-input>
+            <view class="btn-panel">
+                    <wxc-button bindtap="cacelAddShip" class="btn" size="normal" type="warning" value="取消"></wxc-button>
+                    <wxc-button bindtap="confirmAddShip" class="btn" size="normal" type="primary" value="确定"></wxc-button>
+            </view>
+        </view>
+    </wxc-popup>
 </view>

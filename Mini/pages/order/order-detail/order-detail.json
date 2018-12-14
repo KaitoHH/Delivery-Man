@@ -3,6 +3,7 @@
     "usingComponents": {
         "wxc-button": "../../../dist/packages/@minui/wxc-button/dist/index",
         "wxc-input": "../../../dist/packages/@minui/wxc-input/dist/index",
-        "wxc-toast": "../../../dist/packages/@minui/wxc-toast/dist/index"
+        "wxc-toast": "../../../dist/packages/@minui/wxc-toast/dist/index",
+        "wxc-popup": "../../../dist/packages/@minui/wxc-popup/dist/index"
     }
 }

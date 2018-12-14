@@ -1,4 +1,5 @@
 const fetch = require('./fetch')
+const store = require('./store')
 
 const URL = require('../utils/config').serverURL
 const CONST_VAR = require('../utils/constant')
@@ -43,6 +44,10 @@ function fetchOrderByStatus(userId, status) {
     })
 }
 
+function updateOrder(orderId, data) {
+    return fetch(URL, `order/${orderId}/`, data, 'PUT')
+}
+
 function fetchOneOrder(orderId) {
     return fetch(URL, `order/${orderId}`)
 }
@@ -74,5 +79,6 @@ module.exports = {
     generateOrderAccordingToCart,
     fetchOneOrder,
     submitOrder,
-    fetchOrderByStatus
+    fetchOrderByStatus,
+    updateOrder
 }
