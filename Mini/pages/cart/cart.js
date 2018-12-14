@@ -44,12 +44,10 @@ const storeGoods = {
 Page({
     data:{
         cart: {},
-        userId: 1,
-        cartId:1,
         totalPrice: 3,
         shipmentFee: 3,
         isCartEmpty: false,
-        hasLoad: true
+        hasLoad: false
     },
     onLoad: function (options) {
 
@@ -76,19 +74,48 @@ Page({
         })
     },
 
+    noPay() {
+      wx.switchTab({
+          url: '/pages/index/index',
+          success: function(res){
+              // success
+          },
+          fail: function() {
+              // fail
+          },
+          complete: function() {
+              // complete
+          }
+      })  
+    },
+
     submitOrder() {
-        console.log('submit order')
-        wx.navigateTo({
-            url: '/pages/order/order-create',
-            success: function(res){
-                // success
-            },
-            fail: function() {
-                // fail
-            },
-            complete: function() {
-                // complete
-            }
+        const order = Object.assign({}, {
+            price: this.data.totalPrice,
+            ship: this.data.shipmentFee,
+            status: 0,
+            user: app.globalData.userId
+        })
+        app.order.submitOrder(order, this.data.cart)
+        .then(res => {
+            const cart = app.cart.clearCart(app)
+            this.setData({
+                cart: cart
+            })
+            wx.navigateTo({
+                url: '/pages/order/order-create',
+                success: function(res){
+                    // success
+                },
+                fail: function() {
+                    // fail
+                },
+                complete: function() {
+                    // complete
+                }
+            })
+        }).catch(e => {
+            console.log(e)
         })
     },
 
@@ -127,6 +154,9 @@ Page({
             cart: app.globalData.cart
         })
         this.cartChange()
+        this.setData({
+            hasLoad: true
+        })
     },
 
     cartChange() {

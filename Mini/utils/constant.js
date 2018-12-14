@@ -7,6 +7,15 @@ const OrderStatus2TitleMap = {
     'historyOrder': '历史接单'
 }
 
+const OrderStatusName2Flag = {
+    'canceled': -1,
+    'unPaid': 0,
+    'waitTransit': 1,
+    'inTransit': 2,
+    'finished': 3
+}
+
 module.exports = {
-    OrderStatus2TitleMap
+    OrderStatus2TitleMap,
+    OrderStatusName2Flag
 }

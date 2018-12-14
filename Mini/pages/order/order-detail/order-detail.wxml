@@ -39,42 +39,58 @@
             </view>
         </view>
     </view>
-    <view wx:if="{{order.shipmentFee !== '' }}" class="shipmentFee">
-        配送费: {{ order.shipmentFee }}
+    <view wx:if="{{order.ship !== '' }}" class="shipmentFee">
+        配送费: {{ order.ship }}
     </view>
-    <view wx:if="{{order.totalPrice}}" class="totalPrice">
-        总计: {{order.totalPrice}}
+    <view wx:if="{{order.price}}" class="totalPrice">
+        总计: {{order.price}}
+    </view>
+    <view class="input"  wx:if="{{order.receiver === '' && order.status === 0}}">
+            收货人: <input bindinput="changeReceiver" value="{{order.receiver}}" type="text" placeholder="收货人"/>
+    </view>
+    <view class="input" wx:if="{{order.phone === '' && order.status === 0}}">
+            联系号码: <input bindinput="changePhone" value="{{order.phone}}" type="text" placeholder="联系号码"/>
+    </view>
+    <view class="input" wx:if="{{order.address === '' && order.status === 0}}">
+            收货地址: <input bindinput="changeAddress" value="{{order.address}}" type="text" placeholder="收货地址"/>
     </view>
     <view wx:if="{{order.receiver}}" class="receiver">
         收货人: {{ order.receiver }}
     </view>
-    <view wx:if="{{order.receiverPhone}}" class="receiverPhone">
-        联系号码: {{ order.receiverPhone }}
+    <view wx:if="{{order.phone}}" class="receiverPhone">
+        联系号码: {{ order.phone }}
     </view>
-    <view wx:if="{{order.receiverAddress}}" class="receiverAddress">
-        收货地址: {{ order.receiverPhone }}
+    <view wx:if="{{order.address}}" class="receiverAddress">
+        收货地址: {{ order.address }}
     </view>
     <view wx:if="{{order.deliveryMan}}" class="delivery">
         送货员: {{ order.deliveryMan }}
     </view>
-    <view wx:if="{{order.status === 'unPaid' }}">
+    <view class="btn-panel" wx:if="{{order.status === 0 }}">
         <wxc-button class="btn" bindtap="payOrder" size="large" type="success" value="支付订单">
         </wxc-button>
         <wxc-button class="btn" bindtap="cancelOrder" size="large" type="danger" value="取消订单">
         </wxc-button>
     </view>
-    <view wx:if="{{order.status === 'waitTransit' && isOwn }}">
+    <view class="btn-panel" wx:if="{{order.status === 'waitTransit' && isOwn }}">
         <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
         </wxc-button>
     </view>
-    <view wx:if="{{order.status === 'inTransit' && isOwn }}">
+    <view class="btn-panel" wx:if="{{order.status === 'inTransit' && isOwn }}">
         <wxc-button class="btn" bindtap="traceDeliveryMan" size="large" type="warning" value="追踪骑手">
         </wxc-button>
         <wxc-button class="btn" bindtap="finishOrder" size="large" type="success" value="确认收货">
             </wxc-button>
     </view>
-    <view wx:if="{{ order.status === 'inTransit' && !isOwn }}">
+    <view class="btn-panel" wx:if="{{ order.status === 'inTransit' && !isOwn }}">
         <wxc-button class="btn" bindtap="updateLocation" size="large" type="success" value="更新位置">
         </wxc-button>
     </view>
+
+    <wxc-toast
+    is-show="{{noEnoughDataShow}}"
+    text="请填写全部的信息"
+    icon="no"
+    icon-color="#ff5777"
+    ></wxc-toast>
 </view>

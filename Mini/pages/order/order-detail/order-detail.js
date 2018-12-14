@@ -1,4 +1,6 @@
 // pages/order/order-detail/order-detail.js
+const util = require('../../../utils/util')
+
 const app = getApp()
 const order =  {
   createTime: '',
@@ -42,8 +44,8 @@ const order =  {
   shipmentFee: 0,
   totalPrice: 12,
   receiver: '',
-  receiverPhone: '',
-  receiverAddress: '',
+  phone: '',
+  address: '',
   deliveryMan: '',
 }
 Page({
@@ -56,6 +58,7 @@ Page({
     hasLoad: false,
     order: {
     },
+    noEnoughDataShow: false,
     isOwn: true
   },
 
@@ -88,8 +91,12 @@ Page({
     .then(res => {
       console.log(res)
       wx.hideLoading()
+      Object.assign(res.data, {
+        createTime: util.parseTime(res.data.createTime)
+      })
       this.setData({
-        hasLoad: true
+        hasLoad: true,
+        order: res.data
       })
     }).catch(e => {
       console.log(e)
@@ -104,8 +111,37 @@ Page({
     })
   },
 
+  changeReceiver(e) {
+    this.setData({
+      order: Object.assign(this.data.order, {receiver: e.detail.value})
+    })
+  },
+  changeAddress(e) {
+    this.setData({
+      order: Object.assign(this.data.order, {address: e.detail.value})
+    })
+  },
+  changePhone(e) {
+    this.setData({
+      order: Object.assign(this.data.order, {phone: e.detail.value})
+    })
+  },
+
   payOrder() {
-    console.log('pay order')
+    console.log('pay')
+    console.log(this.data.order)
+    if(!this.data.order.receiver || !this.data.order.address || !this.data.order.phone) {
+      this.setData({
+        noEnoughDataShow: true
+      })
+      setTimeout(() => {
+        this.setData({
+          noEnoughDataShow: false
+        })
+      }, 1.5 * 1000)
+      return
+    }
+
   },
 
   addShipmentFee() {

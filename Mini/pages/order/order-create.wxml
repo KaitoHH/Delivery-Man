@@ -12,10 +12,10 @@
             <view hidden="{{hasPaid}}">
                     <wxc-button class="btn" bindtap="confirmOrder" type="success" size="large">支付订单</wxc-button>
                     <wxc-button class="btn" bindtap="cancelOrder" type="danger" size="large">取消订单</wxc-button>
+                    <wxc-button class="btn" bindtap="noPay" type="warning" size="large">等会支付</wxc-button>
             </view>
             <view hidden="{{!hasPaid}}">
                 <wxc-button class="btn" open-type="share" bindtap="shareOrder" type="success" size="large">分享订单</wxc-button>
-                <wxc-button class="btn" bindtap="completeOrder" type="warning" size="large">完成订单</wxc-button>
             </view>
             
         </view>

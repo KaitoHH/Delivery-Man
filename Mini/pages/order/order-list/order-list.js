@@ -1,19 +1,7 @@
 // pages/order/order-list/order-list.js
 const ConstValue= require('../../../utils/constant')
+const util = require('../../../utils/util')
 const app = getApp()
-const mockOrders = [{
-  id: 1234,
-  createTime: '2018-12-10 12:32:34',
-  shipmentFee: 1,
-  totalPrice: 20,
-  address: '上海交通大学 上海交通大学 上海交通大学'
-}, {
-  id: 12345,
-  createTime: '2018-12-10 12:32:34',
-  shipmentFee: 2,
-  totalPrice: 30,
-  address: '上海交通大学软件大楼'
-}]
 Page({
 
   /**
@@ -59,7 +47,7 @@ Page({
     } else if(this.data.isCurrentAcceptOrder) {
       fetchFunc = app.order.fetchOwnCurrentAcceptOrders(app.globalData.userId)
     } else {
-      fetchFunc = app.order.fetchOrdersByUserIdAndStatus(app.globalData.userId, this.data.status)
+      fetchFunc = app.order.fetchOrderByStatus(app.globalData.userId, this.data.status)
     }
     this.setData({
       fetchOrdersFunc: fetchFunc
@@ -73,15 +61,19 @@ Page({
     })
     this.data.fetchOrdersFunc.then(res => {
       this.hasLoadData = true
+      res.data.forEach(d => {
+        Object.assign(d, {
+          createTime: util.parseTime(d.createTime)
+        })
+      })
+      console.log(res.data)
+      this.setData({
+        orders: res.data
+      })
       wx.hideLoading()
       console.log(res)
     }).catch(e => {
       console.log(e)
-      this.hasLoadData = true
-      wx.hideLoading()
-      this.setData({
-        orders: mockOrders
-      })
     })
   },
 

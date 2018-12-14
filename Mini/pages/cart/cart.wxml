@@ -57,7 +57,7 @@
                         总计：{{ totalPrice }}
                     </view>
                     <view class="pay_btn">
-                        <button bindtap="submitOrder" type="warn">结算</button>
+                        <button bindtap="submitOrder" type="warn">提交</button>
                     </view>
                 </view>
             </view>

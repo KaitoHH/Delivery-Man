@@ -108,7 +108,8 @@ class OrderSerializer(serializers.ModelSerializer):
         order.price = 0
         for item in items:
             Item.objects.create(order=order, **item)
-            order.price += item.price * item.count
+            print(item)
+            order.price += item['price'] * item['count']
         return order
 
 

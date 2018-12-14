@@ -28,6 +28,11 @@ function saveCart(app, cart) {
     wx.setStorageSync(CART_KEY, cart)
 }
 
+function clearCart(app) {
+    saveCart(app, {})
+    return {}
+}
+
 function deleteStoreGoods(app, cart, storeId) {
     const newCart = {}
     Object.keys(cart).forEach(k => {
@@ -145,5 +150,6 @@ module.exports = {
     fetchCart,
     saveCart,
     changeCartGoodsCount,
-    computeTotalPrice
+    computeTotalPrice,
+    clearCart
 }

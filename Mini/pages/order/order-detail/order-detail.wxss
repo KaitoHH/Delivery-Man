@@ -4,9 +4,18 @@
     padding: 25rpx;
 }
 
-.order-detail > view {
+.order-detail > view:not(.btn-panel) {
     margin-bottom: 20rpx;
     border-bottom:  1px #ccc solid;
+    padding: 24rpx 30rpx
+}
+
+.order-detail .input {
+    display: flex;
+}
+
+.order-detail .input input {
+    margin-left: 20rpx;
 }
 
 .order-detail .store {

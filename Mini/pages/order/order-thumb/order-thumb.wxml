@@ -1,4 +1,5 @@
 <!--pages/order/order-thumb/order-thumb.wxml-->
+
 <view bindtap="orderDetail" class="order-thumb">
     <view class="order-id">
         订单编号: {{ order.id }}
@@ -7,10 +8,10 @@
         创建时间: {{ order.createTime }}
     </view>
     <view class="totalPrice">
-        总计: {{ order.totalPrice }}
+        总计: {{ order.price }}
     </view>
     <view class="shipmentPrice">
-        配送费: {{ order.totalPrice }}
+        配送费: {{ order.ship }}
     </view>
     <view class="address">
         送货地址: {{ order.address }}
