@@ -34,7 +34,10 @@ class StoreGoodsView(viewsets.ModelViewSet):
 class OrderView(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('status',)
+    filterset_fields = {
+        'status': ['exact'],
+        'courier': ['exact', 'gt']
+    }
 
     def get_serializer_class(self):
         if self.request.method in ['GET']:

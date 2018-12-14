@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from user.models import User
+from rest_framework.exceptions import NotAcceptable
 
 
 # Store, Goods, StoreGoods
@@ -76,15 +77,19 @@ class Order(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     createTime = models.DateTimeField(auto_now_add=True)
     editTime = models.DateTimeField(auto_now=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    payTime = models.DateTimeField(blank=True, null=True)
+    acceptTime = models.DateTimeField(blank=True, null=True)
+    finishTime = models.DateTimeField(blank=True, null=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, default=0)
     ship = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=5)
     status = models.SmallIntegerField(default=0)
+    courier = models.ForeignKey(User, on_delete=models.CASCADE, default=0, related_name='courier')
 
 
 class Item(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     good = models.ForeignKey(Goods, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0)
     count = models.IntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', blank=True)
 
@@ -107,8 +112,17 @@ class OrderSerializer(serializers.ModelSerializer):
         order = Order.objects.create(**validated_data)
         order.price = 0
         for item in items:
+            store_good = StoreGoods.objects.get(store=item['store'], good=item['good'])
+
+            # check amount
+            # if store_good.count < item['count']:
+            #     raise NotAcceptable('{},{}:库存不足'.format(str(item['store']), str(item['good'])))
+            # store_good.count -= item['count']
+            # store_good.save()
+            
+            item['price'] = store_good.price
             Item.objects.create(order=order, **item)
-            order.price += item.price * item.count
+            order.price += item['price'] * item['count']
         return order
 
 
