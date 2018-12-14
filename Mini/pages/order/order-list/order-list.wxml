@@ -1,6 +1,14 @@
 <!--pages/order/order-list/order-list.wxml-->
-<view class="order-list">
-    <view class="weui-panel weui-panel_access">
+<view wx:if="hasLoadData" class="order-list">
+    <view wx:if="{{orders.length === 0}}" class="empty-order weui-panel weui-panel_access">
+        <view>
+            不存在任何订单
+        </view>
+        <view>
+            <wxc-icon size="100" type="more"></wxc-icon>
+        </view>
+    </view>
+    <view wx:else class="weui-panel weui-panel_access">
         <view class="weui-panel__bd" wx:for="{{orders}}" wx:key="item.id">
             <view class="order weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                 <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
@@ -10,5 +18,4 @@
             </view>
         </view>
     </view>
-
 </view>

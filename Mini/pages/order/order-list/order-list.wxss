@@ -3,4 +3,13 @@
     padding: 25rpx;
 }
 
+.empty-order {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding-top: 50rpx;
+}
+
 @import '../../../style/weui.wxss';

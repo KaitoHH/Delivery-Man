@@ -12,8 +12,8 @@
     <view wx:if="{{order.acceptTime}}" class="order-acceptTime">
         接单时间: {{ order.acceptTime }}
     </view>
-    <view wx:if="{{order.arriveTime}}" class="order-arriveTime">
-        送达时间: {{ order.arriveTime }}
+    <view wx:if="{{order.finishTime}}" class="order-finishTime">
+        送达时间: {{ order.finishTime }}
     </view>
     <view wx:if="{{storeGoods}}" class="store-goods-list">
         购买商品:
@@ -42,8 +42,8 @@
     <view wx:if="{{order.ship !== '' }}" class="shipmentFee">
         配送费: {{ order.ship }}
     </view>
-    <view wx:if="{{order.price}}" class="totalPrice">
-        总计: {{order.price}}
+    <view wx:if="{{order.totalPrice}}" class="totalPrice">
+        总计: {{ order.totalPrice }}
     </view>
     <view class="input"  wx:if="{{order.status === 0}}">
             收货人: <input bindinput="changeReceiver" value="{{order.receiver}}" type="text" placeholder="收货人"/>
@@ -76,7 +76,7 @@
         <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
         </wxc-button>
     </view>
-    <view class="btn-panel" wx:if="{{order.status === 'inTransit' && isOwn }}">
+    <view class="btn-panel" wx:if="{{order.status === 2 && isOwn }}">
         <wxc-button class="btn" bindtap="traceDeliveryMan" size="large" type="warning" value="追踪骑手">
         </wxc-button>
         <wxc-button class="btn" bindtap="finishOrder" size="large" type="success" value="确认收货">
@@ -96,7 +96,9 @@
     <wxc-toast text="支付成功" icon="yes"
     icon-color="#ff5777" is-show="{{isPaySuccessShow}}">
     </wxc-toast>
-
+    <wxc-toast text="{{toastMessage}}" icon="{{toastIcon}}"
+    icon-color="#ff5777" is-show="{{isToastMessageShow}}">
+    </wxc-toast>
     <wxc-popup locked="true"  class="J_Popup" animation-mode="center" align="center">
         <view class="popup__content">
             <wxc-input mode="wrapped" bind:input="inputOrderShip"

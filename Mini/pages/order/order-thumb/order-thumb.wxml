@@ -7,11 +7,11 @@
     <view class="create-time">
         创建时间: {{ order.createTime }}
     </view>
-    <view class="totalPrice">
-        总计: {{ order.price }}
-    </view>
     <view class="shipmentPrice">
         配送费: {{ order.ship }}
+    </view>
+    <view class="totalPrice">
+        总计: {{ order.totalPrice }}
     </view>
     <view class="address">
         送货地址: {{ order.address }}

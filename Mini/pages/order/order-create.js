@@ -1,4 +1,5 @@
 // pages/order/order-create.js
+const app = getApp()
 Page({
 
   /**
@@ -10,19 +11,73 @@ Page({
     recieverPhone: '',
     recieverAddress: '',
     shipmentFee: 3,
-    totalPrice: 35,
+    totalPrice: 0,
     hasPaid: false,
+    toastMessage: '',
+    toastShow: false,
+    toastIcon: ''
   },
 
   confirmOrder: function(e) {
-    this.setData({
-      hasPaid: true
+    let toastMessage = ''
+    if(!this.data.reciever) {
+      toastMessage = '请填写收货人'
+    } else if(!this.data.recieverPhone) {
+      toastMessage = '请填写收货人联系方式'
+    } else if(!this.data.recieverAddress) {
+      toastMessage = '请填写收货人地址'
+    }
+    if(toastMessage) {
+      this.showToast(toastMessage, 'no')
+      return
+    }
+    app.order.updateOrder(this.data.orderId, {
+      status: 1,
+      receiver: this.data.reciever,
+      phone: this.data.recieverPhone,
+      address: this.data.recieverAddress
+    }).then((res) => {
+      this.showToast('支付成功', 'yes')
+      this.setData({
+        hasPaid: true
+      })
     })
+  },
+
+  showToast(message, icon='yes', path='') {
+    this.setData({
+      toastMessage: message,
+      toastShow: true,
+      toastIcon: icon
+    })
+    setTimeout(() => {
+      this.setData({
+        toastShow: false
+      })
+      if(path) {
+        wx.switchTab({
+          url: path,
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
+      }
+    }, 1.5 * 1000)
   },
 
 
   cancelOrder: function(e) {
-    console.log('cancel order')
+    app.order.updateOrder(this.data.orderId, {
+      status: -1
+    }).then((res) => {
+      this.showToast('成功取消订单', 'yes', '/pages/self/self')
+    })
   },
 
   shareOrder: function(e) {
@@ -32,20 +87,47 @@ Page({
     })
   },
 
-  completeOrder: function(e) {
-    console.log('complete order')
+  noPay: function(e) {
+    wx.navigateBack({
+      delta: 1, // 回退前 delta(默认为1) 页面
+      success: function(res){
+        // success
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      orderId: options.orderId
+    })
+    this.fetchOrder()
   },
 
   recieverChange: function(e) {
     const reciever = e.detail.value
     this.setData({
       reciever: reciever
+    })
+  },
+
+
+  fetchOrder() {
+    app.order.fetchOneOrder(this.data.orderId)
+    .then(res => {
+      this.setData({
+        shipmentFee: res.data.ship,
+        totalPrice: (Number.parseFloat(res.data.ship) + Number.parseFloat(res.data.price)).toFixed(2)
+      })
+    }).catch(e => {
+      console.log(e)
     })
   },
 

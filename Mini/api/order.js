@@ -53,14 +53,16 @@ function fetchOneOrder(orderId) {
 }
 
 function fetchOwnCurrentAcceptOrders(userId) {
-    return fetch(URL, 'myCurrentAccept', {
-        userId: userId
+    return fetch(URL, 'order', {
+        courier: userId,
+        status: 2
     })
 }
 
 function fetchOwnHistoryAcceptOrders(userId) {
-    return fetch(URL, 'myHistoryAccept', {
-        userId: userId
+    return fetch(URL, 'order', {
+        courier: userId,
+        status: 3
     })
 }
 

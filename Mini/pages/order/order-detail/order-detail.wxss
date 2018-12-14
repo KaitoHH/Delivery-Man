@@ -33,6 +33,7 @@
     display: block;
 }
 
+
 .popup__content {
     width: 500rpx;
     background: #FFFFFF;

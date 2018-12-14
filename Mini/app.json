@@ -8,7 +8,8 @@
     "pages/store/store",
     "pages/order/order-create",
     "pages/order/order-detail/order-detail",
-    "pages/order/order-list/order-list"
+    "pages/order/order-list/order-list",
+    "pages/order/delivery-man-map/delivery-man-map"
   ],
   "window": {
     "backgroundTextStyle": "light",

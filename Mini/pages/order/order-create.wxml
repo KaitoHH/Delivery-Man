@@ -7,7 +7,7 @@
             <wxc-input type="text" disabled="{{hasPaid}}" title="收货人" value="{{reciever}}" placeholder="收货人" bind:input="recieverChange"></wxc-input>
             <wxc-input type="text" disabled="{{hasPaid}}" title="收货地址" value="{{recieverAddress}}" placeholder="收货地址" bind:input="recieverAddressChange"></wxc-input>
             <wxc-input type="text" disabled="{{hasPaid}}" title="联系号码" value="{{recieverPhone}}" placeholder="联系号码" bind:input="recieverPhoneChange"></wxc-input>
-            <wxc-input type="text" disabled="{{hasPaid}}" title="配送费" value="{{shipmentFee}}"></wxc-input>
+            <wxc-input type="text" disabled="{{true}}" title="配送费" value="{{shipmentFee}}"></wxc-input>
             <wxc-input type="text" disabled="{{true}}" title="订单总计" value="{{totalPrice}}"></wxc-input>
             <view hidden="{{hasPaid}}">
                     <wxc-button class="btn" bindtap="confirmOrder" type="success" size="large">支付订单</wxc-button>
@@ -17,7 +17,12 @@
             <view hidden="{{!hasPaid}}">
                 <wxc-button class="btn" open-type="share" bindtap="shareOrder" type="success" size="large">分享订单</wxc-button>
             </view>
-            
         </view>
     </view>
+    <wxc-toast
+    is-show="{{toastShow}}"
+    text="{{toastMessage}}"
+    icon="{{toastIcon}}"
+    icon-color="#ff5777"
+    ></wxc-toast>
 </view>

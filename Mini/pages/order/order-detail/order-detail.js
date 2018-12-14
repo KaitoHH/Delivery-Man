@@ -18,7 +18,10 @@ Page({
     isPaySuccessShow: false,
     isAddingShipment: false,
     additionShipmentFee: 0,
-    shipmentFeeError: false
+    shipmentFeeError: false,
+    toastMessage: '',
+    toastIcon: '',
+    isToastMessageShow: ''
   },
 
   constructStoreGoods() {
@@ -43,7 +46,7 @@ Page({
         const goodsIndex = storeGoods[storeId].goodsList.length
         storeGoods[storeId].goodsList.push({
             count: item.count,
-            price: item.count
+            price: item.price
         })
         app.goods.fetchGoods(item.good).then(res => {
           Object.assign(storeGoods[storeId].goodsList[goodsIndex], {
@@ -74,7 +77,18 @@ Page({
   },
 
   traceDeliveryMan() {
-    console.log('trace delivery man ')
+    wx.navigateTo({
+      url: '/pages/order/delivery-man-map/delivery-man-map',
+      success: function(res){
+        // success
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    })
   },
 
   fetchOrder() {
@@ -89,8 +103,11 @@ Page({
       console.log(res)
       wx.hideLoading()
       Object.assign(res.data, {
-        createTime: util.parseTime(res.data.createTime),
-        payTime: util.parseTime(res.data.payTime)
+        createTime: res.data.createTime ? util.parseTime(res.data.createTime) : '',
+        acceptTime: res.data.acceptTime ? util.parseTime(res.data.acceptTime) : '',
+        finishTime: res.data.finishTime ? util.parseTime(res.data.finishTime) : '',
+        payTime: res.data.payTime ? util.parseTime(res.data.payTime) : '',
+        totalPrice: (Number.parseFloat(res.data.price) + Number.parseFloat(res.data.ship)).toFixed(2)
       })
       this.setData({
         hasLoad: true,
@@ -130,12 +147,10 @@ Page({
       }, 1.5 * 1000)
       return
     }
-    const updatedOrder = Object.assign({}, this.data.order, {
+    app.order.updateOrder(this.data.orderId, {
       payTime: new Date(),
-      user: app.globalData.userId,
       status: 1
-    })
-    app.order.updateOrder(this.data.orderId, updatedOrder).then(res => {
+    }).then(res => {
       this.setData({
         isPaySuccessShow: true
       })
@@ -186,23 +201,69 @@ Page({
     popupComponent && popupComponent.hide();
   },
   confirmAddShip() {
+    let popupComponent = this.selectComponent('.J_Popup');
     if(this.data.shipmentFeeError) {
       return
     } else {
       const totalShip = Number.parseFloat(this.data.order.ship) + Number.parseFloat(this.data.additionShipmentFee)
       app.order.updateOrder(this.data.order.id, {
         ship: Number.parseFloat(totalShip).toFixed(2)
+      }).then(res => {
+        this.setData({
+          order: Object.assign(this.data.order, { ship: totalShip }, {
+            totalPrice: (Number.parseFloat(totalShip) + Number.parseFloat(this.data.order.totalPrice)).toFixed(2)
+          })
+        })
+        popupComponent && popupComponent.hide();
+        this.showToast('成功添加配送费！')
       })
     }
   },
 
+  showToast(message, icon='yes', toSelf=false) {
+    this.setData({
+      toastMessage: message,
+      toastIcon: icon,
+      isToastMessageShow: true
+    })
+    setTimeout(() => {
+      this.setData({
+        isToastMessageShow: false
+      })
+      if(toSelf) {
+        wx.switchTab({
+          url: '/pages/self/self',
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
+      }
+    }, 1.5 * 1000) 
+  },
 
   finishOrder() {
-    console.log('finish order')
+    app.order.updateOrder(this.data.orderId, {
+      status: 3,
+      finishTime: new Date()
+    }).then(res => {
+      console.log(res)
+      this.showToast('成功确认收货','yes', true)
+    })
   },
 
   cancelOrder() {
-    console.log('cancel order')
+    app.order.updateOrder(this.data.orderId, {
+      status: -1
+    }).then(res => {
+      console.log(res)
+      this.showToast('成功取消订单', 'yes', true)
+    })
   },
 
   /**

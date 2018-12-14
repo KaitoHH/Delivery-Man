@@ -56,6 +56,9 @@ Page({
 
 
   loadOrders() {
+    this.setData({
+      hasLoadData: false
+    })
     wx.showLoading({
       title: '加载中'
     })
@@ -63,16 +66,21 @@ Page({
       this.hasLoadData = true
       res.data.forEach(d => {
         Object.assign(d, {
-          createTime: util.parseTime(d.createTime)
+          createTime: util.parseTime(d.createTime),
+          totalPrice: (Number.parseFloat(d.price) + Number.parseFloat(d.ship)).toFixed(2)
         })
       })
       console.log(res.data)
       this.setData({
-        orders: res.data
+        orders: res.data,
+        hasLoadData: true
       })
       wx.hideLoading()
       console.log(res)
     }).catch(e => {
+      this.setData({
+        hasLoadData: true
+      })
       console.log(e)
     })
   },

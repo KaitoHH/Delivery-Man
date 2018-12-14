@@ -91,7 +91,7 @@ Page({
 
     submitOrder() {
         const order = Object.assign({}, {
-            price: this.data.totalPrice,
+            price: this.data.totalPrice - this.data.shipmentFee,
             ship: this.data.shipmentFee,
             status: 0,
             user: app.globalData.userId
@@ -102,8 +102,9 @@ Page({
             this.setData({
                 cart: cart
             })
+            this.cartChange()
             wx.navigateTo({
-                url: '/pages/order/order-create',
+                url: '/pages/order/order-create?orderId=' + res.data.id,
                 success: function(res){
                     // success
                 },
