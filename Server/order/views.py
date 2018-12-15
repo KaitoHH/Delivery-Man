@@ -36,6 +36,7 @@ class OrderView(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = {
         'status': ['exact'],
+        'user': ['exact'],
         'courier': ['exact', 'gt']
     }
 

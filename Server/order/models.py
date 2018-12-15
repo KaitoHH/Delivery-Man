@@ -74,6 +74,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     receiver = models.CharField(max_length=32, blank=True)
     address = models.CharField(max_length=100, blank=True)
+    detailAddress = models.CharField(max_length=256, blank=True)
+    latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True)
     createTime = models.DateTimeField(auto_now_add=True)
     editTime = models.DateTimeField(auto_now=True)
@@ -125,16 +128,9 @@ class OrderSerializer(serializers.ModelSerializer):
             order.price += item['price'] * item['count']
         return order
 
-    def update(self, instance, validated_data):
-        validated_data.pop('items')
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        return instance
-
 
 class OrderReadSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     items = ItemSerializer(many=True, read_only=True)
 
     class Meta:
