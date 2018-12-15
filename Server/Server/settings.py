@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'django_filters',
     'tester.apps.TesterConfig',
@@ -50,6 +50,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,6 +118,16 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# 注意，这个，切记不能够 `Allow-Origin: *`，因为返回的 `Allow-Origin` 必须跟原域匹配才可获取发送 cookie 的权限
+CORS_ORIGIN_REGEX_WHITELIST = r'.*'
+# 必须有这个才接受前端跨域发送 cookie
+CORS_ALLOW_CREDENTIALS = True
+
+# 允许所有ip访问
+CORS_ORIGIN_ALLOW_ALL = True
+# 允许所有的请求头
+CORS_ALLOW_HEADERS = '*'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

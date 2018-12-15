@@ -22,10 +22,15 @@ from user.views import UserView
 
 router = CustomRouter()
 router.register('user', UserView)
+router.register('User', UserView)
 router.register('order', OrderView)
+router.register('Order', OrderView)
 router.register('store', StoreView)
+router.register('Store', StoreView)
 router.register('goods', GoodsView)
+router.register('Goods', GoodsView)
 router.register('storegoods', StoreGoodsView)
+
 router.register('item', ItemView)
 urlpatterns = [
     path('', include(router.urls))
