@@ -48,6 +48,12 @@ function updateOrder(orderId, data) {
     return fetch(URL, `order/${orderId}/`, data, 'PUT')
 }
 
+function fetchNearWaitTransitOrders() {
+    return fetch(URL, 'order', {
+        status: 1
+    })
+}
+
 function fetchOneOrder(orderId) {
     return fetch(URL, `order/${orderId}`)
 }
@@ -82,5 +88,6 @@ module.exports = {
     fetchOneOrder,
     submitOrder,
     fetchOrderByStatus,
-    updateOrder
+    updateOrder,
+    fetchNearWaitTransitOrders
 }
