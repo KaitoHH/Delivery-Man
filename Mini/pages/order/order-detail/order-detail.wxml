@@ -76,6 +76,10 @@
         <wxc-button class="btn" bindtap="addShipmentFee" size="large" type="warning" value="提高配送费">
         </wxc-button>
     </view>
+    <view class="btn-panel" wx:if="{{order.status === 1 && !isOwn }}">
+        <wxc-button class="btn" bindtap="acceptOrder" size="large" type="danger" value="接受订单">
+        </wxc-button>
+    </view>
     <view class="btn-panel" wx:if="{{order.status === 2 && isOwn }}">
         <wxc-button class="btn" bindtap="traceDeliveryMan" size="large" type="warning" value="追踪骑手">
         </wxc-button>

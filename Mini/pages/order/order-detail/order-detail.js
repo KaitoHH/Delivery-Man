@@ -111,7 +111,8 @@ Page({
       })
       this.setData({
         hasLoad: true,
-        order: res.data
+        order: res.data,
+        isOwn: res.data.user === app.globalData.userId
       })
       this.constructStoreGoods()
     }).catch(e => {
@@ -220,7 +221,7 @@ Page({
     }
   },
 
-  showToast(message, icon='yes', toSelf=false) {
+  showToast(message, icon='yes', toSelf=false, isBack=false) {
     this.setData({
       toastMessage: message,
       toastIcon: icon,
@@ -243,6 +244,19 @@ Page({
             // complete
           }
         })
+      } else if(isBack) {
+        wx.navigateBack({
+          delta: 1, // 回退前 delta(默认为1) 页面
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
       }
     }, 1.5 * 1000) 
   },
@@ -254,6 +268,19 @@ Page({
     }).then(res => {
       console.log(res)
       this.showToast('成功确认收货','yes', true)
+    })
+  },
+
+  acceptOrder() {
+    app.order.updateOrder(this.data.orderId, {
+      status: 2,
+      acceptTime: new Date(),
+      courier: app.globalData.userId
+    }).then(res => {
+      console.log(res)
+      this.showToast('成功接受该订单', 'yes', false, true)
+    }).catch(e => {
+      console.log(e)
     })
   },
 
