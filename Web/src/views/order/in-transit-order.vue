@@ -1,11 +1,12 @@
 <template>
-  <shared-basic-table class="in-transit-order"
-                      ref="sharedTable"
-       :useNameFilter="false"
-       :columnHeader="columnHeader"
-       :filterColumn="filterColumn"
-       :exportFileName="exportFileName"
-       :originalData="inTransitOrders">
+  <shared-basic-table
+    ref="sharedTable"
+    :use-name-filter="false"
+    :column-header="columnHeader"
+    :filter-column="filterColumn"
+    :export-file-name="exportFileName"
+    :original-data="inTransitOrders"
+    class="in-transit-order">
     <template slot="table-columns" slot-scope="scope">
       <el-table-column :label="$t('order.operation')">
         <template slot-scope="scope">
@@ -21,21 +22,21 @@
       <el-table-column :label="$t('order.username')" prop="username" sortable/>
       <el-table-column :label="$t('order.address')" prop="address" sortable/>
       <el-table-column :label="$t('order.receiver')" prop="receiver" sortable/>
-      <el-table-column :label="$t('order.orderDate')" prop="orderDate" sortable>
+      <el-table-column :label="$t('order.orderDate')" prop="createTime" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.orderDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{ scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.totalPrice')" prop="totalPrice" sortable/>
-      <el-table-column :label="$t('order.paidDate')" prop="paidDate" sortable>
+      <el-table-column :label="$t('order.paidDate')" prop="payTime" sortable>
         <template slot-scope="scope">
-          <span> {{ scope.row.paidDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span> {{ scope.row.payTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.deliveryUserName')" prop="deliveryUserName" sortable/>
-      <el-table-column :label="$t('order.deliveryAcceptDate')" prop="deliveryAcceptDate" sortable>
+      <el-table-column :label="$t('order.deliveryAcceptDate')" prop="acceptTime" sortable>
         <template slot-scope="scope">
-          <span> {{ scope.row.deliveryAcceptDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span> {{ scope.row.acceptTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
     </template>
@@ -44,6 +45,7 @@
 <script>
 import SharedBasicTable from '@/views/shared/shared-basic-table'
 import { fectchInTransitOrder } from '@/api/order'
+import { fetchOneUser } from '@/api/user'
 export default {
   name: 'InTransitOrder',
   components: {
@@ -53,22 +55,41 @@ export default {
     return {
       inTransitOrders: [],
       columnHeader: ['Id', 'Username', 'Address', 'Receiver', 'OrderDate', 'TotalPrice', 'PaidDate', 'DeliveryUserName', 'DeliveryAcceptDate'],
-      filterColumn: ['id', 'username', 'address', 'receiver', 'orderDate', 'totalPrice', 'paidDate', 'deliveryUserName', 'deliveryAcceptDate'],
+      filterColumn: ['id', 'username', 'address', 'receiver', 'createTime', 'totalPrice', 'payTime', 'deliveryUserName', 'acceptTime'],
       exportFileName: 'in_transit_order_list'
     }
   },
-  mounted: function () {
+  mounted: function() {
     this.loadData()
   },
   methods: {
     loadData() {
       fectchInTransitOrder({}).then((res) => {
-        setTimeout(() => {
-          this.inTransitOrders = res.data.items
-          this.$nextTick(() => {
-            this.$refs.sharedTable.initData()
+        this.inTransitOrders = res.data
+        let i = 0
+        this.inTransitOrders.forEach(o => {
+          const index = i++
+          Object.assign(o, {
+            totalPrice: (Number.parseFloat(o.price) +
+              Number.parseFloat(o.ship)).toFixed(2)
           })
-        }, 1.5 * 1000)
+          fetchOneUser(o.user).then(res => {
+            this.$set(this.inTransitOrders, index, Object.assign(o, {
+              username: res.data.nickname
+            }))
+          }).catch(e => {
+            console.log(e)
+          })
+          fetchOneUser(o.courier).then(res => {
+            this.$set(this.inTransitOrders, index, Object.assign(o, {
+              deliveryUserName: res.data.nickname
+            }))
+          }).catch(e => { console.log(e) })
+        })
+        console.log(res.data)
+        this.$nextTick(() => {
+          this.$refs.sharedTable.initData()
+        })
       })
     },
     deleteOrder(order, index) {

@@ -2,32 +2,40 @@ import request from '@/utils/request'
 
 export function fetchUnpaidOrder(query) {
   return request({
-    url: '/order/unpaid',
+    url: '/order',
     methods: 'get',
-    params: query
+    params: {
+      status: 0
+    }
   })
 }
 
 export function fetchWaitDeliveryOrder(query) {
   return request({
-    url: '/order/wait',
+    url: '/order',
     methods: 'get',
-    params: query
+    params: {
+      status: 1
+    }
   })
 }
 
 export function fectchInTransitOrder(query) {
   return request({
-    url: '/order/inTransit',
+    url: '/order',
     methods: 'get',
-    params: query
+    params: {
+      status: 2
+    }
   })
 }
 
 export function fetchFinishedOrder(query) {
   return request({
-    url: '/order/finished',
+    url: '/order',
     methods: 'get',
-    params: query
+    params: {
+      status: 3
+    }
   })
 }

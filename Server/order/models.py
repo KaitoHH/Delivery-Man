@@ -25,14 +25,14 @@ class Store(models.Model):
     name = models.CharField(max_length=32)
     desc = models.CharField(max_length=256)
     address = models.CharField(max_length=256)
-    detailAddress = models.CharField(max_length=256)
+    detailAddress = models.CharField(max_length=256, blank=True)
     contactPhone = models.CharField(max_length=12)
     star = models.IntegerField(default=5, null=True, blank=True)
     registerDate = models.DateTimeField(auto_now_add=True)
     serviceTime = models.CharField(max_length=50, null=True, blank=True, default='08:00:00 - 18:00:00')
     latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True)
     longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True)
-    img = models.ImageField(blank=True)
+    img = models.ImageField(blank=True, null=True)
     goods = models.ManyToManyField(Goods, through='StoreGoods')
 
     def __str__(self):

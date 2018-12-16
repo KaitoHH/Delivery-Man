@@ -1,11 +1,11 @@
 <template>
   <share-basic-table
     ref="sharedTable"
-    :originalData="orders"
-    :columnHeaders="columnHeaders"
-    :exportFileName="exportFileName"
-    :filterColumns="filterColumns"
-    :useNameFilter="false">
+    :original-data="orders"
+    :column-header="columnHeaders"
+    :export-file-name="exportFileName"
+    :filter-column="filterColumns"
+    :use-name-filter="false">
     <template slot="table-columns" slot-scope="scope">
       <el-table-column :label="$t('order.operation')">
         <template slot-scope="scope">
@@ -22,9 +22,9 @@
       <el-table-column :label="$t('order.address')" prop="address" sortable/>
       <el-table-column :label="$t('order.receiver')" prop="receiver" sortable/>
 
-      <el-table-column :label="$t('order.orderDate')" prop="orderDate" sortable>
+      <el-table-column :label="$t('order.orderDate')" prop="createTime" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.orderDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.totalPrice')" prop="totalPrice" sortable/>
@@ -34,31 +34,45 @@
 </template>
 <script>
 import { fetchUnpaidOrder } from '@/api/order'
+import { fetchOneUser } from '@/api/user'
 import ShareBasicTable from '@/views/shared/shared-basic-table'
 export default {
   name: 'UnpaidOrder',
   components: {
     'share-basic-table': ShareBasicTable
   },
-  mounted: function () {
-    this.loadData()
-  },
   data() {
     return {
       orders: [],
-      columnHeaders: ['Id', 'Username', 'Address', 'Receiver', 'OrderDate', 'TotalPrice'],
-      filterColumns: ['id', 'username', 'address', 'receiver', 'orderDate', 'totalPrice'],
+      columnHeaders: ['Id', 'Username', 'Address', 'Receiver', 'CreateTime', 'TotalPrice'],
+      filterColumns: ['id', 'username', 'address', 'receiver', 'createTime', 'totalPrice'],
       exportFileName: 'unpaid_order_list'
     }
+  },
+  mounted: function() {
+    this.loadData()
   },
   methods: {
     loadData() {
       fetchUnpaidOrder({}).then(res => {
-        setTimeout(() => {
-          this.orders = res.data.items
-          this.$nextTick(() => {
-            this.$refs.sharedTable.initData()
+        this.orders = res.data
+        let i = 0
+        this.orders.forEach(o => {
+          const index = i++
+          Object.assign(o, {
+            totalPrice: (Number.parseFloat(o.price) +
+            Number.parseFloat(o.ship)).toFixed(2)
           })
+          fetchOneUser(o.user).then(res => {
+            this.$set(this.orders, index, Object.assign(o, {
+              username: res.data.nickname
+            }))
+          }).catch(e => {
+            console.log(e)
+          })
+        })
+        this.$nextTick(() => {
+          this.$refs.sharedTable.initData()
         })
       })
     },

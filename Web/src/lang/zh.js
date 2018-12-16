@@ -94,8 +94,8 @@ export default {
     status: '状态',
     operation: '操作',
     status_enum: {
-      'open': '开放',
-      'locked': '锁定'
+      'true': '开放',
+      'false': '锁定'
     },
     updateUserSuccess: '成功更新用户',
     updateDeliveryManSuccess: '成功更新送货员',
@@ -127,6 +127,7 @@ export default {
     latitude: '纬度',
     startTime: '开始时间',
     endTime: '结束时间',
+    desc: '商家描述',
     addStoreDialogTitle: '添加商店',
     addressInvalid: '请输入有效地址',
     longitudeLatitude: '经纬度',
@@ -139,7 +140,8 @@ export default {
     endTimeInvalid: '请输入有效结束时间',
     addStoreSuccess: '成功添加商店',
     deleteStoreSuccess: '成功删除商店',
-    updateStoreSuccess: '成功更新商店'
+    updateStoreSuccess: '成功更新商店',
+    updateStoreGoodsDetailSuccess: '成功更新商店商品信息'
   },
   storeGoods: {
     operation: '操作',
@@ -150,6 +152,7 @@ export default {
     goodsName: '商品名',
     goodsIdName: '商品编号-名称',
     goodsIdNameInvalidMessage: '请选择商品',
+    deleteStoreGoodsSuccessfully: '成功删除商店里面商品'
   },
   goods: {
     id: '编号',
@@ -157,7 +160,11 @@ export default {
     operation: '操作',
     img: '图片',
     upload: '上传',
-    nameInvalidMessage: '请输入商品名'
+    nameInvalidMessage: '请输入商品名',
+    updateGoodsSuccess: '成功更新商品信息',
+    addGoodsSuccess: '成功添加商品',
+    desc: '商品描述',
+    deleteGoodsSuccess: '成功删除商品'
   },
   order: {
     id: '编号',

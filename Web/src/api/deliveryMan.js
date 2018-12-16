@@ -2,9 +2,11 @@ import request from '@/utils/request'
 
 export function fetchDeliveryMan(query) {
   return request({
-    url: '/deliveryMan',
+    url: '/user',
     method: 'get',
-    param: query
+    params: {
+      verified: true
+    }
   })
 }
 

@@ -8,18 +8,32 @@ export function fetchUser(query) {
   })
 }
 
+export function fetchOneUser(userId) {
+  return request({
+    url: `/user/${userId}`,
+    method: 'get'
+  })
+}
+
 export function addUser(data) {
   return request({
-    url: '/user',
+    url: '/user/',
     method: 'post',
     data
   })
 }
 
-export function updateUser(user) {
+export function deleteUser(userId) {
   return request({
-    url: '/user',
+    url: `/user/${userId}`,
+    method: 'delete'
+  })
+}
+
+export function updateUser(userId, data) {
+  return request({
+    url: `/user/${userId}/`,
     method: 'put',
-    user
+    data
   })
 }

@@ -1,11 +1,11 @@
 <template>
   <shared-basic-table
-    :useNameFilter="false"
-    :originalData="originalData"
-    :columnHeader="columnHeaders"
-    :filterColumn="filterColumns"
-    :exportFileName="exportFileName"
-    ref="sharedTable">
+    ref="sharedTable"
+    :use-name-filter="false"
+    :original-data="originalData"
+    :column-header="columnHeaders"
+    :filter-column="filterColumns"
+    :export-file-name="exportFileName">
     <template slot="table-columns" slot-scope="scope">
       <el-table-column :label="$t('order.operation')">
         <template slot-scope="scope">
@@ -22,15 +22,15 @@
       <el-table-column :label="$t('order.address')" prop="address" sortable/>
       <el-table-column :label="$t('order.receiver')" prop="receiver" sortable/>
 
-      <el-table-column :label="$t('order.orderDate')" prop="orderDate" sortable>
+      <el-table-column :label="$t('order.orderDate')" prop="createTime" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.orderDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{ scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('order.totalPrice')" prop="totalPrice" sortable/>
-      <el-table-column :label="$t('order.paidDate')" prop="paidDate" sortable>
+      <el-table-column :label="$t('order.paidDate')" prop="payTime" sortable>
         <template slot-scope="scope">
-          <span> {{ scope.row.paidDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span> {{ scope.row.payTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
     </template>
@@ -39,31 +39,45 @@
 <script>
 import ShareBasicTable from '@/views/shared/shared-basic-table'
 import { fetchWaitDeliveryOrder } from '@/api/order'
+import { fetchOneUser } from '@/api/user'
 export default {
   name: 'WaitDeliveryOrder',
   components: {
     'shared-basic-table': ShareBasicTable
   },
-  mounted: function () {
-    this.loadData()
-  },
   data() {
     return {
       originalData: [],
       columnHeaders: ['Id', 'Username', 'Address', 'Receiver', 'OrderDate', 'TotalPrice', 'PaidDate'],
-      filterColumns: ['id', 'username', 'address', 'receiver', 'orderDate', 'totalPrice', 'paidDate'],
+      filterColumns: ['id', 'username', 'address', 'receiver', 'createTime', 'totalPrice', 'payTime'],
       exportFileName: 'wait_delivery_order'
     }
+  },
+  mounted: function() {
+    this.loadData()
   },
   methods: {
     loadData() {
       fetchWaitDeliveryOrder({}).then(res => {
-        setTimeout(() => {
-          this.originalData = res.data.items
-          this.$nextTick(() => {
-            this.$refs.sharedTable.initData()
+        this.originalData = res.data
+        let i = 0
+        this.originalData.forEach(o => {
+          const index = i++
+          Object.assign(o, {
+            totalPrice: (Number.parseFloat(o.price) +
+              Number.parseFloat(o.ship)).toFixed(2)
           })
-        }, 1.5 * 1000)
+          fetchOneUser(o.user).then(res => {
+            this.$set(this.originalData, index, Object.assign(o, {
+              username: res.data.nickname
+            }))
+          }).catch(e => {
+            console.log(e)
+          })
+        })
+        this.$nextTick(() => {
+          this.$refs.sharedTable.initData()
+        })
       })
     },
     deleteOrder(order, index) {

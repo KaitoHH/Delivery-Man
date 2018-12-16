@@ -2,11 +2,11 @@
   <div>
     <shared-basic-table
       ref="sharedTable"
-      :columnHeader="columnHeader"
-      :filterColumn="filterColumnVal"
-      @createEvent="createStore()"
-      :exportFileName="exportFileName"
-      :originalData="stores">
+      :column-header="columnHeader"
+      :filter-column="filterColumnVal"
+      :export-file-name="exportFileName"
+      :original-data="stores"
+      @createEvent="createStore()">
       <template slot="table-columns" slot-scope="scope">
         <el-table-column :label="$t('user.operation')">
           <template slot-scope="scope">
@@ -16,37 +16,39 @@
             <el-button v-if="scope.row.isEdit" style="margin-left: 10px" type="success" size="mini" @click="saveStore(scope.row, scope.$index)">
               {{ $t('operation.save') }}
             </el-button>
-            <el-button type="warning" v-if="scope.row.isEdit"  size="mini" @click="cancelEdit(scope.row, scope.$index)">
+            <el-button v-if="scope.row.isEdit" type="warning" size="mini" @click="cancelEdit(scope.row, scope.$index)">
               {{ $t('operation.cancel') }}
             </el-button>
             <el-button type="info" size="mini" @click="detailStore(scope.row)">
               {{ $t('operation.detail') }}
             </el-button>
-            <el-button type="danger" size="mini"
-                       style="margin-top: 5px"
-                       @click="deleteStore(scope.row, scope.$index)">
+            <el-button
+              type="danger"
+              size="mini"
+              style="margin-top: 5px"
+              @click="deleteStore(scope.row, scope.$index)">
               {{ $t('operation.delete') }}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('store.id')" prop="id" sortable/>
+        <el-table-column :label="$t('store.id')" style="width: 200px;" prop="id" sortable/>
         <el-table-column :label="$t('store.name')" prop="name" sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.isEdit">
-              <el-input v-model="scope.row.editName" size="mini" :placeholder="scope.row.name"></el-input>
+              <el-input v-model="scope.row.editName" :placeholder="scope.row.name" size="mini"/>
             </span>
             <span v-else>
-            {{ scope.row.name }}
-          </span>
+              {{ scope.row.name }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('store.address')" prop="address" sortable>
           <template slot-scope="scope">
-             <span v-if="scope.row.isEdit">
-              <el-input v-model="scope.row.editAddress" size="mini" :placeholder="scope.row.address"></el-input>
-             </span>
+            <span v-if="scope.row.isEdit">
+              <el-input v-model="scope.row.editAddress" :placeholder="scope.row.address" size="mini" />
+            </span>
             <span v-else>
-            {{ scope.row.address }}
+              {{ scope.row.address }}
             </span>
           </template>
         </el-table-column>
@@ -58,46 +60,43 @@
         <el-table-column :label="$t('store.contactPhone')" prop="contactPhone">
           <template slot-scope="scope">
             <span v-if="scope.row.isEdit">
-              <el-input v-model="scope.row.editContactPhone" size="mini" :placeholder="scope.row.contactPhone">
-              </el-input>
+              <el-input v-model="scope.row.editContactPhone" :placeholder="scope.row.contactPhone" size="mini" />
             </span>
             <span v-else>
-            {{ scope.row.contactPhone }}
-          </span>
+              {{ scope.row.contactPhone }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('store.serviceTime')" prop="serviceTime">
           <template slot-scope="scope">
             <span v-if="scope.row.isEdit">
               <el-time-picker
-                is-range
-                size="mini"
                 v-model="scope.row.editServiceTime"
-                range-separator="-"
                 :start-placeholder="$t('store.startTime')"
                 :end-placeholder="$t('store.endTime')"
-                :placeholder="$t('store.serviceTime')">
-                </el-time-picker>
+                :placeholder="$t('store.serviceTime')"
+                is-range
+                size="mini"
+                range-separator="-"/>
             </span>
             <span v-else>
-            {{ scope.row.serviceTime }}
-          </span>
+              {{ scope.row.serviceTime }}
+            </span>
           </template>
         </el-table-column>
       </template>
     </shared-basic-table>
     <store-add-dialog
-      @storeAddEvent="addStore"
-      ref="storeAddDialog">
-    </store-add-dialog>
+      ref="storeAddDialog"
+      @storeAddEvent="addStore"/>
   </div>
 
 </template>
 
 <script>
-import { fetchStore, addStore, updateStore } from '@/api/store'
+import { fetchStore, addStore, updateStore, deleteStore } from '@/api/store'
 import { parseTime } from '@/utils'
-import  ShareBasicTable from '@/views/shared/shared-basic-table'
+import ShareBasicTable from '@/views/shared/shared-basic-table'
 import StoreAddDialog from '@/views/store/store-add-dialog'
 export default {
   name: 'Store',
@@ -113,7 +112,7 @@ export default {
       exportFileName: 'store_list'
     }
   },
-  mounted: function () {
+  mounted: function() {
     this.loadStore()
   },
   methods: {
@@ -122,12 +121,13 @@ export default {
     },
     addStore(store) {
       const that = this
-      Object.assign(store, { serviceTime: that.handleServiceTime(store.serviceTime)})
+      delete store['img']
+      Object.assign(store, { serviceTime: that.handleServiceTime(store.serviceTime) })
       addStore(store).then(res => {
-        const store = res.data.item
+        const store = res.data
         this.stores.push(store)
         this.$message({
-          message: this.$t('addStoreSuccess'),
+          message: this.$t('store.addStoreSuccess'),
           type: 'success'
         })
         this.$refs.storeAddDialog.closeDialog()
@@ -143,27 +143,36 @@ export default {
       return serviceTime
     },
     deleteStore(store, index) {
-      index = this.$refs.sharedTable.getIndexInList(index)
-      this.stores.splice(index, 1)
-      this.$message({
-        message: this.$t('deleteStoreSuccess'),
-        type: 'success'
+      deleteStore(store.id).then(res => {
+        console.log(res)
+        index = this.$refs.sharedTable.getIndexInList(index)
+        this.stores.splice(index, 1)
+        this.$message({
+          message: this.$t('store.deleteStoreSuccess'),
+          type: 'success'
+        })
+      }).catch(e => {
+        console.log(e)
       })
     },
     saveStore(store, index) {
       const serviceTime = this.handleServiceTime(store.editServiceTime)
-      console.log(serviceTime)
       const item = Object.assign({}, store, { isEdit: false,
-      name: store.editName ? store.editName : store.name, address: store.editAddress ? store.editAddress : store.address,
-      contactPhone: store.editContactPhone ? store.editContactPhone : store.contactPhone,
-      serviceTime: serviceTime ? serviceTime : store.serviceTime})
-      Object.assign(item, { editName: '', editAddress: '', editContactPhone: '', editServiceTime: ''})
+        name: store.editName ? store.editName : store.name, address: store.editAddress ? store.editAddress : store.address,
+        contactPhone: store.editContactPhone ? store.editContactPhone : store.contactPhone,
+        serviceTime: serviceTime || store.serviceTime })
+      Object.assign(item, { editName: '', editAddress: '', editContactPhone: '', editServiceTime: '' })
       index = this.$refs.sharedTable.getIndexInList(index)
-      updateStore(item).then(res => {
+      updateStore(store.id, {
+        name: item.name,
+        address: item.address,
+        contactPhone: item.contactPhone,
+        serviceTime: item.serviceTime
+      }).then(res => {
         console.log(res)
         this.$set(this.stores, index, item)
         this.$message({
-          message: this.$t('updateStoreSuccess'),
+          message: this.$t('store.updateStoreSuccess'),
           type: 'success'
         })
       })
@@ -175,22 +184,20 @@ export default {
     },
     cancelEdit(store, index) {
       const item = Object.assign({}, store,
-        { isEdit: false, editName: '', editAddress: '', editContactPhone: '', editServiceTime: []})
+        { isEdit: false, editName: '', editAddress: '', editContactPhone: '', editServiceTime: [] })
       index = this.$refs.sharedTable.getIndexInList(index)
       this.$set(this.stores, index, item)
     },
     detailStore(store) {
-      const storeId = store.id;
+      const storeId = store.id
       this.$router.push({ path: `/storeDetail/${storeId}` })
     },
     loadStore() {
       fetchStore({}).then(response => {
-        setTimeout(() => {
-          this.stores = response.data.items
-          this.$nextTick(() => {
-            this.$refs.sharedTable.initData()
-          })
-        }, 1.5 * 1000)
+        this.stores = response.data
+        this.$nextTick(() => {
+          this.$refs.sharedTable.initData()
+        })
       })
     }
   }

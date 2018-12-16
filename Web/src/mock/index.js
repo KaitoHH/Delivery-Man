@@ -51,11 +51,6 @@ Mock.mock(/\/deliveryMan/, 'get', deliveryManAPI.getDeliveryMan)
 Mock.mock(/\/deliveryMan/, 'post', deliveryManAPI.addDeliveryMan)
 Mock.mock(/\/deliveryMan/, 'put', deliveryManAPI.updateDeliveryMan)
 
-// 商店相关
-Mock.mock(/\/store/, 'get', storeAPI.getStores)
-Mock.mock(/\/store/, 'post', storeAPI.addStore)
-Mock.mock(/\/store/, 'put', storeAPI.updateStore)
-
 Mock.mock(/\/stock/, 'get', storeAPI.getGoodsInStores)
 Mock.mock(/\/addStoreStockGoods/, 'post', storeAPI.addStoreStock)
 

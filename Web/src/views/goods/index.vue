@@ -1,12 +1,16 @@
 <template>
   <div>
     <shared-basic-table
-      @createEvent="showAddGoodsDialog()"
-      ref="sharedTable" :columnHeader="columnHeader" :filterColumn="filterColumnVal" :exportFileName="exportFileName" :originalData="goods">
+      ref="sharedTable"
+      :column-header="columnHeader"
+      :filter-column="filterColumnVal"
+      :export-file-name="exportFileName"
+      :original-data="goods"
+      @createEvent="showAddGoodsDialog()">
       <template slot="table-columns" slot-scope="scope">
         <el-table-column :label="$t('goods.operation')">
           <template slot-scope="scope">
-            <el-button v-if="!scope.row.isEdit" size="mini"  type='primary' @click="editGoods(scope.row, scope.$index)">
+            <el-button v-if="!scope.row.isEdit" size="mini" type="primary" @click="editGoods(scope.row, scope.$index)">
               {{ $t('operation.edit') }}
             </el-button>
             <el-button v-if="scope.row.isEdit" size="mini" type="success" @click="saveGoods(scope.row, scope.$index)">
@@ -15,7 +19,7 @@
             <el-button v-if="scope.row.isEdit" size="mini" type="warning" @click="cancelEdit(scope.row, scope.$index)">
               {{ $t('operation.cancel') }}
             </el-button>
-            <el-button  size="mini" type="danger" @click="deleteGoods(scope.$index)">
+            <el-button size="mini" type="danger" @click="deleteGoods(scope.row, scope.$index)">
               {{ $t('operation.delete') }}
             </el-button>
           </template>
@@ -23,49 +27,63 @@
         <el-table-column :label="$t('goods.id')" prop="id" sortable/>
         <el-table-column :label="$t('goods.name')" prop="name" sortable>
           <template slot-scope="scope">
-          <span v-if="!scope.row.isEdit">
-            {{ scope.row.name }}
-          </span>
+            <span v-if="!scope.row.isEdit">
+              {{ scope.row.name }}
+            </span>
             <span v-else>
-            <el-input size="mini" :placeholder="scope.row.name"
-                      v-model="scope.row.editName">
-            </el-input>
-          </span>
+              <el-input
+                :placeholder="scope.row.name"
+                v-model="scope.row.editName"
+                size="mini"/>
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('goods.desc')" prop="desc" sortable>
+          <template slot-scope="scope">
+            <span v-if="!scope.row.isEdit">
+              {{ scope.row.desc }}
+            </span>
+            <span v-else>
+              <el-input
+                :placeholder="scope.row.desc"
+                v-model="scope.row.editDesc"
+                size="mini"/>
+            </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('goods.img')" prop="img" width="200px" align="center">
           <template slot-scope="scope">
-          <span class="image-block" @click="showBiggerImg(scope.row, scope.$index)">
-            <img style="vertical-align: middle" height="25px" width="25px"
-                 :src="(scope.row.isEdit && scope.row.tempImageUpload) ? scope.row.tempImageUpload: scope.row.img"/>
-          </span>
+            <span class="image-block" @click="showBiggerImg(scope.row, scope.$index)">
+              <img
+                :src="(scope.row.isEdit && scope.row.tempImageUpload) ? scope.row.tempImageUpload: scope.row.img"
+                style="vertical-align: middle"
+                height="25px"
+                width="25px">
+            </span>
           </template>
         </el-table-column>
       </template>
     </shared-basic-table>
     <image-upload
       v-model="imgUploadVisible"
-      :noCircle="true"
-      :noSquare="true"
-      @crop-success="cropSuccess"
+      :no-circle="true"
+      :no-square="true"
       :width="300"
-       url=""
-      :height="300">
-    </image-upload>
+      :height="300"
+      url=""
+      @crop-success="cropSuccess"/>
     <el-dialog :title="selectGoods.name" :visible.sync="imgDialogVisible">
       <div class="bigger-good-img-block">
-        <img class="img" :src="selectGoods.img"/>
+        <img :src="selectGoods.img" class="img">
       </div>
     </el-dialog>
     <good-add-dialog
       ref="goodAddDialog"
-      @goodAddEvent="addGoods">
-
-    </good-add-dialog>
+      @goodAddEvent="addGoods"/>
   </div>
 </template>
 <script>
-import { fetchGoods, addGoods } from '@/api/goods'
+import { fetchGoods, addGoods, updateGoods, deleteGoods } from '@/api/goods'
 import ImageUpload from 'vue-image-crop-upload'
 import SharedBasicTable from '@/views/shared/shared-basic-table'
 import GoodAddDialog from '@/views/goods/good-add-dialog'
@@ -79,8 +97,8 @@ export default {
   data() {
     return {
       goods: [],
-      columnHeader: ['Id', 'Name'],
-      filterColumnVal: ['id', 'name'],
+      columnHeader: ['Id', 'Name', 'Desc'],
+      filterColumnVal: ['id', 'name', 'desc'],
       exportFileName: 'goods_list',
       imgDialogVisible: false,
       imgUploadVisible: false,
@@ -95,25 +113,27 @@ export default {
   methods: {
     loadGoods() {
       fetchGoods({}).then(response => {
-        setTimeout(() => {
-          this.goods = response.data.items
-          this.$nextTick(() => {
-            this.$refs.sharedTable.initData()
-          })
-        }, 1.5 * 1000)
+        this.goods = response.data
+        this.$nextTick(() => {
+          this.$refs.sharedTable.initData()
+        })
       })
     },
     editGoods(item, index) {
       index = this.$refs.sharedTable.getIndexInList(index)
-      const newGoods = Object.assign({}, item, {isEdit: true})
+      const newGoods = Object.assign({}, item, { isEdit: true })
       this.$set(this.goods, index, newGoods)
     },
-    deleteGoods(index) {
-      index = this.$refs.sharedTable.getIndexInList(index)
-      this.goods.splice(index, 1)
-      this.$message({
-        message: 'Delete Goods Successfully',
-        type: 'success'
+    deleteGoods(item, index) {
+      deleteGoods(item.id).then(res => {
+        index = this.$refs.sharedTable.getIndexInList(index)
+        this.goods.splice(index, 1)
+        this.$message({
+          message: this.$t('goods.deleteGoodsSuccess'),
+          type: 'success'
+        })
+      }).catch(e => {
+        console.log(e)
       })
     },
     cancelEdit(item, index) {
@@ -124,18 +144,22 @@ export default {
     saveGoods(item, index) {
       const newGoods = Object.assign({}, item)
       if (item.tempImageUpload) {
-        Object.assign(newGoods, {img: item.tempImageUpload })
+        Object.assign(newGoods, { img: item.tempImageUpload })
       }
       if (item.editName && item.editName.trim() !== '' && item.editName !== item.name) {
         Object.assign(newGoods, { editName: '', name: item.editName })
       }
-      Object.assign(newGoods, {isEdit: false })
-      index = this.$refs.sharedTable.getIndexInList(index)
-      console.log(index)
-      this.$set(this.goods, index, newGoods)
-      this.$message({
-        message: 'Update Goods Successfully',
-        type: 'success'
+      if (item.editDesc && item.editDesc.trim() !== '' && item.editDesc !== item.desc) {
+        Object.assign(newGoods, { editDesc: '', desc: item.editDesc })
+      }
+      delete newGoods['img']
+      updateGoods(item.id, newGoods).then(res => {
+        index = this.$refs.sharedTable.getIndexInList(index)
+        this.$set(this.goods, index, res.data)
+        this.$message({
+          message: this.$t('goods.updateGoodsSuccess'),
+          type: 'success'
+        })
       })
     },
     showBiggerImg(goods, index) {
@@ -147,8 +171,8 @@ export default {
         this.imgDialogVisible = true
       }
     },
-    cropSuccess(imgDataUrl, field){
-      const newGoods = Object.assign({}, this.selectGoods, {tempImageUpload: imgDataUrl})
+    cropSuccess(imgDataUrl, field) {
+      const newGoods = Object.assign({}, this.selectGoods, { tempImageUpload: imgDataUrl })
       const index = this.$refs.sharedTable.getIndexInList(this.selectIndex)
       this.$set(this.goods, index, newGoods)
     },
@@ -156,11 +180,14 @@ export default {
       this.$refs.goodAddDialog.showDialog()
     },
     addGoods(goods) {
-      addGoods(goods).then((res) => {
+      addGoods({
+        name: goods.name,
+        desc: goods.desc
+      }).then((res) => {
         console.log(res)
-        this.goods.push(res.data.item)
+        this.goods.push(res.data)
         this.$message({
-          message: 'Add Goods Successfully!',
+          message: this.$t('goods.addGoodsSuccess'),
           type: 'success'
         })
         this.$refs.goodAddDialog.closeDialog()

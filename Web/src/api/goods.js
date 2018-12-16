@@ -8,9 +8,24 @@ export function fetchGoods(query) {
   })
 }
 
+export function updateGoods(goodsId, data) {
+  return request({
+    url: `/goods/${goodsId}/`,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteGoods(goodsId) {
+  return request({
+    url: `/goods/${goodsId}/`,
+    method: 'delete'
+  })
+}
+
 export function addGoods(data) {
   return request({
-    url: '/goods',
+    url: '/goods/',
     method: 'post',
     data
   })
