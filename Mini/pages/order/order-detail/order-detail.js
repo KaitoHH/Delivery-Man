@@ -125,6 +125,13 @@ Page({
       order: Object.assign(this.data.order, {receiver: e.detail.value})
     })
   },
+  changeDetailAddress(e) {
+    this.setData({
+      order: Object.assign(this.data.order, {
+        detailAddress: e.detail.value
+      })
+    })
+  },
   changeAddress(e) {
     this.setData({
       order: Object.assign(this.data.order, {address: e.detail.value})
@@ -150,6 +157,10 @@ Page({
     }
     app.order.updateOrder(this.data.orderId, {
       payTime: new Date(),
+      address: this.data.order.address,
+      receiver: this.data.order.receiver,
+      detailAddress: this.data.order.detailAddress,
+      phone: this.data.order.phone,
       status: 1
     }).then(res => {
       this.setData({

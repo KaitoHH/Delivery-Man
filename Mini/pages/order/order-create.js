@@ -18,6 +18,13 @@ Page({
     toastIcon: ''
   },
 
+  detailAddressChange: function(e) {
+    const detailAddress = e.detail.value
+    this.data.setData({
+      detailAddress: detailAddress
+    })
+  },
+
   confirmOrder: function(e) {
     let toastMessage = ''
     if(!this.data.reciever) {
@@ -124,6 +131,7 @@ Page({
     .then(res => {
       this.setData({
         shipmentFee: res.data.ship,
+        recieverAddress: res.data.address ? res.data.address : '',
         totalPrice: (Number.parseFloat(res.data.ship) + Number.parseFloat(res.data.price)).toFixed(2)
       })
     }).catch(e => {

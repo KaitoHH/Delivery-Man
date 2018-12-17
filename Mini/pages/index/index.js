@@ -43,6 +43,7 @@ Page({
     this.setData({
       position: position,
     })
+    app.globalData.position = position
   },
 
   backToIndex() {
@@ -72,6 +73,7 @@ Page({
             that.setData({
               position: Object.assign({}, {lat: latitude, lng: longitude, address: address, title: title})
             })
+            app.globalData.position = that.data.position
             console.log(res)
           }, fail: function(e) {
 

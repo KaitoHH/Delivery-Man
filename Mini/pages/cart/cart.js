@@ -90,10 +90,14 @@ Page({
     },
 
     submitOrder() {
+        console.log(app.globalData.position)
         const order = Object.assign({}, {
-            price: this.data.totalPrice - this.data.shipmentFee,
+            price: (this.data.totalPrice - this.data.shipmentFee).toFixed(2),
             ship: this.data.shipmentFee,
+            latitude: app.globalData.position.lat,
+            longitude: app.globalData.position.lng,
             status: 0,
+            address: app.globalData.position.title,
             user: app.globalData.userId
         })
         app.order.submitOrder(order, this.data.cart)

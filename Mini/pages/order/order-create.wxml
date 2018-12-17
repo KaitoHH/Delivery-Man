@@ -6,6 +6,7 @@
             <wxc-input type="text" disabled="{{true}}" title="订单编号" value="{{orderId}}" ></wxc-input>
             <wxc-input type="text" disabled="{{hasPaid}}" title="收货人" value="{{reciever}}" placeholder="收货人" bind:input="recieverChange"></wxc-input>
             <wxc-input type="text" disabled="{{hasPaid}}" title="收货地址" value="{{recieverAddress}}" placeholder="收货地址" bind:input="recieverAddressChange"></wxc-input>
+            <wxc-input type="text" disabled="{{hasPaid}}" title="详细地址" value="{{detailAddress}}" placeholder="详细地址（门牌号等）" bind:input="detailAddressChange"></wxc-input>
             <wxc-input type="text" disabled="{{hasPaid}}" title="联系号码" value="{{recieverPhone}}" placeholder="联系号码" bind:input="recieverPhoneChange"></wxc-input>
             <wxc-input type="text" disabled="{{true}}" title="配送费" value="{{shipmentFee}}"></wxc-input>
             <wxc-input type="text" disabled="{{true}}" title="订单总计" value="{{totalPrice}}"></wxc-input>

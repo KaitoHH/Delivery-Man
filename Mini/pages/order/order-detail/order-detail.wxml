@@ -54,6 +54,9 @@
     <view class="input" wx:if="{{ order.status === 0}}">
             收货地址: <input bindinput="changeAddress" value="{{order.address}}" type="text" placeholder="收货地址"/>
     </view>
+    <view class="input" wx:if="{{ order.status === 0}}">
+        详细地址：<input bindinput="changeDetailAddress" value="{{order.detailAddress}}" type="text" placeholder="详细地址(门牌号等)"/>
+    </view>
     <view wx:if="{{order.status!== 0 && order.receiver}}" class="receiver">
         收货人: {{ order.receiver }}
     </view>
@@ -62,6 +65,9 @@
     </view>
     <view wx:if="{{order.status!== 0 && order.address}}" class="receiverAddress">
         收货地址: {{ order.address }}
+    </view>
+    <view wx:if="{{order.status!== 0 && order.detailAddress}}" class="detailAddress">
+        详细地址：{{ order.detailAddress }}
     </view>
     <view wx:if="{{order.deliveryMan}}" class="delivery">
         送货员: {{ order.deliveryMan }}
