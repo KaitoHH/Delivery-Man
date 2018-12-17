@@ -23,6 +23,7 @@ App({
     userId: 1,
     cartId: 1,
     cart: {},
+    position: {},
     openId: ''
   },
 

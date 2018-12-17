@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
 
-    <github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>
+    <!--<github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>-->
 
     <panel-group @handleSetLineChartData="handleSetLineChartData"/>
 
@@ -29,7 +29,7 @@
 
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table/>
+        <!--<transaction-table/>-->
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <todo-list/>
@@ -54,6 +54,23 @@ import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 
 const lineChartData = {
+
+  users: {
+    data: [12, 45, 32, 56, 11, 37, 78, 36, 73, 19, 52, 34]
+  },
+
+  orders: {
+    data: [78, 102, 105, 79, 23, 100, 92, 47, 82, 65, 145, 66]
+  },
+
+  purchases: {
+    data: [700, 932, 896, 791, 598, 1000, 657, 678, 870, 999, 1432, 1000]
+  },
+
+  stores: {
+    data: [4, 9, 10, 5, 14, 3, 7, 8, 14, 21, 17, 21]
+  }
+  /*,
   newVisitis: {
     expectedData: [100, 120, 161, 134, 105, 160, 165],
     actualData: [120, 82, 91, 154, 162, 140, 145]
@@ -69,7 +86,7 @@ const lineChartData = {
   shoppings: {
     expectedData: [130, 140, 141, 142, 145, 150, 160],
     actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
+  }*/
 }
 
 export default {
@@ -87,7 +104,7 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.users
     }
   },
   methods: {

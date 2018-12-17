@@ -78,10 +78,10 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({ data } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -107,10 +107,10 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['total']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: 'total', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -121,30 +121,30 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: expectedData,
+          data: data,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'actual',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
+        }/*,
+          {
+            name: 'actual',
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
                 color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
               }
-            }
-          },
-          data: actualData,
+            },
+          data: data,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
-        }]
+        }*/]
       })
     },
     initChart() {
