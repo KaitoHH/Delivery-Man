@@ -131,6 +131,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderReadSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
+    courier_name = serializers.StringRelatedField(source='courier')
     items = ItemSerializer(many=True, read_only=True)
 
     class Meta:
