@@ -19,6 +19,8 @@ from django.urls import path, include
 from Server.router import CustomRouter
 from order.views import StoreView, GoodsView, StoreGoodsView, OrderView, ItemView
 from user.views import UserView
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = CustomRouter()
 router.register('user', UserView)
@@ -35,3 +37,5 @@ router.register('item', ItemView)
 urlpatterns = [
     path('', include(router.urls))
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

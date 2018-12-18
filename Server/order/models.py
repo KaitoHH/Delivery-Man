@@ -8,10 +8,16 @@ from rest_framework.exceptions import NotAcceptable
 class Goods(models.Model):
     name = models.CharField(max_length=32)
     desc = models.CharField(max_length=256)
-    img = models.ImageField(blank=True)
+    img = models.ImageField(blank=True, upload_to='images')
 
     def __str__(self):
         return self.name
+
+
+class ImageOnlySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goods
+        fields = ('img',)
 
 
 class GoodsSerializer(serializers.ModelSerializer):
@@ -32,7 +38,7 @@ class Store(models.Model):
     serviceTime = models.CharField(max_length=50, null=True, blank=True, default='08:00:00 - 18:00:00')
     latitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True)
     longitude = models.DecimalField(max_digits=20, decimal_places=10, blank=True)
-    img = models.ImageField(blank=True, null=True)
+    img = models.ImageField(blank=True, null=True, upload_to='images')
     goods = models.ManyToManyField(Goods, through='StoreGoods')
 
     def __str__(self):
@@ -41,13 +47,14 @@ class Store(models.Model):
 
 class StoreGoods(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store_goods')
-    good = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    good = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='good')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     count = models.IntegerField()
 
 
 class StoreGoodsSerializer(serializers.ModelSerializer):
     good_name = serializers.StringRelatedField(source='good')
+    good = ImageOnlySerializer()
 
     class Meta:
         model = StoreGoods
@@ -122,7 +129,7 @@ class OrderSerializer(serializers.ModelSerializer):
             #     raise NotAcceptable('{},{}:库存不足'.format(str(item['store']), str(item['good'])))
             # store_good.count -= item['count']
             # store_good.save()
-            
+
             item['price'] = store_good.price
             Item.objects.create(order=order, **item)
             order.price += item['price'] * item['count']

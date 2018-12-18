@@ -133,3 +133,6 @@ CORS_ALLOW_HEADERS = '*'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA = os.path.join(BASE_DIR, "media")
