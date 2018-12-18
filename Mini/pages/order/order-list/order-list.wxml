@@ -1,19 +1,36 @@
-<!--pages/order/order-list/order-list.wxml-->
+<!-- pages/order/order-list/order-list.wxml -->
 <view wx:if="hasLoadData" class="order-list">
     <view wx:if="{{orders.length === 0}}" class="empty-order weui-panel weui-panel_access">
-        <view>
-            不存在任何订单
-        </view>
+        <view>不存在任何订单</view>
         <view>
             <wxc-icon size="100" type="more"></wxc-icon>
         </view>
     </view>
-    <view wx:else class="weui-panel weui-panel_access">
-        <view class="weui-panel__bd" wx:for="{{orders}}" wx:key="item.id">
-            <view class="order weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-                <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                    <order-thumb order="{{item}}">
-                    </order-thumb>
+</view>
+<view wx:if="hasLoadData" class="page">
+    <view class="page__bd">
+        <view wx:for="{{orders}}" wx:key="item.id">
+            <view class="weui-form-preview">
+                <view class="weui-form-preview__hd">
+                    <view class="weui-form-preview__item">
+                        <view class="weui-form-preview__label">付款金额</view>
+                        <view class="weui-form-preview__value_in-hd">¥{{item.totalPrice}}</view>
+                    </view>
+                </view>
+                <view class="weui-form-preview__bd">
+                    <view class="weui-form-preview__item">
+                        <view class="weui-form-preview__label">订单日期</view>
+                        <view class="weui-form-preview__value">{{item.createTime}}</view>
+                    </view>
+                    <view class="weui-form-preview__item">
+                        <view class="weui-form-preview__label">订单编号</view>
+                        <view class="weui-form-preview__value">{{item.id}}</view>
+                    </view>
+                </view>
+                <view class="weui-form-preview__ft">
+                    <navigator url="/pages/order/order-detail/order-detail?orderId={{item.id}}" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+                        查看
+                    </navigator>
                 </view>
             </view>
         </view>

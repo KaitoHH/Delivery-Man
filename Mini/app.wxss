@@ -3,7 +3,7 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 957061 */
-  src: url('//at.alicdn.com/t/font_957061_qtuaj490sbr.ttf') format('truetype');
+  src: url('//at.alicdn.com/t/font_957061_vp4ba17hig.ttf') format('truetype');
 }
 
 .iconfont {
@@ -12,6 +12,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shop:before {
+  content: "\e69f";
 }
 
 .icon-weixin:before {
@@ -30,6 +34,6 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}
 
 @import 'style/weui.wxss';

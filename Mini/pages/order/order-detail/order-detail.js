@@ -21,7 +21,8 @@ Page({
     shipmentFeeError: false,
     toastMessage: '',
     toastIcon: '',
-    isToastMessageShow: ''
+    isToastMessageShow: '',
+    status_enum : ['等待支付中', '等待接单中', '配送中', '已完成']
   },
 
   constructStoreGoods() {
@@ -107,6 +108,7 @@ Page({
         acceptTime: res.data.acceptTime ? util.parseTime(res.data.acceptTime) : '',
         finishTime: res.data.finishTime ? util.parseTime(res.data.finishTime) : '',
         payTime: res.data.payTime ? util.parseTime(res.data.payTime) : '',
+        productPrice: Number.parseFloat(res.data.price).toFixed(2),
         totalPrice: (Number.parseFloat(res.data.price) + Number.parseFloat(res.data.ship)).toFixed(2)
       })
       this.setData({

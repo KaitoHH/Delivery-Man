@@ -23,20 +23,20 @@
     "borderStyle": "white",
     "list": [
       {
-        "selectedIconPath": "images/index.png",
+        "selectedIconPath": "images/index_on.png",
         "iconPath": "images/index.png",
         "pagePath": "pages/index/index",
         "text": "首页"
       },
       {
-        "selectedIconPath": "images/cart.png",
+        "selectedIconPath": "images/cart_on.png",
         "iconPath": "images/cart.png",
         "pagePath": "pages/cart/cart",
         "text": "购物车"
       },
       {
-        "selectedIconPath": "images/account_pressed.png",
-        "iconPath": "images/account.png",
+        "selectedIconPath": "images/me_on.png",
+        "iconPath": "images/me.png",
         "pagePath": "pages/self/self",
         "text": "个人中心"
       },
@@ -44,7 +44,7 @@
         "pagePath": "pages/map/map",
         "text": "附近",
         "iconPath": "images/map.png",
-        "selectedIconPath": "images/map_pressed.png"
+        "selectedIconPath": "images/map_on.png"
       }
     ]
   }
