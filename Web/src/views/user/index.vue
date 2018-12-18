@@ -35,6 +35,22 @@
                 {{ $t('user.unLock') }}
               </el-button>
             </span>
+            <span :class="scope.row.isEdit ? 'margin-btn' : ''">
+              <el-button
+                v-if="scope.row.verified == true"
+                size="mini"
+                type="info"
+                @click="handleModifyVerified(scope.row, !scope.row.verified)">
+                {{ $t('user.set_unverified') }}
+              </el-button>
+              <el-button
+                v-if="scope.row.verified == false"
+                size="mini"
+                type="success"
+                @click="handleModifyVerified(scope.row, !scope.row.verified)">
+                {{ $t('user.set_verified') }}
+              </el-button>
+            </span>
             <span :class="scope.row.isEdit ? 'margin-left' : ''" style="display: inline-block; margin-top: 2px;">
               <el-button type="danger" size="mini" @click="deleteUser(scope.row, scope.$index)">
                 {{ $t('operation.delete') }}
@@ -66,6 +82,11 @@
         <el-table-column :label="$t('user.status')" prop="status" sortable>
           <template slot-scope="scope">
             <el-tag :type="scope.row.status === true ? 'success' : 'danger'">{{ $t('user.status_enum.' + scope.row.status) }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('user.verified')" prop="verified" sortable>
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.verified === true ? 'success' : 'danger'">{{ $t('user.verified_enum.' + scope.row.verified) }}</el-tag>
           </template>
         </el-table-column>
       </template>
@@ -170,6 +191,18 @@ export default {
           type: 'success'
         })
         Object.assign(row, { status: status })
+      })
+    },
+    handleModifyVerified(row, verified) {
+      updateUser(row.id, {
+        verified: verified
+      }).then(res => {
+        console.log(res)
+        this.$message({
+          message: this.$t('operationSuccess'),
+          type: 'success'
+        })
+        Object.assign(row, { verified: verified })
       })
     }
   }

@@ -92,10 +92,17 @@ export default {
     registerDate: '注册日期',
     credit: '信誉积分',
     status: '状态',
+    verified: '已验证',
+    set_verified: '设置快递员',
+    set_unverified: '取消快递员',
     operation: '操作',
     status_enum: {
       'true': '开放',
       'false': '锁定'
+    },
+    verified_enum: {
+      'true': '已验证',
+      'false': '未验证'
     },
     updateUserSuccess: '成功更新用户',
     updateDeliveryManSuccess: '成功更新送货员',

@@ -90,10 +90,15 @@ export default {
     registerDate: 'Register Date',
     credit: 'Credit',
     status: 'Status',
+    verified: 'verified',
     operation: 'Operation',
     status_enum: {
       'open': 'Open',
       'locked': 'Locked'
+    },
+    verified_enum: {
+      'true': 'Yes',
+      'false': 'No'
     },
     unOpen: 'unOpen',
     unLock: 'unLock'
