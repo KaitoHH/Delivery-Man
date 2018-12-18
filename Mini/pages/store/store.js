@@ -74,7 +74,8 @@ Page({
         goodsList.push(Object.assign({}, {
           id: s.id,
           name: s.good_name,
-          price: Number.parseFloat(s.price).toFixed(2)
+          price: Number.parseFloat(s.price).toFixed(2),
+          img: s.good.img
         }))
       }) 
       this.setData({
