@@ -92,9 +92,10 @@ function updateOrder(orderId, data) {
     return fetch(URL, `order/${orderId}/`, data, 'PUT')
 }
 
-function fetchNearWaitTransitOrders() {
+function fetchNearWaitTransitOrders(userId) {
     return fetch(URL, 'order', {
-        status: 1
+        status: 1,
+        iuser: userId
     })
 }
 

@@ -24,7 +24,7 @@ Page({
         wx.showLoading({
             title: '加载中'
         })
-        app.order.fetchNearWaitTransitOrders()
+        app.order.fetchNearWaitTransitOrders(app.globalData.userId)
             .then(res => {
                 const markers = []
                 res.data.forEach(order => {
@@ -46,17 +46,38 @@ Page({
             })
     },
     calculateMapCenter() {
-        let lng = 0.0
-        let lat = 0.0
-        this.data.markers.forEach(m => {
-            lng += Number.parseFloat(m.longitude)
-            lat += Number.parseFloat(m.latitude)
-        })
-        this.setData({
-            latitude: lat / this.data.markers.length,
-            longitude: lng / this.data.markers.length
-        })
-        console.log(this.data)
+        if (this.data.markers.length === 0) {
+            const that = this
+            wx.getLocation({
+                type: '坐标，gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+                success: function (res) {
+                    that.setData({
+                        latitude: res.latitude,
+                        longitude: res.longitude
+                    })
+                },
+                fail: function () {
+                    // fail
+                },
+                complete: function () {
+                    // complete
+                }
+            })
+        } else {
+            let lng = 0.0
+            let lat = 0.0
+            this.data.markers.forEach(m => {
+                lng += Number.parseFloat(m.longitude)
+                lat += Number.parseFloat(m.latitude)
+            })
+            this.setData({
+                latitude: lat / this.data.markers.length,
+                longitude: lng / this.data.markers.length
+            })
+            console.log(this.data)
+        }
+
+
     },
     regionchange(e) {
         console.log(e.type)
@@ -64,13 +85,13 @@ Page({
     markertap(e) {
         wx.navigateTo({
             url: `/pages/order/order-detail/order-detail?orderId=${e.markerId}`,
-            success: function(res){
+            success: function (res) {
                 // success
             },
-            fail: function() {
+            fail: function () {
                 // fail
             },
-            complete: function() {
+            complete: function () {
                 // complete
             }
         })

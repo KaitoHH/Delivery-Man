@@ -157,6 +157,7 @@ Page({
       }, 1.5 * 1000)
       return
     }
+    console.log(this.data.order)
     app.order.updateOrder(this.data.orderId, {
       payTime: new Date(),
       address: this.data.order.address,

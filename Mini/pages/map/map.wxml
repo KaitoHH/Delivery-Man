@@ -3,7 +3,7 @@
         id="map"
         longitude="{{longitude}}"
         latitude="{{latitude}}"
-        scale="14"
+        scale="10"
         controls="{{controls}}"
         bindcontroltap="controltap"
         markers="{{markers}}"
@@ -14,3 +14,4 @@
         style="width: 100%; height: 600px;"
       ></map>
 </view>
+

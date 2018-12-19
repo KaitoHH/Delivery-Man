@@ -10,6 +10,7 @@ Page({
     reciever: '',
     recieverPhone: '',
     recieverAddress: '',
+    detailAddress: '',
     shipmentFee: 3,
     totalPrice: 0,
     hasPaid: false,
@@ -20,7 +21,7 @@ Page({
 
   detailAddressChange: function(e) {
     const detailAddress = e.detail.value
-    this.data.setData({
+    this.setData({
       detailAddress: detailAddress
     })
   },
@@ -39,10 +40,12 @@ Page({
       return
     }
     app.order.updateOrder(this.data.orderId, {
+      payTime: new Date(),
       status: 1,
       receiver: this.data.reciever,
       phone: this.data.recieverPhone,
-      address: this.data.recieverAddress
+      address: this.data.recieverAddress,
+      detailAddress: this.data.detailAddress
     }).then((res) => {
       this.showToast('支付成功', 'yes')
       this.setData({
