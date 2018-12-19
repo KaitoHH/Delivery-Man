@@ -54,7 +54,8 @@ class StoreGoods(models.Model):
 
 class StoreGoodsReadSerializer(serializers.ModelSerializer):
     good_name = serializers.StringRelatedField(source='good')
-    good = ImageOnlySerializer()
+    # good = ImageOnlySerializer()
+    good_img = ImageOnlySerializer(source='good')
 
     class Meta:
         model = StoreGoods
