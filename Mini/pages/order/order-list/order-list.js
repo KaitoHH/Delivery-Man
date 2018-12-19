@@ -77,6 +77,7 @@ Page({
       })
       wx.hideLoading()
       console.log(res)
+      this.recommend_route()
     }).catch(e => {
       this.setData({
         hasLoadData: true
@@ -90,6 +91,50 @@ Page({
    */
   onReady: function () {
 
+  },
+
+  recommend_route() {
+    const storeArr = []
+    const userAddressArr = []
+    this.data.orders.forEach(order => {
+      userAddressArr.push({
+        id: order.user,
+        latitude: order.latitude,
+        longitude: order.longitude
+      })
+      order.items.forEach(item => {
+        storeArr.push({
+          id: item.store,
+          longitude: item.store_longitude,
+          latitude: item.store_latitude
+        })
+      })
+    })
+    const storesId = []
+    const uniqueStore = []
+    storeArr.forEach((s) => {
+      if(storesId.indexOf(s.id) < 0) {
+        uniqueStore.push(s)
+        storesId.push(s.id)
+      }
+    })
+    const userAddressId = []
+    const uniqueAddress = []
+    userAddressArr.forEach(u => {
+      if(userAddressId.indexOf(u.id) < 0) {
+        uniqueAddress.push(u)
+        userAddressId.push(u.id)
+      }
+    })
+    app.qqMap.calculateDist({
+      latitude: '',
+      longitude: ''
+    }, {
+      latitude: '',
+      longitude: ''
+    }).then(res => {
+      console.log(res)
+    })
   },
 
   /**

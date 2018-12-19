@@ -119,6 +119,15 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ItemReadSerializer(serializers.ModelSerializer):
+    store_longitude = serializers.SlugRelatedField(source='store', read_only=True, slug_field='longitude')
+    store_latitude = serializers.SlugRelatedField(source='store', read_only=True, slug_field='latitude')
+
+    class Meta:
+        model = Item
+        fields = '__all__'
+
+
 class OrderSerializer(serializers.ModelSerializer):
     items = ItemSerializer(many=True)
 
@@ -148,7 +157,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderReadSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     courier_name = serializers.StringRelatedField(source='courier')
-    items = ItemSerializer(many=True, read_only=True)
+    items = ItemReadSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
