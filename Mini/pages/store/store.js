@@ -72,10 +72,10 @@ Page({
       const goodsList = []
       data.store_goods.forEach(s => {
         goodsList.push(Object.assign({}, {
-          id: s.id,
+          id: s.good,
           name: s.good_name,
           price: Number.parseFloat(s.price).toFixed(2),
-          img: s.good.img
+          img: s.good_img.img
         }))
       }) 
       this.setData({
