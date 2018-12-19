@@ -18,6 +18,7 @@ Page({
   onLoad: function (options) {
     let that = this
     let id = 0
+    let markers = []
     app.order.fetchOneOrder(options.order).then(res => {
       console.log(res.data)
       let target_marker = {
@@ -28,7 +29,7 @@ Page({
         width: 32,
         height: 32
       }
-      let markers = [target_marker]
+      markers.push(target_marker)
       let storeList = []
       res.data.items.forEach(item => {
         if (storeList.indexOf(item.store) == -1) {
@@ -46,7 +47,6 @@ Page({
       that.setData({
         markers: markers
       })
-      console.log(markers)
     })
     app.order.fetchLocation(app.globalData.userId, options.order).then(res => {
       let points = []
@@ -56,6 +56,18 @@ Page({
           latitude: p.latitude
         })
       })
+      let last = {
+        latitude: points[points.length - 1].latitude,
+        longitude: points[points.length - 1].longitude
+      }
+      markers.push({
+        iconPath: '/images/postman.png',
+        id: id++,
+        latitude: last.latitude,
+        longitude: last.longitude,
+        width: 32,
+        height: 32
+      })
       that.setData({
         polyline: [{
           points: points,
@@ -63,8 +75,9 @@ Page({
           width: 2,
           dottedLine: true
         }],
-        longitude: points[0].longitude,
-        latitude: points[0].latitude
+        longitude: last.longitude,
+        latitude: last.latitude,
+        markers: markers
       })
       console.log(points[0])
     })
