@@ -79,7 +79,7 @@ Page({
 
   traceDeliveryMan() {
     wx.navigateTo({
-      url: '/pages/order/delivery-man-map/delivery-man-map',
+      url: '/pages/order/delivery-man-map/delivery-man-map?order=' + this.data.orderId,
       success: function (res) {
         // success
       },

@@ -7,8 +7,8 @@ const goods = require('./api/goods.js')
 const QQMapWX = require('./utils/qqmap-wx-jssdk.min.js')
 const map = require('./api/map.js')
 const mapInstance = new QQMapWX({
-      key: 'YLFBZ-WHAWI-ZXUGH-53Q65-TOJ7E-ADBNQ' // 必填
-  });
+  key: 'YLFBZ-WHAWI-ZXUGH-53Q65-TOJ7E-ADBNQ' // 必填
+});
 
 //app.js
 App({
@@ -20,6 +20,7 @@ App({
   user: user,
   map: map,
   goods: goods,
+  loc_timer: null,
   globalData: {
     userInfo: null,
     userId: 1,
@@ -42,12 +43,12 @@ App({
   },
   fetchUser() {
     user.fetchUserOrCreateNew(this.globalData.openId)
-    .then(res => {
-      this.globalData.userId = res.id
-      console.log(this.globalData.userId)
-    }).catch(e => {
-      console.log(e)
-    })
+      .then(res => {
+        this.globalData.userId = res.id
+        console.log(this.globalData.userId)
+      }).catch(e => {
+        console.log(e)
+      })
   },
   fetchCart() {
     cart.fetchCart().then(res => {

@@ -53,6 +53,12 @@ Page({
     this.setData({
       fetchOrdersFunc: fetchFunc
     })
+    if (isCurrentAcceptOrder) {
+      if (app.loc_timer) {
+        clearInterval(app.loc_timer)
+      }
+      app.loc_timer = setInterval(this.uploadLocation, 10000)
+    }
   },
 
 
@@ -81,7 +87,7 @@ Page({
       this.setData({
         hasLoadData: true
       })
-      console.log(e)
+      // console.log(e)
     })
   },
 
@@ -198,7 +204,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if (app.loc_timer) {
+      clearInterval(app.loc_timer)
+    }
   },
 
   /**
@@ -220,5 +228,22 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  uploadLocation: function () {
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const speed = res.speed
+        const accuracy = res.accuracy
+        console.log(latitude, longitude, speed, accuracy)
+        app.order.submitLocation(app.globalData.userId, latitude, longitude)
+      },
+      fail(e) {
+        console.log(e)
+      }
+    })
   }
 })

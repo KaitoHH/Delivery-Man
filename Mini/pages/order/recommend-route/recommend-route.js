@@ -10,14 +10,7 @@ Page({
   data: {
     recommendPath: {},
     points: [],
-    markers: [{
-      iconPath: '/resources/others.png',
-      id: 0,
-      latitude: 23.099994,
-      longitude: 113.324520,
-      width: 50,
-      height: 50
-    }],
+    markers: [],
     currentPosition: {
     },
     polyline: [{
@@ -36,6 +29,10 @@ Page({
   loadData() {
     const path = this.data.recommendPath.path
     const points = new Array(path.length + 2)
+    app.globalData.currentPosition = Object.assign({}, {
+      longitude: 121.438625,
+      latitude: 31.023167
+    })
     const currentPos = app.globalData.currentPosition
     this.setData({
       currentPosition: app.globalData.currentPosition
@@ -60,15 +57,40 @@ Page({
         }
         totalSize += 1
         if (totalSize === points.length) {
-          this.setData({
-            polyline: [Object.assign({}, this.data.polyline[0], {
-              points: points
-            })],
-            points: points.slice(1, points.length - 1)
-          })
+          this.initMarkers(points)
         }
       })
       i = i + 1
+    })
+  },
+
+  initMarkers(points) {
+    const markers = []
+    const startMark = {
+      iconPath: '/images/target.png',
+      latitude: points[0].latitude,
+      longitude: points[0].longitude,
+      width: 25,
+      height: 25
+    }
+    markers.push(startMark)
+    for(let i = 1; i < points.length - 1; i++) {
+      const p = points[i]
+      markers.push({
+        iconPath: `/images/${i}.png`,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        width: 32,
+        height: 32
+      })
+    }
+    markers.push(startMark)
+    this.setData({
+      // polyline: [Object.assign({}, this.data.polyline[0], {
+      //   points: points
+      // })],
+      points: points.slice(1, points.length - 1),
+      markers: markers
     })
   },
 

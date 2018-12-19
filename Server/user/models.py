@@ -20,3 +20,16 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
         read_only_fields = ('id', 'register_date')
+
+
+class Location(models.Model):
+    start_time = models.DateTimeField(auto_now=True)
+    latitude = models.DecimalField(max_digits=30, decimal_places=20, blank=True)
+    longitude = models.DecimalField(max_digits=30, decimal_places=20, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
