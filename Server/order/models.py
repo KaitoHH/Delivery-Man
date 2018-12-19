@@ -52,9 +52,17 @@ class StoreGoods(models.Model):
     count = models.IntegerField()
 
 
-class StoreGoodsSerializer(serializers.ModelSerializer):
+class StoreGoodsReadSerializer(serializers.ModelSerializer):
     good_name = serializers.StringRelatedField(source='good')
     good = ImageOnlySerializer()
+
+    class Meta:
+        model = StoreGoods
+        fields = '__all__'
+
+
+class StoreGoodsSerializer(serializers.ModelSerializer):
+    good_name = serializers.StringRelatedField(source='good')
 
     class Meta:
         model = StoreGoods
@@ -69,7 +77,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
 
 class StoreReadSerializer(serializers.ModelSerializer):
-    store_goods = StoreGoodsSerializer(many=True)
+    store_goods = StoreGoodsReadSerializer(many=True)
 
     class Meta:
         model = Store

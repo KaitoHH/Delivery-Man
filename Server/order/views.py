@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from order.models import Store, StoreSerializer, StoreReadSerializer, Goods, GoodsSerializer, StoreGoods, \
-    StoreGoodsSerializer, Order, OrderReadSerializer, OrderSerializer, Item, ItemSerializer
+    StoreGoodsSerializer, Order, OrderReadSerializer, OrderSerializer, Item, ItemSerializer, StoreGoodsReadSerializer
 
 
 # Create your views here.
@@ -29,6 +29,11 @@ class GoodsView(viewsets.ModelViewSet):
 class StoreGoodsView(viewsets.ModelViewSet):
     queryset = StoreGoods.objects.all()
     serializer_class = StoreGoodsSerializer
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return StoreGoodsReadSerializer
+        return StoreGoodsSerializer
 
 
 class OrderView(viewsets.ModelViewSet):
