@@ -249,7 +249,7 @@ export default {
       this.closeAddDialog()
     },
     addStockToLocalStockList(data) {
-      this.storeGoods.push(data)
+      this.storeGoods.push( Object.assign(data, { editGoodsCount: data.count, editGoodsPrice: data.price }))
     },
     handleClose() {
       this.$confirm('确认关闭？')
