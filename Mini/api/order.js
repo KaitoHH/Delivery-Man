@@ -26,13 +26,13 @@ function submitOrder(order, cart) {
             items: items
         })
         fetch(URL, 'order/', order, 'post')
-        .then(res => {
-            resolve(res)
-        }).catch(e => {
-            reject(e)
-        })
+            .then(res => {
+                resolve(res)
+            }).catch(e => {
+                reject(e)
+            })
     })
-    
+
 }
 
 
@@ -79,7 +79,20 @@ function generateOrderAccordingToCart(userId, storeGoods) {
     }, 'post')
 }
 
+function submitLocation(userId, latitude, longitude) {
+    return fetch(URL, 'location/', {
+        latitude: latitude,
+        longitude: longitude,
+        user: userId
+    }, 'post')
+}
 
+function fetchLocation(userId, orderId) {
+    return fetch(URL, 'location/', {
+        user: userId,
+        order: orderId
+    })
+}
 
 module.exports = {
     fetchOwnCurrentAcceptOrders,
@@ -89,5 +102,7 @@ module.exports = {
     submitOrder,
     fetchOrderByStatus,
     updateOrder,
-    fetchNearWaitTransitOrders
+    fetchNearWaitTransitOrders,
+    submitLocation,
+    fetchLocation
 }

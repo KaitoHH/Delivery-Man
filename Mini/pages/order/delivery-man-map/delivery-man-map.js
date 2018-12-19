@@ -1,58 +1,73 @@
 // pages/order/delivery-man-map/delivery-man-map.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    markers: [{
-      iconPath: '/images/map.png',
-      id: 0,
-      latitude: 23.099994,
-      longitude: 113.324520,
-      width: 50,
-      height: 50
-    }],
-    polyline: [{
-      points: [{
-        longitude: 113.3245211,
-        latitude: 23.10229
-      }, {
-        longitude: 113.324520,
-        latitude: 23.21229
-      }],
-      color: '#FF0000DD',
-      width: 2,
-      dottedLine: true
-    }],
-    controls: [{
-      id: 1,
-      iconPath: '/images/map.png',
-      position: {
-        left: 0,
-        top: 300 - 50,
-        width: 50,
-        height: 50
-      },
-      clickable: true
-    }]
-  },
-
-  regionchange(e) {
-    console.log(e.type)
-  },
-  markertap(e) {
-    console.log(e.markerId)
-  },
-  controltap(e) {
-    console.log(e.controlId)
+    markers: [],
+    hasLoad: true
+    // latitude: 31.022825792100694,
+    // longitude: 121.44272433810764
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let that = this
+    let id = 0
+    app.order.fetchOneOrder(options.order).then(res => {
+      console.log(res.data)
+      let target_marker = {
+        iconPath: '/images/target.png',
+        id: id++,
+        latitude: res.data.latitude,
+        longitude: res.data.longitude,
+        width: 32,
+        height: 32
+      }
+      let markers = [target_marker]
+      let storeList = []
+      res.data.items.forEach(item => {
+        if (storeList.indexOf(item.store) == -1) {
+          storeList.push(item.store)
+          markers.push({
+            iconPath: '/images/shop.png',
+            id: id++,
+            latitude: item.store_latitude,
+            longitude: item.store_longitude,
+            width: 32,
+            height: 32
+          })
+        }
+      })
+      that.setData({
+        markers: markers
+      })
+      console.log(markers)
+    })
+    app.order.fetchLocation(app.globalData.userId, options.order).then(res => {
+      let points = []
+      res.data.forEach(p => {
+        points.push({
+          longitude: p.longitude,
+          latitude: p.latitude
+        })
+      })
+      that.setData({
+        polyline: [{
+          points: points,
+          color: '#FF0000DD',
+          width: 2,
+          dottedLine: true
+        }],
+        longitude: points[0].longitude,
+        latitude: points[0].latitude
+      })
+      console.log(points[0])
+    })
   },
 
   /**

@@ -18,7 +18,7 @@ from django.urls import path, include
 
 from Server.router import CustomRouter
 from order.views import StoreView, GoodsView, StoreGoodsView, OrderView, ItemView
-from user.views import UserView
+from user.views import UserView, LocationView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -32,6 +32,7 @@ router.register('Store', StoreView)
 router.register('goods', GoodsView)
 router.register('Goods', GoodsView)
 router.register('storegoods', StoreGoodsView)
+router.register('location', LocationView, basename='location')
 
 router.register('item', ItemView)
 urlpatterns = [

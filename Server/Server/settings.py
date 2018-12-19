@@ -24,7 +24,7 @@ SECRET_KEY = 'uo4!)-!elny5-$12hcr29uq8^re%zpfl7$+mfujc5ai(7&ywc^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.0.129']
 
 # Application definition
 

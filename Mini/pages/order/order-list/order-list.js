@@ -1,5 +1,5 @@
 // pages/order/order-list/order-list.js
-const ConstValue= require('../../../utils/constant')
+const ConstValue = require('../../../utils/constant')
 const util = require('../../../utils/util')
 const app = getApp()
 Page({
@@ -28,10 +28,10 @@ Page({
     const status = options.status ? options.status : ''
     const isCurrentAcceptOrder = options.currentAccept ? true : false
     const isHistoryAcceptOrder = options.historyAccept ? true : false
-    if(status) {
+    if (status) {
       wx.setNavigationBarTitle({
         title: ConstValue.OrderStatus2TitleMap[status],
-        success: function(res) {
+        success: function (res) {
           // success
         }
       })
@@ -42,9 +42,9 @@ Page({
       isHistoryAcceptOrder: isHistoryAcceptOrder
     })
     let fetchFunc = null
-    if(this.data.isHistoryAcceptOrder) {
+    if (this.data.isHistoryAcceptOrder) {
       fetchFunc = app.order.fetchOwnHistoryAcceptOrders(app.globalData.userId)
-    } else if(this.data.isCurrentAcceptOrder) {
+    } else if (this.data.isCurrentAcceptOrder) {
       fetchFunc = app.order.fetchOwnCurrentAcceptOrders(app.globalData.userId)
     } else {
       fetchFunc = app.order.fetchOrderByStatus(app.globalData.userId, this.data.status)
@@ -52,6 +52,12 @@ Page({
     this.setData({
       fetchOrdersFunc: fetchFunc
     })
+    if (isCurrentAcceptOrder) {
+      if (app.loc_timer) {
+        clearInterval(app.loc_timer)
+      }
+      app.loc_timer = setInterval(this.uploadLocation, 10000)
+    }
   },
 
 
@@ -82,7 +88,7 @@ Page({
       this.setData({
         hasLoadData: true
       })
-      console.log(e)
+      // console.log(e)
     })
   },
 
@@ -113,7 +119,7 @@ Page({
     const storesId = []
     const uniqueStore = []
     storeArr.forEach((s) => {
-      if(storesId.indexOf(s.id) < 0) {
+      if (storesId.indexOf(s.id) < 0) {
         uniqueStore.push(s)
         storesId.push(s.id)
       }
@@ -121,7 +127,7 @@ Page({
     const userAddressId = []
     const uniqueAddress = []
     userAddressArr.forEach(u => {
-      if(userAddressId.indexOf(u.id) < 0) {
+      if (userAddressId.indexOf(u.id) < 0) {
         uniqueAddress.push(u)
         userAddressId.push(u.id)
       }
@@ -130,11 +136,11 @@ Page({
       latitude: '',
       longitude: ''
     }, {
-      latitude: '',
-      longitude: ''
-    }).then(res => {
-      console.log(res)
-    })
+        latitude: '',
+        longitude: ''
+      }).then(res => {
+        console.log(res)
+      })
   },
 
   /**
@@ -155,7 +161,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if (app.loc_timer) {
+      clearInterval(app.loc_timer)
+    }
   },
 
   /**
@@ -177,5 +185,22 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  uploadLocation: function () {
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const speed = res.speed
+        const accuracy = res.accuracy
+        console.log(latitude, longitude, speed, accuracy)
+        app.order.submitLocation(app.globalData.userId, latitude, longitude)
+      },
+      fail(e) {
+        console.log(e)
+      }
+    })
   }
 })
