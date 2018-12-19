@@ -1,5 +1,4 @@
 const fetch = require('./fetch')
-
 const tencentMapAPI = 'https://apis.map.qq.com/ws/geocoder/v1'
 const wsMapDistAPI = 'https://apis.map.qq.com/ws/distance/v1'
 const KEY = 'YLFBZ-WHAWI-ZXUGH-53Q65-TOJ7E-ADBNQ'
@@ -13,12 +12,12 @@ function getAddressByLngLat(lat, lng) {
 }
 
 function calculateDist(from, to, mode='driving') {
-    const from = `${from.latitude},${from.longitude}`
-    const to = `${to.latitude},${to.longitude}`
+    const fromParam = `${from.latitude},${from.longitude}`
+    const toParam = `${to.latitude},${to.longitude}`
     return fetch(wsMapDistAPI, '', {
         mode: mode,
-        from: from,
-        to: to,
+        from: fromParam,
+        to: toParam,
         key: KEY
     })
 }
