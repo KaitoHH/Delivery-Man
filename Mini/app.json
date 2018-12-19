@@ -9,7 +9,8 @@
     "pages/order/order-create",
     "pages/order/order-detail/order-detail",
     "pages/order/order-list/order-list",
-    "pages/order/delivery-man-map/delivery-man-map"
+    "pages/order/delivery-man-map/delivery-man-map",
+    "pages/order/recommend-route/recommend-route"
   ],
   "window": {
     "backgroundTextStyle": "light",

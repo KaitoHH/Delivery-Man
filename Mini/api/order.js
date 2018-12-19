@@ -6,6 +6,50 @@ const CONST_VAR = require('../utils/constant')
 const Status2Flag = CONST_VAR.OrderStatusName2Flag
 
 
+function construct_address_from_order(orders, currentPosition) {
+    const routeconstraints = {}
+    const addressArr = [currentPosition]
+    const hasVisitedStore = []
+    const orderId2VertexMap = {}
+    const vertex2OrderIdMap = {}
+    const storeId2VertexMap = {}
+    const vertex2StoreIdMap = {}
+    orders.forEach(order => {
+        addressArr.push({
+            id: order.id,
+            latitude: order.latitude,
+            longitude: order.longitude
+        })
+        orderId2VertexMap[order.id] = addressArr.length - 1
+        vertex2OrderIdMap[addressArr.length - 1] = order.id
+
+        routeconstraints[orderId2VertexMap[order.id]] = []
+        order.items.forEach(item => {
+            if(hasVisitedStore.indexOf(item.store) < 0) {
+                addressArr.push({
+                    id: item.store,
+                    longitude: item.store_longitude,
+                    latitude: item.store_latitude
+                })
+                hasVisitedStore.push(item.store)
+                storeId2VertexMap[item.store] = addressArr.length - 1
+                vertex2StoreIdMap[addressArr.length - 1]  = item.store
+            }
+            if(routeconstraints[orderId2VertexMap[order.id]].indexOf(storeId2VertexMap[item.store]) < 0) {
+                routeconstraints[orderId2VertexMap[order.id]].push(storeId2VertexMap[item.store])
+            }
+        })
+    })
+    return {
+        addressArr,
+        routeconstraints,
+        orderId2VertexMap,
+        vertex2OrderIdMap,
+        storeId2VertexMap,
+        vertex2StoreIdMap
+    }
+}
+
 
 function submitOrder(order, cart) {
     return new Promise((resolve, reject) => {
@@ -89,5 +133,6 @@ module.exports = {
     submitOrder,
     fetchOrderByStatus,
     updateOrder,
-    fetchNearWaitTransitOrders
+    fetchNearWaitTransitOrders,
+    construct_address_from_order
 }

@@ -1,0 +1,17 @@
+/* pages/order/recommend-route/recommend-route.wxss */
+.path-recommend {
+    padding: 25rpx;
+}
+.path-recommend .point .path {
+    display: flex;
+    align-items: center;
+}
+.totalExpect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.path-desc .path {
+    margin-right: 20rpx;
+}

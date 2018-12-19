@@ -17,4 +17,8 @@
     margin-bottom: 25px;
 }
 
+.button-panel {
+    padding: 25rpx;
+}
+
 @import '../../../style/weui.wxss';

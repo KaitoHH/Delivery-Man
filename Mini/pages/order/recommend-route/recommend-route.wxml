@@ -1,0 +1,19 @@
+<!--pages/order/recommend-route/recommend-route.wxml-->
+<view class="path-recommend">
+    <h1 class="totalExpect">预期路线总长度：{{ recommendPath.length }}米</h1>
+    <view class="path-desc">
+        <view class="point" wx:for="{{points}}" wx:for-item="item">
+            <view wx:if="{{item.type === 'store'}}" class="store path">
+                到达商店:{{item.id}}-{{item.name}}
+                地址: {{item.address}}
+            </view>
+            <view wx:if="{{item.type === 'order'}}" class="order path">
+                送达订单:{{item.id}}
+                地址:{{item.address}}
+            </view>
+        </view>
+    </view>
+    <map id="map" longitude="{{currentPosition.longitude}}" latitude="{{currentPosition.latitude}}" scale="12" controls="{{[]}}" bindcontroltap="controltap"
+        markers="{{[]}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange"
+        show-location style="width: 100%; height: 450px;"></map>
+</view>

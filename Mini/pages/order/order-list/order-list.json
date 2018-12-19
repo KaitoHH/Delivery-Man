@@ -2,6 +2,7 @@
     "usingComponents": {
         "wxc-panel": "../../../dist/packages/@minui/wxc-panel/dist/index",
         "wxc-icon": "../../../dist/packages/@minui/wxc-icon/dist/index",
-        "order-thumb": "../order-thumb/order-thumb"
+        "order-thumb": "../order-thumb/order-thumb",
+        "wxc-button": "../../../dist/packages/@minui/wxc-button/dist/index"
       }
 }

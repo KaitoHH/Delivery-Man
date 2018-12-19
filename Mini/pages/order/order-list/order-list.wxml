@@ -1,5 +1,5 @@
 <!-- pages/order/order-list/order-list.wxml -->
-<view wx:if="hasLoadData" class="order-list">
+<view wx:if="{{hasLoadData}}" class="order-list">
     <view wx:if="{{orders.length === 0}}" class="empty-order weui-panel weui-panel_access">
         <view>不存在任何订单</view>
         <view>
@@ -7,7 +7,7 @@
         </view>
     </view>
 </view>
-<view wx:if="hasLoadData" class="page">
+<view wx:if="{{hasLoadData}}" class="page">
     <view class="page__bd">
         <view wx:for="{{orders}}" wx:key="item.id">
             <view class="weui-form-preview">
@@ -35,4 +35,7 @@
             </view>
         </view>
     </view>
+</view>
+<view class="button-panel" wx:if="{{hasLoadData && orders.length > 0 && isCurrentAcceptOrder}}">
+    <wxc-button bindtap="recommend_route" size="large" type="success" value="推荐路径"></wxc-button>
 </view>

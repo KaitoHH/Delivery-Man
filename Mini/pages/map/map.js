@@ -37,6 +37,7 @@ Page({
                 this.setData({
                     markers: markers
                 })
+                console.log(markers)
                 this.calculateMapCenter()
                 wx.hideLoading()
                 this.setData({
