@@ -22,4 +22,4 @@ class LocationView(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.Gene
 
     def get_queryset(self):
         order = Order.objects.get(pk=self.request.query_params['order'])
-        return Location.objects.filter(user=self.request.query_params['user'], start_time__gte=order.acceptTime)
+        return Location.objects.filter(user=order.courier, start_time__gte=order.acceptTime)
