@@ -113,7 +113,7 @@ export default {
       },
       goodsStockRules: {
         selectGoodsLabel: [
-          { required: true, message: this.$t('storeGoods.goodsIdNameInvalidMessage'), trigger: 'blur' }
+          { required: true, message: this.$t('storeGoods.goodsIdNameInvalidMessage'), trigger: 'change' }
         ]
       }
     }
