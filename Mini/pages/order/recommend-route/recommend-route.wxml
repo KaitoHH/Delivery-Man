@@ -4,11 +4,11 @@
     <view class="path-desc">
         <view class="point" wx:for="{{points}}" wx:for-item="item" wx:key="">
             <view wx:if="{{item.type === 'store'}}" class="store path">
-                到达商店:{{item.id}}-{{item.name}}
+                到达商店-商店名：{{item.name}}
                 地址: {{item.address}}
             </view>
             <view wx:if="{{item.type === 'order'}}" class="order path">
-                送达订单:{{item.id}}
+                送达订单-订单编号：{{item.id}}
                 地址:{{item.address}}
             </view>
         </view>

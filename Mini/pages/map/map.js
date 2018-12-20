@@ -1,6 +1,6 @@
 const app = getApp()
 const defaultMaker = {
-    iconPath: '/images/order.png',
+    iconPath: '/images/marker.png',
     id: 0,
     latitude: 23.099994,
     longitude: 113.324520,
@@ -49,7 +49,7 @@ Page({
         if (this.data.markers.length === 0) {
             const that = this
             wx.getLocation({
-                type: '坐标，gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+                type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
                 success: function (res) {
                     that.setData({
                         latitude: res.latitude,

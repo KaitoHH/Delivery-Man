@@ -3,7 +3,7 @@
         id="map"
         longitude="{{longitude}}"
         latitude="{{latitude}}"
-        scale="10"
+        scale="16"
         controls="{{controls}}"
         bindcontroltap="controltap"
         markers="{{markers}}"

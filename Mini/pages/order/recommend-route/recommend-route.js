@@ -29,10 +29,10 @@ Page({
   loadData() {
     const path = this.data.recommendPath.path
     const points = new Array(path.length + 2)
-    app.globalData.currentPosition = Object.assign({}, {
-      longitude: 121.438625,
-      latitude: 31.023167
-    })
+    // app.globalData.currentPosition = Object.assign({}, {
+    //   longitude: 121.438625,
+    //   latitude: 31.023167
+    // })
     const currentPos = app.globalData.currentPosition
     this.setData({
       currentPosition: app.globalData.currentPosition
@@ -77,13 +77,14 @@ Page({
     for(let i = 1; i < points.length - 1; i++) {
       const p = points[i]
       markers.push({
-        iconPath: `/images/${i}.png`,
-        latitude: p.latitude,
-        longitude: p.longitude,
-        width: 32,
-        height: 32
+        iconPath: `/images/marker.png`,
+        latitude: Number.parseFloat(p.latitude),
+        longitude: Number.parseFloat(p.longitude),
+        width: 24,
+        height: 24
       })
     }
+    console.log(markers)
     markers.push(startMark)
     this.setData({
       // polyline: [Object.assign({}, this.data.polyline[0], {

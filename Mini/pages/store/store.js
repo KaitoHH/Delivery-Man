@@ -92,13 +92,16 @@ Page({
     const goodsId = Number.parseInt(e.currentTarget.dataset.goodsid)
     const goodsName = e.currentTarget.dataset.goodsname
     const goodsPrice = Number.parseFloat(e.currentTarget.dataset.goodsprice)
+    const goodsImg = e.currentTarget.dataset.goodsimg
+    console.log(goodsImg)
     app.cart.increaseGoodsCount(app, app.globalData.cart, {
       id: this.data.store.id,
-      name: this.data.store.name
+      name: this.data.store.name,
     }, {
       id: goodsId,
       name: goodsName,
-      price: goodsPrice
+      price: goodsPrice,
+      img: goodsImg
     })
     this.setData({
       showSuccessToast: true

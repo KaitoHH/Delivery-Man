@@ -134,6 +134,7 @@ function increaseGoodsCount(app, cart, store, goods) {
             id: goods.id,
             name: goods.name,
             price: goods.price,
+            img: goods.img,
             count: 1,
             totalPrice: goods.price
         })

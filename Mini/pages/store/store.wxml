@@ -26,6 +26,7 @@
                             </view>
                             <view bindtap="addToCart" data-goodsname="{{item.name}}"
                             data-goodsprice="{{item.price}}"
+                            data-goodsimg="{{item.img}}"
                              data-goodsId="{{item.id}}" class="goods-add">
                                 <wxc-icon size="30" type="add"></wxc-icon>
                             </view>
