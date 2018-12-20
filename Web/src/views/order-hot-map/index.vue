@@ -1,26 +1,25 @@
 <template>
   <div class="order-hot-map">
-    <el-button type="primary" size="mini" v-if="isHeatmapShow" @click="closeHeatmap()">隐藏热力图</el-button>
-    <el-button type="primary" size="mini" v-else @click="openHeatmap()">显示热力图</el-button>
-    <div id="hot-map" class="hot-map">
-
-    </div>
+    <el-button v-if="isHeatmapShow" type="primary" size="mini" @click="closeHeatmap()">隐藏热力图</el-button>
+    <el-button v-else type="primary" size="mini" @click="openHeatmap()">显示热力图</el-button>
+    <div id="hot-map" class="hot-map"/>
   </div>
 </template>
 <script>
-  import BMap from 'BMap'
-  import { fetchWaitDeliveryOrder } from '@/api/order'
-  export default {
-    name: 'Order-Hot-Map',
-    data() {
-      return {
-        message: 'Hot-Map',
-        heatmapOverlay: null,
-        isHeatmapShow: true
-      }
-    },
-    mounted: function () {
-      /*const map = new BMap.Map("hot-map");         // 创建地图实例
+import BMap from 'BMap'
+import { fetchOrder } from '@/api/order'
+import { bMapTransQQMap } from '@/utils/baidu2qqMap'
+export default {
+  name: 'OrderHotMap',
+  data() {
+    return {
+      message: 'Hot-Map',
+      heatmapOverlay: null,
+      isHeatmapShow: true
+    }
+  },
+  mounted: function() {
+    /* const map = new BMap.Map("hot-map");         // 创建地图实例
       const point = new BMap.Point(116.331398,39.897445);
     //  map.centerAndZoom(point,12);
       function myFun(result){
@@ -30,14 +29,14 @@
       }
       const myCity = new BMap.LocalCity();
       myCity.get(myFun);*/
-        this.initOrderHotMap()
-    },
-    methods: {
-      initOrderHotMap() {
-        const map = new BMap.Map("hot-map");         // 创建地图实例
-       /* const point = new BMap.Point(116.418261, 39.921984);*/
+    this.initOrderHotMap()
+  },
+  methods: {
+    initOrderHotMap() {
+      const map = new BMap.Map('hot-map') // 创建地图实例
+      /* const point = new BMap.Point(116.418261, 39.921984);*/
 
-        /*const points =[
+      /* const points =[
           {"lng":116.418261,"lat":39.921984,"count":50},
           {"lng":116.423332,"lat":39.916532,"count":51},
           {"lng":116.419787,"lat":39.930658,"count":15},
@@ -129,35 +128,36 @@
           {"lng":116.424579,"lat":39.914987,"count":57},
           {"lng":116.42076,"lat":39.915251,"count":70},
           {"lng":116.425867,"lat":39.918989,"count":8}];*/
-        let points = []
-        const center = {}
-        fetchWaitDeliveryOrder().then(res => {
-          let ave_lng = 0.0
-          let ave_lat = 0.0
-          const orders = res.data
-          orders.forEach(order => {
-            points.push({
-              "lng": Number.parseFloat(order.longitude),
-              "lat": Number.parseFloat(order.latitude),
-              "count": 100
-            })
-            ave_lng += Number.parseFloat(order.longitude)
-            ave_lat += Number.parseFloat(order.latitude)
+      const points = []
+      const center = {}
+      fetchOrder().then(res => {
+        let ave_lng = 0.0
+        let ave_lat = 0.0
+        const orders = res.data
+        orders.forEach(order => {
+          const t = bMapTransQQMap(Number.parseFloat(order.longitude), Number.parseFloat(order.latitude))
+          points.push({
+            'lng': t.lng,
+            'lat': t.lat,
+            'count': 100
           })
-          ave_lng /= points.length
-          ave_lat /= points.length
-          center['lng'] = ave_lng
-          center['lat'] = ave_lat
-          console.log(center)
-          console.log(points[0].lng)
-          console.log(points[0].lat)
+          ave_lng += Number.parseFloat(order.longitude)
+          ave_lat += Number.parseFloat(order.latitude)
+        })
+        ave_lng /= points.length
+        ave_lat /= points.length
+        center['lng'] = ave_lng
+        center['lat'] = ave_lat
+        console.log(center)
+        console.log(points[0].lng)
+        console.log(points[0].lat)
         //  const point = new BMap.Point(center['lng'], center['lat']);
-          const point = new BMap.Point(points[0].lng,(points[0].lat))
-          map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
-          map.enableScrollWheelZoom(); // 允许滚轮缩放
-          this.heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
-          map.addOverlay(this.heatmapOverlay);
-         /* points =[
+        const point = new BMap.Point(points[0].lng, (points[0].lat))
+        map.centerAndZoom(point, 15) // 初始化地图，设置中心点坐标和地图级别
+        map.enableScrollWheelZoom() // 允许滚轮缩放
+        this.heatmapOverlay = new BMapLib.HeatmapOverlay({ 'radius': 20 })
+        map.addOverlay(this.heatmapOverlay)
+        /* points =[
             {"lng":116.418261,"lat":39.921984,"count":50},
             {"lng":116.423332,"lat":39.916532,"count":51},
             {"lng":116.419787,"lat":39.930658,"count":15},
@@ -249,19 +249,19 @@
             {"lng":116.424579,"lat":39.914987,"count":57},
             {"lng":116.42076,"lat":39.915251,"count":70},
             {"lng":116.425867,"lat":39.918989,"count":8}]*/
-          this.heatmapOverlay.setDataSet({data:points,max:100});
-          this.closeHeatmap()
-        })
+        this.heatmapOverlay.setDataSet({ data: points, max: 100 })
+        this.closeHeatmap()
+      })
 
-        if(!this.isSupportCanvas()){
-          this.$message({
-            message: '热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~',
-            type: 'error'
-          })
-        }
-        //详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
-        //参数说明如下:
-        /* visible 热力图是否显示,默认为true
+      if (!this.isSupportCanvas()) {
+        this.$message({
+          message: '热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~',
+          type: 'error'
+        })
+      }
+      // 详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
+      // 参数说明如下:
+      /* visible 热力图是否显示,默认为true
            * opacity 热力的透明度,1-100
            * radius 势力图的每个点的半径大小
            * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
@@ -273,31 +273,30 @@
               其中 key 表示插值的位置, 0~1.
                   value 为颜色值.
            */
-
-      },
-      openHeatmap() {
-        this.isHeatmapShow = true
-        this.heatmapOverlay.show();
-      },
-      closeHeatmap() {
-        this.isHeatmapShow = false
-        this.heatmapOverlay.hide();
-      },
-      setGradient() {
-        const gradient = {};
-        let colors = document.querySelectorAll("input[type='color']");
-        colors = [].slice.call(colors,0);
-        colors.forEach(function(ele){
-          gradient[ele.getAttribute("data-key")] = ele.value;
-        });
-        heatmapOverlay.setOptions({"gradient":gradient});
-      },
-      isSupportCanvas() {
-        const elem = document.createElement('canvas');
-        return !!(elem.getContext && elem.getContext('2d'));
-      }
+    },
+    openHeatmap() {
+      this.isHeatmapShow = true
+      this.heatmapOverlay.show()
+    },
+    closeHeatmap() {
+      this.isHeatmapShow = false
+      this.heatmapOverlay.hide()
+    },
+    setGradient() {
+      const gradient = {}
+      let colors = document.querySelectorAll("input[type='color']")
+      colors = [].slice.call(colors, 0)
+      colors.forEach(function(ele) {
+        gradient[ele.getAttribute('data-key')] = ele.value
+      })
+      heatmapOverlay.setOptions({ 'gradient': gradient })
+    },
+    isSupportCanvas() {
+      const elem = document.createElement('canvas')
+      return !!(elem.getContext && elem.getContext('2d'))
     }
   }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
   #hot-map{height:450px; width: 90%; margin-left: 5%; margin-top: 20px}

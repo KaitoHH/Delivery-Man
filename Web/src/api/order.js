@@ -1,4 +1,10 @@
 import request from '@/utils/request'
+export function fetchOrder() {
+  return request({
+    url: '/order',
+    methods: 'get'
+  })
+}
 
 export function fetchUnpaidOrder(query) {
   return request({

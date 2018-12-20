@@ -22,7 +22,7 @@
     <wxc-toast text="{{toastMessage}}" icon="{{toastIcon}}" icon-color="#ff5777" is-show="{{isToastMessageShow}}"></wxc-toast>
     <wxc-popup locked="true" class="J_Popup" animation-mode="center" align="center">
         <view class="popup__content">
-            <wxc-input mode="wrapped" bind:input="inputOrderShip" error="{{shipmentFeeError}}" focus="{{true}}" class="ship_input" type="text" placeholder="请输入追加的运费"></wxc-input>
+            <wxc-input mode="wrapped" bind:input="inputOrderShip" error="{{shipmentFeeError}}"  class="ship_input" type="text" placeholder="请输入追加的运费"></wxc-input>
             <view class="btn-panel">
                 <wxc-button bindtap="cacelAddShip" class="btn" size="normal" type="warning" value="取消"></wxc-button>
                 <wxc-button bindtap="confirmAddShip" class="btn" size="normal" type="primary" value="确定"></wxc-button>

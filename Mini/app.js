@@ -36,10 +36,29 @@ App({
     wechat.getOpenId().then(res => {
       this.globalData.openId = res.data.openid
       this.fetchUser()
+      this.getUser()
     }).catch(e => {
       console.log(e)
     })
     this.fetchCart()
+  },
+  getUser() {
+    wx.request({
+      url: 'http://120.78.180.128:8080/Entity/U1ec82c5a18d06d/delivery/user',
+      data: {},
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      // header: {}, // 设置请求的 header
+      success: function(res){
+        // success
+        console.log(res)
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    })
   },
   fetchUser() {
     user.fetchUserOrCreateNew(this.globalData.openId)
