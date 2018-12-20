@@ -36,7 +36,7 @@ router.register('location', LocationView, basename='location')
 
 router.register('item', ItemView)
 urlpatterns = [
-    path('', include(router.urls))
+    path('api/', include(router.urls))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
