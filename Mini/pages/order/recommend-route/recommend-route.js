@@ -73,19 +73,19 @@ Page({
       width: 25,
       height: 25
     }
-    markers.push(startMark)
+  //  markers.push(startMark)
     for(let i = 1; i < points.length - 1; i++) {
       const p = points[i]
       markers.push({
-        iconPath: `/images/marker.png`,
+        iconPath: `/images/${i}.png`,
         latitude: Number.parseFloat(p.latitude),
         longitude: Number.parseFloat(p.longitude),
-        width: 24,
-        height: 24
+        width: 20,
+        height: 28
       })
     }
     console.log(markers)
-    markers.push(startMark)
+  //  markers.push(startMark)
     this.setData({
       // polyline: [Object.assign({}, this.data.polyline[0], {
       //   points: points

@@ -4,8 +4,8 @@ const defaultMaker = {
     id: 0,
     latitude: 23.099994,
     longitude: 113.324520,
-    width: 25,
-    height: 25
+    width: 40,
+    height: 40
 }
 Page({
     data: {

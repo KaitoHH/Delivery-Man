@@ -15,8 +15,8 @@
                 <view class="weui-cell__ft">{{item.name}}</view>
             </view>
             <view class="weui-cell" wx:if="{{item.type === 'order'}}">
-                <view class="weui-cell__bd">{{index + 1}}.配送订单({{item.id}})</view>
-                <view class="weui-cell__ft" style="white-space: nowrap;">{{item.address}}</view>
+                <view class="weui-cell__bd" style="white-space: nowrap;">{{index + 1}}.配送订单({{item.id}})</view>
+                <view class="weui-cell__ft" >{{item.address}}</view>
             </view>
         </view>
     </view>
