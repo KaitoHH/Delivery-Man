@@ -4,6 +4,8 @@ services:
     build: Server
     ports:
       - "8000:8000"
+    volumes:
+      - ./Server/db:/data
   frontend:
     build: Web
     ports:
