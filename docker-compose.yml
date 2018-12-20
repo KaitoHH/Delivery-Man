@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backend:
+    build: Server
+    ports:
+      - "8000:8000"
+  frontend:
+    build: Web
+    ports:
+      - "80:80"
+    volumes:
+      - ./Server/images:/media/images
+    depends_on:
+      - backend

@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'django_filters',
-    'tester.apps.TesterConfig',
     'user.apps.UserConfig',
     'order.apps.OrderConfig',
 ]
@@ -143,4 +142,4 @@ CORS_ALLOW_HEADERS = '*'
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA = os.path.join("media")
+MEDIA = os.path.join(BASE_DIR, "media")
