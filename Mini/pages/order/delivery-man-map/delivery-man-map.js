@@ -48,7 +48,7 @@ Page({
         markers: markers
       })
     })
-    app.order.fetchLocation(app.globalData.userId, options.order).then(res => {
+    app.order.fetchLocation(options.order).then(res => {
       let points = []
       res.data.forEach(p => {
         points.push({

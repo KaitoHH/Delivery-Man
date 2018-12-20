@@ -25,7 +25,7 @@ function construct_address_from_order(orders, currentPosition) {
 
         routeconstraints[orderId2VertexMap[order.id]] = []
         order.items.forEach(item => {
-            if(hasVisitedStore.indexOf(item.store) < 0) {
+            if (hasVisitedStore.indexOf(item.store) < 0) {
                 addressArr.push({
                     id: item.store,
                     longitude: item.store_longitude,
@@ -33,9 +33,9 @@ function construct_address_from_order(orders, currentPosition) {
                 })
                 hasVisitedStore.push(item.store)
                 storeId2VertexMap[item.store] = addressArr.length - 1
-                vertex2StoreIdMap[addressArr.length - 1]  = item.store
+                vertex2StoreIdMap[addressArr.length - 1] = item.store
             }
-            if(routeconstraints[orderId2VertexMap[order.id]].indexOf(storeId2VertexMap[item.store]) < 0) {
+            if (routeconstraints[orderId2VertexMap[order.id]].indexOf(storeId2VertexMap[item.store]) < 0) {
                 routeconstraints[orderId2VertexMap[order.id]].push(storeId2VertexMap[item.store])
             }
         })
@@ -132,9 +132,8 @@ function submitLocation(userId, latitude, longitude) {
     }, 'post')
 }
 
-function fetchLocation(userId, orderId) {
+function fetchLocation(orderId) {
     return fetch(URL, 'location/', {
-        user: userId,
         order: orderId
     })
 }
